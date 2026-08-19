@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GILD Content Intelligence</title>
+    <link rel="stylesheet" href="./styles.css?v=gild-senior-2" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Dashboard navigation">
+        <a class="brand-lockup" href="#" aria-label="GILD social dashboard home">
+          <img
+            src="https://gildhq.com/_next/image?url=%2Fimages%2Foptimized%2Flogo-gild-240.avif&w=256&q=75"
+            alt="GILD"
+          />
+        </a>
+        <div class="nav-list">
+          <a href="#overview">Network</a>
+          <a href="#channels">Channels</a>
+          <a href="#content">Content</a>
+          <a href="#setup">Setup</a>
+        </div>
+        <div class="header-actions">
+          <span id="sidebar-mode" class="mode-pill">Loading</span>
+          <a class="join-button" href="#setup">Connect Sources</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="dashboard-main">
+      <div class="shell" id="overview">
+        <section class="dashboard-head">
+          <div>
+            <p class="eyebrow">GILD Social Intelligence</p>
+            <h1>Content Intelligence</h1>
+            <p class="hero-copy">See what is working, what is missing, and where each GILD content asset should go next.</p>
+          </div>
+          <div class="sync-status">
+            <span id="sync-dot" class="dot"></span>
+            <div>
+              <strong id="sync-label">Cargando</strong>
+              <span id="sync-time">--</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="control-bar" aria-label="Analysis controls">
+          <div class="period-toggle" role="group" aria-label="Time period">
+            <button class="period-button active" data-period="month" type="button">Monthly</button>
+            <button class="period-button" data-period="week" type="button">Weekly</button>
+            <button class="period-button" data-period="all" type="button">All time</button>
+          </div>
+          <div class="filter-row">
+            <select id="month-filter" aria-label="Filter by period"></select>
+            <select id="content-channel-filter" aria-label="Filter by channel">
+              <option value="all">All channels</option>
+              <option value="linkedin">LinkedIn</option>
+              <option value="instagram">Instagram</option>
+              <option value="youtube">YouTube</option>
+              <option value="spotify">Spotify</option>
+            </select>
+          </div>
+        </section>
+
+        <section class="summary-grid" id="summary-grid"></section>
+
+        <section class="board" id="channels">
+          <div class="board-header">
+            <div>
+              <h2>Channel Comparison</h2>
+              <p>What each channel can tell us for the selected period, side by side.</p>
+            </div>
+          </div>
+          <div class="comparison-grid" id="comparison-grid"></div>
+        </section>
+
+        <section class="deep-dive-grid">
+          <article class="board">
+            <div class="board-header compact">
+              <div>
+                <h2>Channel Deep Dive</h2>
+                <p>Senior read of the selected channel.</p>
+              </div>
+            </div>
+            <div class="deep-dive" id="deep-dive"></div>
+          </article>
+
+          <article class="board">
+            <div class="board-header compact">
+              <div>
+                <h2>Decision Lens</h2>
+                <p>What to do with the signal we have.</p>
+              </div>
+            </div>
+            <div class="decision-list" id="decision-list"></div>
+          </article>
+        </section>
+
+        <section class="board" id="content">
+          <div class="board-header">
+            <div>
+              <h2>Publication Ranking</h2>
+              <p>Within-channel and cross-channel publication performance for the selected period.</p>
+            </div>
+          </div>
+          <div class="performance-grid" id="performance-grid"></div>
+          <div class="content-table-wrap">
+            <table class="content-table">
+              <thead>
+                <tr>
+                  <th>Publication</th>
+                  <th>Channel</th>
+                  <th>Date</th>
+                  <th>Available engagement</th>
+                  <th>Score</th>
+                  <th>Next use</th>
+                </tr>
+              </thead>
+              <tbody id="content-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="board setup-grid" id="setup">
+          <div>
+            <h2>Connection Setup</h2>
+            <p class="setup-copy">
+              Add the missing IDs and tokens to the local .env file, then the hourly sync will start moving these cards from pending to connected.
+            </p>
+          </div>
+          <div class="queue-list" id="queue-list"></div>
+        </section>
+      </div>
+    </main>
+
+    <script src="./app.js?v=gild-senior-2" type="module"></script>
+  </body>
+</html>
