@@ -6,6 +6,7 @@ const repoDir = new URL(".", import.meta.url);
 const dashboardDir = new URL("./public/dashboard/", repoDir);
 const dataPath = new URL("./social-data.json", dashboardDir);
 const snapshotsPath = new URL("./social-snapshots.json", dashboardDir);
+const importsDir = new URL("./data/imports/", repoDir);
 const envPath = new URL("./.env", repoDir);
 
 const publicProfiles = {
@@ -22,11 +23,6 @@ const publicProfiles = {
     url: "https://www.youtube.com/@GILDhq",
     channelId: "UCC0lbied2G_PVm_WVK-xhrw"
   },
-  spotify: {
-    handle: "GILD Podcast",
-    url: "https://creators.spotify.com/pod/show/0TSnQszN4VY8tyOgIYPsQy/episodes",
-    showId: "0TSnQszN4VY8tyOgIYPsQy"
-  },
   newsletter: {
     handle: "Beehiiv",
     url: process.env.GILD_NEWSLETTER_URL || "https://www.beehiiv.com/"
@@ -41,7 +37,6 @@ const baseChannels = [
   { id: "linkedin", name: "LinkedIn", metrics: { followers: 0, posts: 0, engagementRate: 0, reach: 0 } },
   { id: "instagram", name: "Instagram", metrics: { followers: 0, posts: 0, following: 0, engagementRate: 0, reach: 0 } },
   { id: "youtube", name: "YouTube", metrics: { subscribers: 0, videos: 0, views: 0, engagementRate: 0 } },
-  { id: "spotify", name: "Spotify", metrics: { followers: 0, episodes: 0, popularity: 0, saves: 0 } },
   { id: "newsletter", name: "Newsletter", metrics: { subscribers: 0, posts: 0, openRate: 0, clickRate: 0, sent: 0 } },
   { id: "website", name: "Website", metrics: { users: 0, sessions: 0, pageViews: 0, events: 0 } }
 ];
@@ -63,8 +58,7 @@ async function loadDotEnv() {
 const requiredConfig = {
   linkedin: ["GILD_LINKEDIN_ORG_ID", "LINKEDIN_ACCESS_TOKEN"],
   instagram: ["GILD_INSTAGRAM_BUSINESS_ID", "META_ACCESS_TOKEN"],
-  youtube: ["GILD_YOUTUBE_CHANNEL_ID", "YOUTUBE_API_KEY"],
-  spotify: ["GILD_SPOTIFY_SHOW_ID", "SPOTIFY_CLIENT_ID", "SPOTIFY_CLIENT_SECRET"],
+  youtube: ["GILD_YOUTUBE_CHANNEL_ID"],
   newsletter: ["BEEHIIV_API_KEY"],
   website: []
 };
@@ -72,8 +66,10 @@ const requiredConfig = {
 function statusFor(platform) {
   const hasRequired = (requiredConfig[platform] || []).every((key) => Boolean(process.env[key]));
   const hasGoogleCredentials = Boolean(process.env.GOOGLE_APPLICATION_CREDENTIALS || process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
+  const hasYouTubeOAuth = Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET && process.env.YOUTUBE_REFRESH_TOKEN);
   const hasCloudflareCredentials = Boolean(process.env.CLOUDFLARE_API_TOKEN && process.env.CLOUDFLARE_ACCOUNT_ID);
   if (platform === "website") return hasCloudflareCredentials || (process.env.GA4_PROPERTY_ID && hasGoogleCredentials) ? "connected" : "profile_linked";
+  if (platform === "youtube") return hasRequired && (process.env.YOUTUBE_API_KEY || hasYouTubeOAuth) ? "connected" : "profile_linked";
   return hasRequired ? "connected" : publicProfiles[platform] ? "profile_linked" : "needs_credentials";
 }
 
@@ -84,6 +80,122 @@ const decodeXml = (value = "") =>
     .replaceAll("&#39;", "'")
     .replaceAll("&lt;", "<")
     .replaceAll("&gt;", ">");
+
+function parseCsv(text) {
+  const rows = [];
+  let row = [];
+  let field = "";
+  let quoted = false;
+  for (let index = 0; index < text.length; index += 1) {
+    const char = text[index];
+    const next = text[index + 1];
+    if (quoted && char === "\"" && next === "\"") {
+      field += "\"";
+      index += 1;
+    } else if (char === "\"") {
+      quoted = !quoted;
+    } else if (!quoted && char === ",") {
+      row.push(field);
+      field = "";
+    } else if (!quoted && (char === "\n" || char === "\r")) {
+      if (char === "\r" && next === "\n") index += 1;
+      row.push(field);
+      if (row.some((value) => value.trim())) rows.push(row);
+      row = [];
+      field = "";
+    } else {
+      field += char;
+    }
+  }
+  row.push(field);
+  if (row.some((value) => value.trim())) rows.push(row);
+  return rows;
+}
+
+function normalizeKey(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "");
+}
+
+function numberFrom(value) {
+  if (value == null || value === "") return 0;
+  const normalized = String(value).replace(/[%,$\s]/g, "").replace(/,/g, "");
+  const numeric = Number(normalized);
+  return Number.isFinite(numeric) ? numeric : 0;
+}
+
+function importedMetric(row, keys) {
+  const match = keys.find((key) => row[key] != null && row[key] !== "");
+  return match ? row[match] : "";
+}
+
+function importedRowToItem(row, fallbackPlatform = "") {
+  const platform = String(importedMetric(row, ["platform", "channel", "source"]) || fallbackPlatform).toLowerCase();
+  if (!["linkedin", "instagram"].includes(platform)) return null;
+  const title = importedMetric(row, ["title", "post", "caption", "text", "content"]) || `${platform} post`;
+  const url = importedMetric(row, ["url", "link", "permalink", "posturl"]) || "";
+  const publishedAt = importedMetric(row, ["publishedat", "date", "createdat", "postedat", "timestamp"]) || null;
+  const metrics = {
+    views: numberFrom(importedMetric(row, ["views", "plays", "videoviews"])),
+    reach: numberFrom(importedMetric(row, ["reach"])),
+    impressions: numberFrom(importedMetric(row, ["impressions"])),
+    likes: numberFrom(importedMetric(row, ["likes", "reactions"])),
+    comments: numberFrom(importedMetric(row, ["comments", "commentcount"])),
+    shares: numberFrom(importedMetric(row, ["shares", "reposts"])),
+    saves: numberFrom(importedMetric(row, ["saves"])),
+    clicks: numberFrom(importedMetric(row, ["clicks", "linkclicks"]))
+  };
+  const score =
+    numberFrom(importedMetric(row, ["score"])) ||
+    metrics.views +
+      metrics.reach * 0.6 +
+      metrics.impressions * 0.25 +
+      metrics.likes * 3 +
+      metrics.comments * 8 +
+      metrics.shares * 10 +
+      metrics.saves * 10 +
+      metrics.clicks * 6;
+  return {
+    id: `${platform}:import:${url || crypto.createHash("sha1").update(`${title}:${publishedAt}`).digest("hex")}`,
+    platform,
+    format: platform === "instagram" ? "social_post_or_reel" : "company_post",
+    title,
+    publishedAt,
+    metric: score ? `${Math.round(score)} imported score` : "Imported post",
+    url,
+    metrics,
+    score: score ? Math.round(score) : null,
+    signal: "manual_import",
+    nextUse: platform === "linkedin" ? "Use winning LinkedIn posts to shape newsletter and event POV." : "Use winning Instagram creative to decide reels, clips and social proof."
+  };
+}
+
+async function readImportedContentItems() {
+  await fs.mkdir(importsDir, { recursive: true });
+  const files = await fs.readdir(importsDir).catch(() => []);
+  const items = [];
+  for (const file of files.filter((name) => /\.(csv|json)$/i.test(name))) {
+    const fileUrl = new URL(file, importsDir);
+    const body = await fs.readFile(fileUrl, "utf8").catch(() => "");
+    const fallbackPlatform = file.toLowerCase().includes("instagram") ? "instagram" : file.toLowerCase().includes("linkedin") ? "linkedin" : "";
+    if (/\.json$/i.test(file)) {
+      const parsed = JSON.parse(body);
+      const rows = Array.isArray(parsed) ? parsed : parsed.items || parsed.posts || [];
+      rows.map((row) => importedRowToItem(Object.fromEntries(Object.entries(row).map(([key, value]) => [normalizeKey(key), value])), fallbackPlatform)).filter(Boolean).forEach((item) => items.push(item));
+      continue;
+    }
+    const [header, ...rows] = parseCsv(body);
+    const keys = (header || []).map(normalizeKey);
+    rows
+      .map((values) => Object.fromEntries(keys.map((key, index) => [key, values[index] || ""])))
+      .map((row) => importedRowToItem(row, fallbackPlatform))
+      .filter(Boolean)
+      .forEach((item) => items.push(item));
+  }
+  return items;
+}
 
 async function fetchText(url) {
   const response = await fetch(url, {
@@ -170,27 +282,6 @@ async function getYouTubePublicVideoStats(url) {
   };
 }
 
-async function getSpotifyPublicData(showId) {
-  try {
-    const body = await fetchText(`https://open.spotify.com/oembed?url=https://open.spotify.com/show/${showId}`);
-    const data = JSON.parse(body);
-    return {
-      id: `spotify:${showId}`,
-      platform: "spotify",
-      format: "podcast_show",
-      title: data.title || "GILD Podcast",
-      publishedAt: null,
-      metric: "oEmbed público",
-      url: `https://open.spotify.com/show/${showId}`,
-      metrics: {},
-      score: null,
-      signal: "public_oembed"
-    };
-  } catch {
-    return null;
-  }
-}
-
 async function getLinkedInPublicData() {
   try {
     const html = await fetchText("https://www.linkedin.com/company/joingild/");
@@ -271,46 +362,129 @@ async function getYouTubeApiData(channelId, apiKey) {
   };
 }
 
-async function getSpotifyToken(clientId, clientSecret) {
-  if (!clientId || !clientSecret) return null;
-  const body = new URLSearchParams({ grant_type: "client_credentials" });
-  const auth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
-  const response = await fetch("https://accounts.spotify.com/api/token", {
+async function getGoogleRefreshAccessToken(clientId, clientSecret, refreshToken) {
+  if (!clientId || !clientSecret || !refreshToken) return null;
+  const response = await fetch("https://oauth2.googleapis.com/token", {
     method: "POST",
-    headers: {
-      authorization: `Basic ${auth}`,
-      "content-type": "application/x-www-form-urlencoded"
-    },
-    body
+    headers: { "content-type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      client_id: clientId,
+      client_secret: clientSecret,
+      refresh_token: refreshToken,
+      grant_type: "refresh_token"
+    })
   });
   const data = await response.json();
-  if (!response.ok) throw new Error(`Spotify token returned ${response.status}: ${JSON.stringify(data).slice(0, 250)}`);
+  if (!response.ok) throw new Error(`Google refresh token returned ${response.status}: ${JSON.stringify(data).slice(0, 250)}`);
   return data.access_token;
 }
 
-async function getSpotifyApiData(showId, clientId, clientSecret) {
-  if (!showId || !clientId || !clientSecret) return null;
-  const token = await getSpotifyToken(clientId, clientSecret);
-  const show = await fetchJson(`https://api.spotify.com/v1/shows/${showId}?market=US`, {
-    headers: { authorization: `Bearer ${token}` }
+function bearerHeaders(accessToken) {
+  return { authorization: `Bearer ${accessToken}` };
+}
+
+function dateDaysAgo(days) {
+  const date = new Date();
+  date.setDate(date.getDate() - days);
+  return date.toISOString().slice(0, 10);
+}
+
+async function getYouTubeAnalyticsMap(accessToken) {
+  const url = new URL("https://youtubeanalytics.googleapis.com/v2/reports");
+  url.searchParams.set("ids", "channel==MINE");
+  url.searchParams.set("startDate", dateDaysAgo(90));
+  url.searchParams.set("endDate", new Date().toISOString().slice(0, 10));
+  url.searchParams.set("metrics", "views,likes,comments,shares,estimatedMinutesWatched");
+  url.searchParams.set("dimensions", "video");
+  url.searchParams.set("sort", "-views");
+  url.searchParams.set("maxResults", "25");
+  const data = await fetchJson(url, { headers: bearerHeaders(accessToken) });
+  const columns = (data.columnHeaders || []).map((column) => column.name);
+  return Object.fromEntries(
+    (data.rows || []).map((row) => {
+      const record = Object.fromEntries(columns.map((column, index) => [column, row[index]]));
+      return [record.video, record];
+    })
+  );
+}
+
+async function getYouTubeOAuthData(channelId, clientId, clientSecret, refreshToken) {
+  const accessToken = await getGoogleRefreshAccessToken(clientId, clientSecret, refreshToken);
+  if (!accessToken || !channelId) return null;
+
+  const channelUrl = new URL("https://www.googleapis.com/youtube/v3/channels");
+  channelUrl.searchParams.set("part", "statistics,snippet");
+  channelUrl.searchParams.set("id", channelId);
+
+  const searchUrl = new URL("https://www.googleapis.com/youtube/v3/search");
+  searchUrl.searchParams.set("part", "snippet");
+  searchUrl.searchParams.set("channelId", channelId);
+  searchUrl.searchParams.set("order", "date");
+  searchUrl.searchParams.set("type", "video");
+  searchUrl.searchParams.set("maxResults", "10");
+
+  const [channelData, searchData, analyticsResult] = await Promise.all([
+    fetchJson(channelUrl, { headers: bearerHeaders(accessToken) }),
+    fetchJson(searchUrl, { headers: bearerHeaders(accessToken) }),
+    getYouTubeAnalyticsMap(accessToken).then((analytics) => ({ analytics })).catch((error) => ({ analyticsError: error.message }))
+  ]);
+  const stats = channelData.items?.[0]?.statistics || {};
+  const videoIds = (searchData.items || []).map((item) => item.id?.videoId).filter(Boolean);
+
+  const videosUrl = new URL("https://www.googleapis.com/youtube/v3/videos");
+  videosUrl.searchParams.set("part", "statistics,snippet,contentDetails");
+  videosUrl.searchParams.set("id", videoIds.join(","));
+  const videosData = videoIds.length ? await fetchJson(videosUrl, { headers: bearerHeaders(accessToken) }) : { items: [] };
+  const analyticsByVideo = analyticsResult.analytics || {};
+
+  const entries = (videosData.items || []).map((item) => {
+    const videoId = item.id;
+    const videoStats = item.statistics || {};
+    const analytics = analyticsByVideo[videoId] || {};
+    const views = Number(analytics.views || videoStats.viewCount || 0);
+    const likes = Number(analytics.likes || videoStats.likeCount || 0);
+    const comments = Number(analytics.comments || videoStats.commentCount || 0);
+    const shares = Number(analytics.shares || 0);
+    const watchMinutes = Number(analytics.estimatedMinutesWatched || 0);
+    const score = views + likes * 3 + comments * 6 + shares * 8 + Math.round(watchMinutes * 0.2);
+    return {
+      id: `youtube:${videoId}`,
+      platform: "youtube",
+      format: "long_form_video",
+      title: item.snippet?.title || "Untitled YouTube video",
+      publishedAt: item.snippet?.publishedAt || null,
+      metric: `${views} views`,
+      url: `https://www.youtube.com/watch?v=${videoId}`,
+      metrics: { views, likes, comments, shares, watchMinutes },
+      score: score || null,
+      signal: analyticsByVideo[videoId] ? "youtube_analytics_api" : "youtube_oauth_api"
+    };
   });
 
   return {
     metrics: {
-      episodes: Number(show.total_episodes || show.episodes?.total || 0)
+      subscribers: Number(stats.subscriberCount || 0),
+      videos: Number(stats.videoCount || 0),
+      views: Number(stats.viewCount || 0)
     },
-    entries: (show.episodes?.items || []).slice(0, 5).map((episode) => ({
-      platform: "spotify",
-      format: "podcast_episode",
-      title: episode.name,
-      publishedAt: episode.release_date || null,
-      metric: "Spotify API",
-      url: episode.external_urls?.spotify || `https://open.spotify.com/show/${showId}`,
-      metrics: {},
-      score: null,
-      signal: "spotify_api"
-    }))
+    entries,
+    error: analyticsResult.analyticsError
   };
+}
+
+async function getBestYouTubeData(channelId) {
+  const oauth = await getYouTubeOAuthData(
+    channelId,
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    process.env.YOUTUBE_REFRESH_TOKEN
+  ).catch((error) => ({ error: error.message }));
+  if (oauth?.metrics || oauth?.entries?.length) return oauth;
+
+  const api = await getYouTubeApiData(channelId, process.env.YOUTUBE_API_KEY).catch((error) => ({ error: error.message }));
+  if (api?.metrics || api?.entries?.length) return api;
+
+  return oauth?.error ? oauth : api;
 }
 
 async function getInstagramApiData(businessId, token) {
@@ -727,7 +901,6 @@ function buildAudienceHistory(snapshots) {
       linkedin: 0,
       instagram: 0,
       youtube: 0,
-      spotify: 0,
       newsletter: 0,
       website: 0
     })),
@@ -736,7 +909,6 @@ function buildAudienceHistory(snapshots) {
       linkedin: snapshot.metrics.linkedin || 0,
       instagram: snapshot.metrics.instagram || 0,
       youtube: snapshot.metrics.youtube || 0,
-      spotify: snapshot.metrics.spotify || 0,
       newsletter: snapshot.metrics.newsletter || 0,
       website: snapshot.metrics.website || 0
     }))
@@ -761,10 +933,17 @@ function normalizeDate(value) {
 
 function nextUseFor(item) {
   if (item.platform === "youtube") return "Clip for LinkedIn + Instagram; full episode stays YouTube.";
-  if (item.platform === "spotify") return "Pair with YouTube clips and LinkedIn quote cards.";
   if (item.platform === "linkedin") return "Expand winning post into newsletter or event recap.";
   if (item.platform === "instagram") return "Retest strong creative as Reel and event proof.";
   return "Review manually.";
+}
+
+function friendlySourceNote(platform, error, fallback) {
+  if (!error) return fallback;
+  if (platform === "youtube" && error.includes("youtubeanalytics.googleapis.com")) {
+    return "YouTube Data API is active. Enable YouTube Analytics API to add watch time, shares and deeper video analytics.";
+  }
+  return error;
 }
 
 function normalizeContentItem(item) {
@@ -842,19 +1021,11 @@ async function main() {
     entries: [],
     subscribers: null
   }));
-  const spotifyPublic = await getSpotifyPublicData(publicProfiles.spotify.showId);
   const linkedinPublic = await getLinkedInPublicData();
   const instagramPublic = await getInstagramPublicData();
+  const importedItems = await readImportedContentItems();
   const apiData = {
-    youtube: await getYouTubeApiData(
-      process.env.GILD_YOUTUBE_CHANNEL_ID || publicProfiles.youtube.channelId,
-      process.env.YOUTUBE_API_KEY
-    ).catch((error) => ({ error: error.message })),
-    spotify: await getSpotifyApiData(
-      process.env.GILD_SPOTIFY_SHOW_ID || publicProfiles.spotify.showId,
-      process.env.SPOTIFY_CLIENT_ID,
-      process.env.SPOTIFY_CLIENT_SECRET
-    ).catch((error) => ({ error: error.message })),
+    youtube: await getBestYouTubeData(process.env.GILD_YOUTUBE_CHANNEL_ID || publicProfiles.youtube.channelId),
     instagram: await getInstagramApiData(process.env.GILD_INSTAGRAM_BUSINESS_ID, process.env.META_ACCESS_TOKEN).catch(
       (error) => ({ error: error.message })
     ),
@@ -876,8 +1047,8 @@ async function main() {
   const syncedItems = [
     ...(apiData.instagram?.entries || []),
     ...(apiData.linkedin?.entries || []),
+    ...importedItems,
     ...(apiData.youtube?.entries || youtubePublic.entries),
-    ...(apiData.spotify?.entries || (spotifyPublic ? [spotifyPublic] : [])),
     ...(apiData.newsletter?.entries || []),
     ...(apiData.website?.entries || [])
   ].map(normalizeContentItem);
@@ -926,6 +1097,9 @@ async function main() {
     ...current,
     lastSyncAt: now,
     mode: "api-ready",
+    contentPipeline: Array.isArray(current.contentPipeline)
+      ? current.contentPipeline.filter((item) => String(item.channel || item.platform || "").toLowerCase() !== "spotify")
+      : current.contentPipeline,
     sourceStatus: {
       linkedin: {
         url: publicProfiles.linkedin.url,
@@ -939,13 +1113,12 @@ async function main() {
       },
       youtube: {
         url: publicProfiles.youtube.url,
-        sync: apiData.youtube?.metrics ? "api" : "public_rss",
-        note: apiData.youtube?.error || "YouTube public RSS is active; API key adds views and full stats."
-      },
-      spotify: {
-        url: publicProfiles.spotify.url,
-        sync: apiData.spotify?.metrics ? "api" : "public_oembed",
-        note: apiData.spotify?.error || "Spotify oEmbed is active; API credentials add episode count."
+        sync: apiData.youtube?.entries?.some((item) => item.signal === "youtube_analytics_api")
+          ? "youtube_analytics_api"
+          : apiData.youtube?.metrics
+            ? "api"
+            : "public_rss",
+        note: friendlySourceNote("youtube", apiData.youtube?.error, "YouTube OAuth/API is active; public RSS is fallback.")
       },
       newsletter: {
         url: publicProfiles.newsletter.url,

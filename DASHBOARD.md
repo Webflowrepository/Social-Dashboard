@@ -44,7 +44,6 @@ Para cada canal necesitamos una credencial de lectura que permita listar publica
 | Website / GA4 | `GA4_PROPERTY_ID` + service account | usuarios, sesiones, pageviews, eventos |
 | Website / Cloudflare | `CLOUDFLARE_ACCOUNT_ID` + `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_WORKER_NAME` | requests, errors, subrequests del deploy `gildhq` |
 | YouTube | `YOUTUBE_API_KEY` | videos, views y stats completas |
-| Spotify | `SPOTIFY_CLIENT_ID` + `SPOTIFY_CLIENT_SECRET` | episodios y metadata publica/API |
 
 ## Datos conectados
 
@@ -53,9 +52,35 @@ El sync ya usa lo publico posible de:
 - LinkedIn: `https://www.linkedin.com/company/joingild/?viewAsMember=true`
 - Instagram: `https://www.instagram.com/gild.hq/`
 - YouTube: `https://www.youtube.com/@GILDhq`
-- Spotify: `https://creators.spotify.com/pod/show/0TSnQszN4VY8tyOgIYPsQy/episodes`
 - Newsletter: Beehiiv cuando haya API key.
 - Website: Google Analytics 4 cuando haya property ID + service account.
+
+## Import automatico sin permisos de Meta/LinkedIn
+
+Si Meta o LinkedIn no habilitan permisos de API, el dashboard puede seguir populandose automaticamente desde archivos locales. Guardar CSV o JSON en:
+
+```txt
+data/imports/
+```
+
+El sync horario lee todos los `.csv` y `.json` de esa carpeta y los mezcla con el registro. Sirve para exports de Meta Business Suite, LinkedIn Analytics, o una planilla propia.
+
+Columnas aceptadas:
+
+```txt
+platform,title,url,publishedAt,views,impressions,reach,likes,comments,shares,saves,clicks,score
+```
+
+`platform` debe ser `instagram` o `linkedin`. Si el archivo se llama `instagram-...csv` o `linkedin-...csv`, el sync puede inferir el canal aunque falte esa columna.
+
+Templates incluidos:
+
+```txt
+data/import-templates/instagram-template.csv
+data/import-templates/linkedin-template.csv
+```
+
+Esto no reemplaza una API oficial para detectar publicaciones nuevas sin ningun paso humano, pero permite que el dashboard se actualice solo cada vez que se agregue o reemplace un export en esa carpeta.
 
 ## Para analytics completos
 
@@ -67,9 +92,6 @@ Crear `.env` desde `.env.example` y completar los tokens/IDs reales:
 - `META_ACCESS_TOKEN`
 - `GILD_YOUTUBE_CHANNEL_ID`
 - `YOUTUBE_API_KEY`
-- `GILD_SPOTIFY_SHOW_ID`
-- `SPOTIFY_CLIENT_ID`
-- `SPOTIFY_CLIENT_SECRET`
 - `BEEHIIV_API_KEY`
 - `BEEHIIV_PUBLICATION_ID`
 - `GA4_PROPERTY_ID`

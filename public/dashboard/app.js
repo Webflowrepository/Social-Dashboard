@@ -1,4 +1,4 @@
-const CHANNELS = ["linkedin", "instagram", "newsletter", "website", "youtube", "spotify"];
+const CHANNELS = ["linkedin", "instagram", "newsletter", "website", "youtube"];
 const PRIMARY_CHANNELS = ["linkedin", "instagram"];
 
 const channelNames = {
@@ -6,8 +6,7 @@ const channelNames = {
   instagram: "Instagram",
   newsletter: "Newsletter",
   website: "Website",
-  youtube: "YouTube",
-  spotify: "Spotify"
+  youtube: "YouTube"
 };
 
 const state = {
@@ -282,8 +281,8 @@ function missingFor(channel) {
     instagram: "Meta token + Instagram Business ID.",
     newsletter: "Beehiiv API key y publication ID.",
     website: "GA4 property ID + service account con Viewer.",
-    youtube: "YouTube API key para views/stats completos.",
-    spotify: "Spotify client ID/secret para episodios."
+    youtube: "Completar pnpm auth:youtube para guardar el refresh token del canal.",
+    youtube: "YouTube conectado; activar YouTube Analytics API suma watch time y shares."
   };
   return missing[channel.id] || "Credenciales de lectura.";
 }

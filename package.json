@@ -8,6 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "auth:youtube": "node ./authorize-youtube.mjs",
     "sync:social": "node ./sync-socials.mjs",
     "sync:install": "powershell -ExecutionPolicy Bypass -File ./install-hourly-sync.ps1"
   },
