@@ -26,7 +26,7 @@ Register-ScheduledTask `
   -Action $action `
   -Trigger $trigger `
   -Settings $settings `
-  -Description "Syncs GILD social metrics into social-data.json every hour." `
+  -Description "Syncs GILD social metrics into public/dashboard/social-data.json every hour." `
   -Force | Out-Null
 
 Write-Output "Installed scheduled task: $taskName"

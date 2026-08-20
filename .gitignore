@@ -1,3 +1,12 @@
+# build output
+dist/
+
+# dependencies
+node_modules/
+
+# environment variables
 .env
-server.out.log
-server.err.log
+.env.production
+
+# astro
+.astro/
