@@ -538,11 +538,11 @@ function channelFocusDescription(channelId) {
 
 function channelDescription(channelId) {
   const descriptions = {
-    instagram: "Posts/reels importados por CSV o API futura. Analizar likes, reach, shares, saves y engagement sin mezclarlos con newsletter.",
-    linkedin: "Company posts importados por CSV o API futura. Prioridad: POV, comentarios, clicks y conversacion.",
-    newsletter: "Issues de Beehiiv con opens, clicks, open rate y click rate.",
+    instagram: "Posts/reels imported by CSV or a future API. Analyze likes, reach, shares, saves and engagement separately from the newsletter.",
+    linkedin: "Company posts imported by CSV or a future API. Focus on point of view, comments, clicks and conversation.",
+    newsletter: "Beehiiv issues with opens, clicks, open rate and click rate.",
     website: "Demand by page/path from Cloudflare. This does not replace GA4 for users, sessions or acquisition.",
-    youtube: "Videos del canal con Data API. Analytics profundo requiere habilitar YouTube Analytics API."
+    youtube: "Channel videos from the Data API. Deeper analytics requires the YouTube Analytics API."
   };
   return descriptions[channelId] || "";
 }
@@ -649,7 +649,7 @@ function renderLearnings() {
   if (websiteTop) {
     learnings.push({
       channel: "Website",
-      fact: `${websiteTop.title} recibio ${formatNumber(metricValue(websiteTop, "views"))} views.`,
+      fact: `${websiteTop.title} received ${formatNumber(metricValue(websiteTop, "views"))} views.`,
       observation: "It is the page with the most visible demand in Cloudflare.",
       hypothesis: "The audience may be looking for more depth or a clearer conversion path from that section.",
       recommendation: "Review the CTA and next step toward the newsletter/events."
@@ -660,7 +660,7 @@ function renderLearnings() {
       channel: "General",
       fact: "No rankable content in the selected period.",
       observation: "The available evidence is insufficient.",
-      hypothesis: "Puede faltar data o actividad en ese rango.",
+      hypothesis: "The selected range may be missing data or activity.",
       recommendation: "Change the period or import LinkedIn/Instagram CSV data."
     });
   }
