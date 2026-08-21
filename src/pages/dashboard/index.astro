@@ -2,16 +2,16 @@
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Content intelligence dashboard de GILD." />
+    <meta name="description" content="GILD content intelligence dashboard." />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <title>GILD Content intelligence</title>
-    <link rel="stylesheet" href="/dashboard/styles.css?v=gild-learning-3" />
+    <link rel="stylesheet" href="/dashboard/styles.css?v=gild-channel-grid-1" />
   </head>
-  <body>
+  <body class="channel-start">
     <header class="site-header">
       <nav class="site-nav" aria-label="Dashboard navigation">
         <a class="brand-lockup" href="/" aria-label="GILD home">
@@ -48,12 +48,12 @@
           </div>
         </section>
 
-        <section class="analysis-controls" aria-label="Filtros globales">
+        <section class="analysis-controls" aria-label="Global filters">
           <div>
             <span>Period</span>
             <div class="period-toggle" role="group" aria-label="Period">
               <button class="period-button active" data-range="30d" type="button">30 days</button>
-              <button class="period-button" data-range="7d" type="button">7 dias</button>
+              <button class="period-button" data-range="7d" type="button">7 days</button>
               <button class="period-button" data-range="this-month" type="button">This month</button>
               <button class="period-button" data-range="last-month" type="button">Last month</button>
               <button class="period-button" data-range="3m" type="button">3 months</button>
@@ -64,8 +64,8 @@
           <div class="filter-row">
             <label>
               Channel
-              <select id="global-channel-filter" aria-label="Filtrar canal">
-                <option value="all">All times</option>
+              <select id="global-channel-filter" aria-label="Filter channel">
+                <option value="all">All channels</option>
                 <option value="instagram">Instagram</option>
                 <option value="linkedin">LinkedIn</option>
                 <option value="newsletter">Newsletter</option>
@@ -78,16 +78,17 @@
 
         <section class="channel-switcher" aria-label="Choose channel">
           <div>
-            <p class="eyebrow">Choose a view</p>
-            <h2>Which channel do you want to understand?</h2>
+            <p class="eyebrow">Start here</p>
+            <h2>Choose a channel to understand what to do next</h2>
+            <p class="channel-picker-copy">Each channel has its own signal. Pick one to see its history, rankings and next actions.</p>
           </div>
           <div class="channel-switcher-list" id="channel-switcher-list">
-            <button class="channel-switch active" data-channel="all" type="button">Overview</button>
-            <button class="channel-switch" data-channel="instagram" type="button">Instagram</button>
-            <button class="channel-switch" data-channel="linkedin" type="button">LinkedIn</button>
-            <button class="channel-switch" data-channel="newsletter" type="button">Newsletter</button>
-            <button class="channel-switch" data-channel="website" type="button">Website</button>
-            <button class="channel-switch" data-channel="youtube" type="button">YouTube</button>
+            <button class="channel-switch active" data-channel="all" type="button" hidden>Overview</button>
+            <button class="channel-switch" data-channel="instagram" type="button"><span class="channel-picker-icon">IG</span><span><strong>Instagram</strong><small>Visual format and engagement</small></span><span class="channel-picker-arrow">→</span></button>
+            <button class="channel-switch" data-channel="linkedin" type="button"><span class="channel-picker-icon">IN</span><span><strong>LinkedIn</strong><small>Conversation and clicks</small></span><span class="channel-picker-arrow">→</span></button>
+            <button class="channel-switch" data-channel="newsletter" type="button"><span class="channel-picker-icon">NL</span><span><strong>Newsletter</strong><small>Opens and clicks</small></span><span class="channel-picker-arrow">→</span></button>
+            <button class="channel-switch" data-channel="website" type="button"><span class="channel-picker-icon">WEB</span><span><strong>Website</strong><small>Visits and actions</small></span><span class="channel-picker-arrow">→</span></button>
+            <button class="channel-switch" data-channel="youtube" type="button"><span class="channel-picker-icon">YT</span><span><strong>YouTube</strong><small>Views and watch time</small></span><span class="channel-picker-arrow">→</span></button>
           </div>
         </section>
 
@@ -116,7 +117,7 @@
         <section class="channel-stack" id="channels">
           <div class="section-heading">
             <p class="eyebrow">Channel analysis</p>
-            <h2>Channels separados</h2>
+            <h2>Channel analysis</h2>
           </div>
           <div id="channel-sections"></div>
         </section>
@@ -152,9 +153,9 @@
             <table class="content-table">
               <thead>
                 <tr>
-                  <th>Contenido</th>
+                  <th>Content</th>
                   <th>Channel</th>
-                  <th>Fecha</th>
+                  <th>Date</th>
                   <th>Metrics</th>
                   <th>Score</th>
                   <th>Decision</th>
@@ -175,6 +176,6 @@
       </div>
     </main>
 
-    <script src="/dashboard/app.js?v=gild-learning-3" type="module"></script>
+    <script src="/dashboard/app.js?v=gild-channel-grid-1" type="module"></script>
   </body>
 </html>
