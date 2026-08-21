@@ -6,10 +6,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Registro de publicaciones y performance de GILD." />
+    <meta name="description" content="Content intelligence dashboard de GILD." />
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <title>GILD Content Registry</title>
-    <link rel="stylesheet" href="/dashboard/styles.css?v=gild-registry-2" />
+    <title>GILD Content Intelligence</title>
+    <link rel="stylesheet" href="/dashboard/styles.css?v=gild-learning-2" />
   </head>
   <body>
     <header class="site-header">
@@ -18,26 +18,26 @@
           <img src="/assets/logos/logo-gild.png" alt="GILD" />
         </a>
         <div class="nav-list">
-          <a href="#website">Website</a>
-          <a href="#newsletter">Newsletter</a>
+          <a href="#overview">Decisiones</a>
           <a href="#channels">Canales</a>
-          <a href="#registro">Registro</a>
-          <a href="#setup">Fuentes</a>
+          <a href="#content-intelligence">Intelligence</a>
+          <a href="#learnings">Learnings</a>
+          <a href="#data-health">Data</a>
         </div>
         <div class="header-actions">
           <span id="sidebar-mode" class="mode-pill">Loading</span>
-          <a class="join-button" href="#setup">Fuentes</a>
+          <a class="join-button" href="#data-health">Fuentes</a>
         </div>
       </nav>
     </header>
 
     <main class="dashboard-main">
-      <div class="shell" id="overview">
-        <section class="dashboard-head">
+      <div class="shell learning-shell">
+        <section class="dashboard-head" id="overview">
           <div>
-            <p class="eyebrow">GILD Content Registry</p>
-            <h1>Registro de publicaciones</h1>
-            <p class="hero-copy">Que se publico, donde salio, como le fue y que falta conectar para que el registro se complete solo.</p>
+            <p class="eyebrow">GILD Content Intelligence</p>
+            <h1>Que posteos conviene repetir, adaptar o cortar</h1>
+            <p class="hero-copy">Una lectura por periodo para comparar piezas concretas, detectar patrones y decidir hacia donde mover el contenido.</p>
           </div>
           <div class="sync-status">
             <span id="sync-dot" class="dot ok"></span>
@@ -48,80 +48,99 @@
           </div>
         </section>
 
-        <section class="focus-grid">
-          <article class="board insight-board" id="website">
-            <div class="board-header">
-              <div>
-                <h2>Website</h2>
-                <p>Views por seccion de gildhq.com para detectar que partes de la web conviene mejorar o empujar.</p>
-              </div>
-              <div class="mini-toggle" data-range-group="website">
-                <button class="range-button active" data-website-range="day" type="button">Dia</button>
-                <button class="range-button" data-website-range="week" type="button">Semana</button>
-                <button class="range-button" data-website-range="month" type="button">Mes</button>
-              </div>
+        <section class="analysis-controls" aria-label="Filtros globales">
+          <div>
+            <span>Periodo</span>
+            <div class="period-toggle" role="group" aria-label="Periodo">
+              <button class="period-button active" data-range="30d" type="button">30 dias</button>
+              <button class="period-button" data-range="7d" type="button">7 dias</button>
+              <button class="period-button" data-range="this-month" type="button">Este mes</button>
+              <button class="period-button" data-range="last-month" type="button">Mes pasado</button>
+              <button class="period-button" data-range="3m" type="button">3 meses</button>
+              <button class="period-button" data-range="6m" type="button">6 meses</button>
+              <button class="period-button" data-range="all" type="button">Todo</button>
             </div>
-            <div class="insight-layout">
-              <div class="bar-list" id="website-bars"></div>
-              <aside class="read-box" id="website-read"></aside>
-            </div>
-          </article>
-
-          <article class="board insight-board" id="newsletter">
-            <div class="board-header">
-              <div>
-                <h2>Newsletter</h2>
-                <p>Issues de Beehiiv ordenados por performance para decidir que temas repetir, cortar o llevar a LinkedIn/Instagram.</p>
-              </div>
-              <div class="mini-toggle" data-range-group="newsletter">
-                <button class="range-button active" data-newsletter-range="month" type="button">Mes</button>
-                <button class="range-button" data-newsletter-range="week" type="button">Semana</button>
-                <button class="range-button" data-newsletter-range="all" type="button">Todo</button>
-              </div>
-            </div>
-            <div class="insight-layout">
-              <div class="bar-list" id="newsletter-bars"></div>
-              <aside class="read-box" id="newsletter-read"></aside>
-            </div>
-          </article>
-        </section>
-
-        <section class="summary-grid compact-summary" id="summary-grid"></section>
-
-        <section class="control-bar" aria-label="Filtros">
-          <div class="period-toggle" role="group" aria-label="Periodo">
-            <button class="period-button active" data-period="month" type="button">Mes</button>
-            <button class="period-button" data-period="week" type="button">Semana</button>
-            <button class="period-button" data-period="all" type="button">Todo</button>
           </div>
           <div class="filter-row">
-            <select id="month-filter" aria-label="Filtrar por periodo"></select>
-            <select id="content-channel-filter" aria-label="Filtrar por canal">
-              <option value="all">Todos los canales</option>
-              <option value="linkedin">LinkedIn</option>
-              <option value="instagram">Instagram</option>
-              <option value="newsletter">Newsletter</option>
-              <option value="website">Website</option>
-              <option value="youtube">YouTube</option>
-            </select>
+            <label>
+              Canal
+              <select id="global-channel-filter" aria-label="Filtrar canal">
+                <option value="all">Todos</option>
+                <option value="instagram">Instagram</option>
+                <option value="linkedin">LinkedIn</option>
+                <option value="newsletter">Newsletter</option>
+                <option value="website">Website</option>
+                <option value="youtube">YouTube</option>
+              </select>
+            </label>
           </div>
         </section>
 
-        <section class="board" id="registro">
+        <section class="decision-grid" id="overview-grid"></section>
+
+        <section class="board question-board">
           <div class="board-header">
             <div>
-              <h2>Registro</h2>
-              <p>Las filas reales vienen de APIs. Las filas marcadas como proxy son temporales hasta conectar la fuente.</p>
+              <h2>Decision check</h2>
+              <p>Lo minimo para decidir el proximo movimiento sin perderse en metricas generales.</p>
+            </div>
+          </div>
+          <div class="quick-grid" id="quick-check"></div>
+        </section>
+
+        <section class="board">
+          <div class="board-header">
+            <div>
+              <h2>Comparador de posteos</h2>
+              <p>Que piezas ganaron por atencion, accion o distribucion. Mirar diferencias entre posteos, no solo totales.</p>
+            </div>
+          </div>
+          <div class="top-content-grid" id="top-content"></div>
+        </section>
+
+        <section class="channel-stack" id="channels">
+          <div class="section-heading">
+            <p class="eyebrow">Channel analysis</p>
+            <h2>Canales separados</h2>
+          </div>
+          <div id="channel-sections"></div>
+        </section>
+
+        <section class="board" id="content-intelligence">
+          <div class="board-header">
+            <div>
+              <h2>Content Intelligence</h2>
+              <p>Patrones por plataforma, formato y metadata disponible. No inventa topicos si no existen en los datos.</p>
+            </div>
+          </div>
+          <div class="intelligence-grid" id="content-intelligence-grid"></div>
+        </section>
+
+        <section class="board" id="learnings">
+          <div class="board-header">
+            <div>
+              <h2>Learnings</h2>
+              <p>Memoria institucional separando hechos, observaciones, hipotesis y recomendaciones.</p>
+            </div>
+          </div>
+          <div class="learning-list" id="learning-list"></div>
+        </section>
+
+        <section class="board" id="content-record">
+          <div class="board-header">
+            <div>
+              <h2>Registro completo</h2>
+              <p>Deep analysis: todas las piezas del periodo, con miniatura cuando el CSV/API la trae.</p>
             </div>
           </div>
           <div class="content-table-wrap">
             <table class="content-table">
               <thead>
                 <tr>
-                  <th>Publicacion</th>
+                  <th>Contenido</th>
                   <th>Canal</th>
                   <th>Fecha</th>
-                  <th>Resultado</th>
+                  <th>Metricas</th>
                   <th>Score</th>
                   <th>Lectura</th>
                 </tr>
@@ -131,28 +150,16 @@
           </div>
         </section>
 
-        <section class="board" id="channels">
-          <div class="board-header">
-            <div>
-              <h2>Canales</h2>
-              <p>LinkedIn e Instagram son prioridad. Newsletter y website ayudan a decidir temas; YouTube alimenta profundidad.</p>
-            </div>
-          </div>
-          <div class="comparison-grid" id="comparison-grid"></div>
-        </section>
-
-        <section class="board setup-grid" id="setup">
+        <section class="board setup-grid" id="data-health">
           <div>
-            <h2>Que falta conectar</h2>
-            <p class="setup-copy">
-              Para que el registro se popule automaticamente necesitamos credenciales de lectura por fuente. El sync horario ya esta instalado.
-            </p>
+            <h2>Data Health</h2>
+            <p class="setup-copy">Estado de cada fuente. Esto queda separado de la lectura analitica para no mezclar integraciones con performance.</p>
           </div>
-          <div class="queue-list" id="queue-list"></div>
+          <div class="queue-list" id="data-health-list"></div>
         </section>
       </div>
     </main>
 
-    <script src="/dashboard/app.js?v=gild-registry-2" type="module"></script>
+    <script src="/dashboard/app.js?v=gild-learning-2" type="module"></script>
   </body>
 </html>

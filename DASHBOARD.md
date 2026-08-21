@@ -68,10 +68,12 @@ El sync horario lee todos los `.csv` y `.json` de esa carpeta y los mezcla con e
 Columnas aceptadas:
 
 ```txt
-platform,title,url,publishedAt,views,impressions,reach,likes,comments,shares,saves,clicks,score
+platform,title,url,imageUrl,publishedAt,views,impressions,reach,likes,comments,shares,saves,clicks,score
 ```
 
 `platform` debe ser `instagram` o `linkedin`. Si el archivo se llama `instagram-...csv` o `linkedin-...csv`, el sync puede inferir el canal aunque falte esa columna.
+
+Para que aparezca el historico visual, completar `imageUrl` con la URL de la imagen o thumbnail del post. Tambien acepta columnas llamadas `mediaUrl`, `thumbnail`, `thumbnailUrl`, `picture` o `coverUrl`.
 
 Templates incluidos:
 

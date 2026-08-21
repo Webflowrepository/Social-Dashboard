@@ -136,6 +136,7 @@ function importedRowToItem(row, fallbackPlatform = "") {
   if (!["linkedin", "instagram"].includes(platform)) return null;
   const title = importedMetric(row, ["title", "post", "caption", "text", "content"]) || `${platform} post`;
   const url = importedMetric(row, ["url", "link", "permalink", "posturl"]) || "";
+  const imageUrl = importedMetric(row, ["imageurl", "image", "mediaurl", "thumbnail", "thumbnailurl", "picture", "coverurl"]) || "";
   const publishedAt = importedMetric(row, ["publishedat", "date", "createdat", "postedat", "timestamp"]) || null;
   const metrics = {
     views: numberFrom(importedMetric(row, ["views", "plays", "videoviews"])),
@@ -162,6 +163,7 @@ function importedRowToItem(row, fallbackPlatform = "") {
     platform,
     format: platform === "instagram" ? "social_post_or_reel" : "company_post",
     title,
+    imageUrl,
     publishedAt,
     metric: score ? `${Math.round(score)} imported score` : "Imported post",
     url,
@@ -954,6 +956,7 @@ function normalizeContentItem(item) {
     platform: item.platform,
     format: item.format || "post",
     title: item.title,
+    imageUrl: item.imageUrl || item.thumbnail || item.mediaUrl || "",
     publishedAt,
     month: monthKey(publishedAt),
     url: item.url || "",
