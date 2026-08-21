@@ -232,7 +232,7 @@ function readingFor(item) {
   if (item.platform === "youtube") return "Repurpose for LinkedIn/Instagram if the topic has traction.";
   if (item.platform === "instagram") return "Compare format and visual treatment with other posts in the period.";
   if (item.platform === "linkedin") return "Reuse the point of view if it generated conversation or clicks.";
-  return "Revisar como referencia.";
+  return "Review as a reference.";
 }
 
 function renderSyncStatus() {
@@ -250,6 +250,7 @@ function renderControls() {
     button.classList.toggle("active", button.dataset.channel === state.channel);
   });
   document.body.classList.toggle("channel-focus", state.channel !== "all");
+  document.body.classList.toggle("channel-start", state.channel === "all");
 }
 
 function renderOverview() {

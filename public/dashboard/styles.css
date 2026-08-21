@@ -809,10 +809,8 @@ h2 {
 }
 
 .channel-switcher {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 20px;
+  display: grid;
+  gap: 18px;
   padding: 18px 20px;
   border: 1px solid var(--line-soft);
   border-radius: 5px;
@@ -826,16 +824,27 @@ h2 {
   font-weight: 400;
 }
 
+.channel-picker-copy {
+  max-width: 620px;
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 .channel-switcher-list {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 8px;
-  justify-content: flex-end;
 }
 
 .channel-switch {
-  min-height: 38px;
-  padding: 0 13px;
+  min-height: 92px;
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
   border: 1px solid var(--line);
   border-radius: 3px;
   background: transparent;
@@ -843,6 +852,41 @@ h2 {
   font: inherit;
   font-size: 12px;
   cursor: pointer;
+}
+
+.channel-switch > span:nth-child(2) {
+  display: grid;
+  gap: 5px;
+  text-align: left;
+}
+
+.channel-switch strong {
+  color: var(--text);
+  font-size: 13px;
+}
+
+.channel-switch small {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+.channel-picker-icon {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid var(--teal);
+  border-radius: 50%;
+  color: var(--teal-light);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.channel-picker-arrow {
+  color: var(--teal-light);
+  font-size: 18px;
 }
 
 .channel-switch:hover,
@@ -866,6 +910,19 @@ h2 {
 .channel-focus .channel-section {
   margin-top: 0;
   border-color: rgba(90, 154, 155, 0.42);
+}
+
+.channel-start .analysis-controls,
+.channel-start #overview-grid,
+.channel-start .question-board,
+.channel-start .board:not(.question-board),
+.channel-start #channels {
+  display: none;
+}
+
+.channel-start .channel-switcher {
+  margin-top: 34px;
+  padding: 26px;
 }
 
 .analysis-controls > div > span,
@@ -1692,7 +1749,7 @@ select {
   }
 
   .channel-switcher-list {
-    justify-content: flex-start;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .decision-grid,
@@ -1773,6 +1830,10 @@ select {
   select {
     width: 100%;
     margin-top: 12px;
+  }
+
+  .channel-switcher-list {
+    grid-template-columns: 1fr;
   }
 }
 
