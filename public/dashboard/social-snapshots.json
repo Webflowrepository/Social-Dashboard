@@ -1181,5 +1181,39 @@
       "newsletter": 63,
       "website": 0
     }
+  },
+  {
+    "at": "2026-08-21T15:32:50.443Z",
+    "metrics": {
+      "linkedin": 1016,
+      "instagram": 80,
+      "youtube": 26,
+      "newsletter": 16963,
+      "website": 0
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 50,
+      "youtube": 8,
+      "newsletter": 64,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-08-21T15:34:47.048Z",
+    "metrics": {
+      "linkedin": 1016,
+      "instagram": 80,
+      "youtube": 26,
+      "newsletter": 16963,
+      "website": 0
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 50,
+      "youtube": 8,
+      "newsletter": 64,
+      "website": 0
+    }
   }
 ]
