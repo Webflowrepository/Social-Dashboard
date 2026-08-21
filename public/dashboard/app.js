@@ -369,6 +369,17 @@ function shortTitle(item) {
   return firstLine.length > 74 ? `${firstLine.slice(0, 74)}...` : firstLine;
 }
 
+function postExcerpt(item) {
+  const text = String(item.title || "").replace(/\s+/g, " ").trim();
+  return text.length > 170 ? `${text.slice(0, 170)}...` : text || "No post text available.";
+}
+
+function postPreview(item) {
+  return item.imageUrl
+    ? `<img src="${item.imageUrl}" alt="" loading="lazy" />`
+    : `<p>${postExcerpt(item)}</p>`;
+}
+
 function metricBar(value, maximum, className) {
   const width = maximum > 0 ? Math.max(3, Math.round((value / maximum) * 100)) : 0;
   return `<span class="minimal-bar ${className}" style="width:${width}%"></span>`;
@@ -398,6 +409,16 @@ function renderMinimalSocialReport(items, channelId) {
       <div><span>Shares</span><strong>${formatNumber(totalShares)}</strong></div>
       <div><span>Total engagement</span><strong>${formatNumber(totalEngagement)}</strong></div>
     </div>
+    <article class="minimal-panel top-posts-panel">
+      <div class="minimal-panel-head"><h3>Top posts</h3><span>Highest engagement first</span></div>
+      ${ranked.slice(0, 3).length ? `<div class="post-card-grid">${ranked.slice(0, 3).map((item, index) => `<article class="content-post-card">
+        <div class="post-card-top"><span class="post-rank">#${index + 1}</span><span>${formatDate(item.publishedAt)}</span></div>
+        <a class="post-preview" href="${item.url || "#"}" target="_blank" rel="noreferrer">${postPreview(item)}</a>
+        <a class="post-card-title" href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a>
+        <div class="post-card-metrics"><span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatNumber(metricValue(item, "comments"))}</b> comments</span><span><b>${formatNumber(metricValue(item, "shares"))}</b> shares</span></div>
+        <div class="post-card-score"><span>Engagement</span><strong>${formatNumber(metricValue(item, "engagement"))}</strong><i>${metricBar(metricValue(item, "engagement"), maxEngagement, "engagement-fill")}</i></div>
+      </article>`).join("")}</div>` : `<p class="minimal-empty">No comparable posts in this period.</p>`}
+    </article>
     <div class="minimal-visual-grid">
       <article class="minimal-panel engagement-panel">
         <div class="minimal-panel-head"><h3>Posts with most engagement</h3><span>Likes + comments + shares</span></div>
