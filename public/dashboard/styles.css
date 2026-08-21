@@ -854,6 +854,10 @@ h2 {
   cursor: pointer;
 }
 
+.channel-switch[hidden] {
+  display: none;
+}
+
 .channel-switch > span:nth-child(2) {
   display: grid;
   gap: 5px;

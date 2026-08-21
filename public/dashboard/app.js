@@ -37,7 +37,7 @@ const metricLabels = {
 
 const state = {
   data: null,
-  range: "this-week",
+  range: "all",
   channel: "all"
 };
 
@@ -465,7 +465,12 @@ function renderMinimalReport() {
   if (state.channel === "all") return;
   const items = selectedItems();
   if (!items.length) {
-    document.querySelector("#brief-shell").innerHTML = `<div class="minimal-empty-state"><p class="eyebrow">${channelNames[state.channel]}</p><h2>No comparable content in this period.</h2><p>Choose a longer period or add more content before comparing results.</p></div>`;
+    const available = realItems().filter((item) => item.platform === state.channel).length;
+    document.querySelector("#brief-shell").innerHTML = `<div class="minimal-empty-state"><p class="eyebrow">${channelNames[state.channel]}</p><h2>No content in this period.</h2><p>${available ? `${available} pieces are available in the full history.` : "No content has been imported for this channel yet."}</p>${available ? '<button class="secondary-button" id="view-all-time" type="button">View all time</button>' : ""}</div>`;
+    document.querySelector("#view-all-time")?.addEventListener("click", () => {
+      state.range = "all";
+      render();
+    });
     return;
   }
   if (state.channel === "website") return renderMinimalWebsiteReport(items);
