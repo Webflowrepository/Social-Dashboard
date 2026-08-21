@@ -364,6 +364,82 @@ function renderWeeklyBrief() {
   details.innerHTML = `<p><strong>Evidence:</strong> ${formatNumber(metricValue(top, primaryMetricFor(state.channel)))} ${metricLabels[primaryMetricFor(state.channel)].toLowerCase()} on the strongest piece.</p><p><strong>Records:</strong> ${items.length} comparable pieces in this period.</p><p><strong>Source:</strong> ${sourceLabel(top)}. Private metrics are not inferred when they are unavailable.</p>`;
 }
 
+function shortTitle(item) {
+  const firstLine = String(item.title || "Untitled post").split(/\r?\n/)[0].trim();
+  return firstLine.length > 74 ? `${firstLine.slice(0, 74)}...` : firstLine;
+}
+
+function metricBar(value, maximum, className) {
+  const width = maximum > 0 ? Math.max(3, Math.round((value / maximum) * 100)) : 0;
+  return `<span class="minimal-bar ${className}" style="width:${width}%"></span>`;
+}
+
+function renderMinimalSocialReport(items, channelId) {
+  const ranked = items
+    .slice()
+    .sort((a, b) => metricValue(b, "engagement") - metricValue(a, "engagement"))
+    .slice(0, 8);
+  const maxEngagement = Math.max(1, ...ranked.map((item) => metricValue(item, "engagement")));
+  const maxLikes = Math.max(1, ...ranked.map((item) => metricValue(item, "likes")));
+  const maxComments = Math.max(1, ...ranked.map((item) => metricValue(item, "comments")));
+  const totalLikes = sumMetric(items, "likes");
+  const totalComments = sumMetric(items, "comments");
+  const totalShares = sumMetric(items, "shares");
+  const totalEngagement = sumMetric(items, "engagement");
+
+  document.querySelector("#brief-shell").innerHTML = `
+    <div class="minimal-head">
+      <div><p class="eyebrow">${channelNames[channelId]} · ${rangeWindow(state.range).label}</p><h2>Posts and engagement</h2></div>
+      <span class="record-count">${items.length} posts</span>
+    </div>
+    <div class="minimal-metrics">
+      <div><span>Likes</span><strong>${formatNumber(totalLikes)}</strong></div>
+      <div><span>Comments</span><strong>${formatNumber(totalComments)}</strong></div>
+      <div><span>Shares</span><strong>${formatNumber(totalShares)}</strong></div>
+      <div><span>Total engagement</span><strong>${formatNumber(totalEngagement)}</strong></div>
+    </div>
+    <div class="minimal-visual-grid">
+      <article class="minimal-panel engagement-panel">
+        <div class="minimal-panel-head"><h3>Posts with most engagement</h3><span>Likes + comments + shares</span></div>
+        ${ranked.length ? `<div class="engagement-bars">${ranked.map((item, index) => `<div class="engagement-row">
+          <div class="engagement-title"><b>${index + 1}</b><a href="${item.url || "#"}" target="_blank" rel="noreferrer" title="${shortTitle(item)}">${shortTitle(item)}</a><small>${formatDate(item.publishedAt)}</small></div>
+          <div class="engagement-track">${metricBar(metricValue(item, "engagement"), maxEngagement, "engagement-fill")}</div>
+          <strong>${formatNumber(metricValue(item, "engagement"))}</strong>
+        </div>`).join("")}</div>` : `<p class="minimal-empty">No comparable posts in this period.</p>`}
+      </article>
+      <article class="minimal-panel signal-panel">
+        <div class="minimal-panel-head"><h3>What makes up the result</h3><span>Compare the signals</span></div>
+        ${ranked.length ? `<div class="signal-list">${ranked.slice(0, 5).map((item) => `<div class="signal-row">
+          <div><strong>${shortTitle(item)}</strong><span>${formatNumber(metricValue(item, "likes"))} likes · ${formatNumber(metricValue(item, "comments"))} comments</span></div>
+          <div class="signal-bars"><i>${metricBar(metricValue(item, "likes"), maxLikes, "likes-fill")}</i><i>${metricBar(metricValue(item, "comments"), maxComments, "comments-fill")}</i></div>
+        </div>`).join("")}</div><div class="signal-legend"><span><i class="legend-likes"></i>Likes</span><span><i class="legend-comments"></i>Comments</span></div>` : `<p class="minimal-empty">No engagement data available.</p>`}
+      </article>
+    </div>`;
+}
+
+function renderMinimalWebsiteReport(items) {
+  const sections = items.slice().sort((a, b) => metricValue(b, "views") - metricValue(a, "views"));
+  const maxViews = Math.max(1, ...sections.map((item) => metricValue(item, "views")));
+  const maxClicks = Math.max(1, ...sections.map((item) => metricValue(item, "clicks")));
+  document.querySelector("#brief-shell").innerHTML = `
+    <div class="minimal-head"><div><p class="eyebrow">Website · ${rangeWindow(state.range).label}</p><h2>Views and clicks by section</h2></div><span class="record-count">${sections.length} sections</span></div>
+    <div class="minimal-metrics"><div><span>Views</span><strong>${formatNumber(sumMetric(items, "views"))}</strong></div><div><span>Clicks</span><strong>${formatNumber(sumMetric(items, "clicks"))}</strong></div><div><span>Sections</span><strong>${formatNumber(sections.length)}</strong></div></div>
+    <article class="minimal-panel website-panel"><div class="minimal-panel-head"><h3>Website sections</h3><span>Compare demand by section</span></div>
+      ${sections.length ? `<div class="website-bars">${sections.map((item) => `<div class="website-row"><div class="website-title"><a href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><small>${formatNumber(metricValue(item, "views"))} views · ${metricValue(item, "clicks") ? formatNumber(metricValue(item, "clicks")) : "—"} clicks</small></div><div class="website-track"><i>${metricBar(metricValue(item, "views"), maxViews, "views-fill")}</i><i>${metricBar(metricValue(item, "clicks"), maxClicks, "clicks-fill")}</i></div></div>`).join("")}</div><div class="signal-legend"><span><i class="legend-views"></i>Views</span><span><i class="legend-clicks"></i>Clicks</span></div>` : `<p class="minimal-empty">No website sections in this period.</p>`}
+    </article>`;
+}
+
+function renderMinimalReport() {
+  if (state.channel === "all") return;
+  const items = selectedItems();
+  if (!items.length) {
+    document.querySelector("#brief-shell").innerHTML = `<div class="minimal-empty-state"><p class="eyebrow">${channelNames[state.channel]}</p><h2>No comparable content in this period.</h2><p>Choose a longer period or add more content before comparing results.</p></div>`;
+    return;
+  }
+  if (state.channel === "website") return renderMinimalWebsiteReport(items);
+  renderMinimalSocialReport(items, state.channel);
+}
+
 function renderOverview() {
   const current = selectedItems();
   if (state.channel === "all") {
@@ -838,7 +914,7 @@ function renderDataHealth() {
 function render() {
   renderSyncStatus();
   renderControls();
-  renderWeeklyBrief();
+  renderMinimalReport();
   renderOverview();
   renderQuickCheck();
   renderTopContent();
