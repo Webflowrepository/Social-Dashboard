@@ -37,7 +37,7 @@ const metricLabels = {
 
 const state = {
   data: null,
-  range: "30d",
+  range: "this-week",
   channel: "all"
 };
 
@@ -92,7 +92,16 @@ function rangeWindow(range) {
 
   if (range === "all") return { start, end, previousStart, previousEnd, label };
 
-  if (range === "this-month") {
+  if (range === "this-week") {
+    start = new Date(now);
+    const mondayOffset = (now.getDay() + 6) % 7;
+    start.setDate(now.getDate() - mondayOffset);
+    start.setHours(0, 0, 0, 0);
+    previousStart = new Date(start);
+    previousStart.setDate(start.getDate() - 7);
+    previousEnd = new Date(start.getTime() - 1);
+    label = "This week";
+  } else if (range === "this-month") {
     start = monthStart(now);
     previousStart = addMonths(start, -1);
     previousEnd = new Date(start.getTime() - 1);
@@ -386,17 +395,19 @@ function metricBar(value, maximum, className) {
 }
 
 function renderMinimalSocialReport(items, channelId) {
+  const primaryMetric = channelId === "youtube" ? "views" : "engagement";
+  const primaryLabel = channelId === "youtube" ? "views" : "engagement";
   const ranked = items
     .slice()
-    .sort((a, b) => metricValue(b, "engagement") - metricValue(a, "engagement"))
+    .sort((a, b) => metricValue(b, primaryMetric) - metricValue(a, primaryMetric))
     .slice(0, 8);
-  const maxEngagement = Math.max(1, ...ranked.map((item) => metricValue(item, "engagement")));
+  const maxEngagement = Math.max(1, ...ranked.map((item) => metricValue(item, primaryMetric)));
   const maxLikes = Math.max(1, ...ranked.map((item) => metricValue(item, "likes")));
   const maxComments = Math.max(1, ...ranked.map((item) => metricValue(item, "comments")));
   const totalLikes = sumMetric(items, "likes");
   const totalComments = sumMetric(items, "comments");
   const totalShares = sumMetric(items, "shares");
-  const totalEngagement = sumMetric(items, "engagement");
+  const totalEngagement = sumMetric(items, primaryMetric);
 
   document.querySelector("#brief-shell").innerHTML = `
     <div class="minimal-head">
@@ -407,25 +418,25 @@ function renderMinimalSocialReport(items, channelId) {
       <div><span>Likes</span><strong>${formatNumber(totalLikes)}</strong></div>
       <div><span>Comments</span><strong>${formatNumber(totalComments)}</strong></div>
       <div><span>Shares</span><strong>${formatNumber(totalShares)}</strong></div>
-      <div><span>Total engagement</span><strong>${formatNumber(totalEngagement)}</strong></div>
+      <div><span>${channelId === "youtube" ? "Total views" : "Total engagement"}</span><strong>${formatNumber(totalEngagement)}</strong></div>
     </div>
     <article class="minimal-panel top-posts-panel">
-      <div class="minimal-panel-head"><h3>Top posts</h3><span>Highest engagement first</span></div>
+      <div class="minimal-panel-head"><h3>${channelId === "youtube" ? "Top videos" : "Top posts"}</h3><span>${channelId === "youtube" ? "Highest views first" : "Highest engagement first"}</span></div>
       ${ranked.slice(0, 3).length ? `<div class="post-card-grid">${ranked.slice(0, 3).map((item, index) => `<article class="content-post-card">
         <div class="post-card-top"><span class="post-rank">#${index + 1}</span><span>${formatDate(item.publishedAt)}</span></div>
         <a class="post-preview" href="${item.url || "#"}" target="_blank" rel="noreferrer">${postPreview(item)}</a>
         <a class="post-card-title" href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a>
         <div class="post-card-metrics"><span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatNumber(metricValue(item, "comments"))}</b> comments</span><span><b>${formatNumber(metricValue(item, "shares"))}</b> shares</span></div>
-        <div class="post-card-score"><span>Engagement</span><strong>${formatNumber(metricValue(item, "engagement"))}</strong><i>${metricBar(metricValue(item, "engagement"), maxEngagement, "engagement-fill")}</i></div>
+        <div class="post-card-score"><span>${primaryLabel}</span><strong>${formatNumber(metricValue(item, primaryMetric))}</strong><i>${metricBar(metricValue(item, primaryMetric), maxEngagement, "engagement-fill")}</i></div>
       </article>`).join("")}</div>` : `<p class="minimal-empty">No comparable posts in this period.</p>`}
     </article>
     <div class="minimal-visual-grid">
       <article class="minimal-panel engagement-panel">
-        <div class="minimal-panel-head"><h3>Posts with most engagement</h3><span>Likes + comments + shares</span></div>
+        <div class="minimal-panel-head"><h3>${channelId === "youtube" ? "Videos with most views" : "Posts with most engagement"}</h3><span>${channelId === "youtube" ? "Views + audience response" : "Likes + comments + shares"}</span></div>
         ${ranked.length ? `<div class="engagement-bars">${ranked.map((item, index) => `<div class="engagement-row">
           <div class="engagement-title"><b>${index + 1}</b><a href="${item.url || "#"}" target="_blank" rel="noreferrer" title="${shortTitle(item)}">${shortTitle(item)}</a><small>${formatDate(item.publishedAt)}</small></div>
-          <div class="engagement-track">${metricBar(metricValue(item, "engagement"), maxEngagement, "engagement-fill")}</div>
-          <strong>${formatNumber(metricValue(item, "engagement"))}</strong>
+          <div class="engagement-track">${metricBar(metricValue(item, primaryMetric), maxEngagement, "engagement-fill")}</div>
+          <strong>${formatNumber(metricValue(item, primaryMetric))}</strong>
         </div>`).join("")}</div>` : `<p class="minimal-empty">No comparable posts in this period.</p>`}
       </article>
       <article class="minimal-panel signal-panel">
