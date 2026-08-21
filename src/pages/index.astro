@@ -1,307 +1,180 @@
 ---
-/**
- * Landing page — Post Event Portal
- */
-
-import Layout from '../layouts/Layout.astro';
-import RoomInAggregate from '../components/RoomInAggregate.astro';
-import Briefing from '../components/Briefing.astro';
-import Gallery from '../components/Gallery.astro';
-import editionData from '../content/edition-no-01.json';
-
-import '../styles/global.css';
 ---
 
-<Layout
-  title="GILD — Post Event Portal"
-  description="We truly appreciated having you at this GILD Edition."
->
-  <!-- 01. HERO -->
-  <section class="hero-section">
-    <div class="hero-top">
-      <img src="/assets/logos/logo-gild.png" alt="GILD" class="gild-logo" />
-      <p class="hero-eyebrow text-eyebrow">AI Forum</p>
-    </div>
-
-    <div class="hero-center">
-      <h1 class="hero-title">
-        <span class="block overflow-hidden">
-          <span class="hero-line block">Thanks for</span>
-        </span>
-        <span class="block overflow-hidden">
-          <span class="hero-line block">joining us!</span>
-        </span>
-      </h1>
-    </div>
-
-    <div class="hero-bottom">
-      <p class="hero-partner-label text-body-s">Presented in partnership with</p>
-      <a href="https://www.tecla.io/" target="_blank" rel="noopener" class="partner-link">
-        <img src="/assets/logos/tecla.png" alt="Tecla" class="partner-logo" />
-      </a>
-      <svg class="hero-scroll-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <polyline points="6 9 12 15 18 9"></polyline>
-      </svg>
-    </div>
-  </section>
-
-  <!-- 02. GALLERY -->
-  <Gallery
-    eyebrow={editionData.gallery.eyebrow}
-    photos={editionData.gallery.photos}
-  />
-  
-  <!-- 03. NEXT EVENT -->
-  <section class="next-event-wrapper">
-    <div class="next-event-header">
-      <h2 class="text-display-m" style="color: var(--color-fg); text-align: center;">
-        Next Event GILD Austin
-      </h2>
-    </div>
-    <div class="next-event-content">
-      <a href="https://luma.com/GILD23" target="_blank" rel="noopener" class="next-event-link">
-        <img src="/assets/photos/events/gild23.png" alt="Next Event GILD AI Forum" class="next-event-image" />
-        <div class="next-event-overlay">
-          <span class="text-button">RSVP ON LUMA →</span>
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Content intelligence dashboard de GILD." />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>GILD Content Intelligence</title>
+    <link rel="stylesheet" href="/dashboard/styles.css?v=gild-learning-3" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Dashboard navigation">
+        <a class="brand-lockup" href="/" aria-label="GILD home">
+          <img src="/assets/logos/logo-gild.png" alt="GILD" />
+        </a>
+        <div class="nav-list">
+          <a href="#overview">Decisiones</a>
+          <a href="#channels">Canales</a>
+          <a href="#content-intelligence">Intelligence</a>
+          <a href="#learnings">Learnings</a>
+          <a href="#data-health">Data</a>
         </div>
-      </a>
-    </div>
-  </section>
+        <div class="header-actions">
+          <span id="sidebar-mode" class="mode-pill">Loading</span>
+          <a class="join-button" href="#data-health">Fuentes</a>
+        </div>
+      </nav>
+    </header>
 
+    <main class="dashboard-main">
+      <div class="shell learning-shell">
+        <section class="dashboard-head" id="overview">
+          <div>
+            <p class="eyebrow">GILD Content Intelligence</p>
+            <h1>Que posteos conviene repetir, adaptar o cortar</h1>
+            <p class="hero-copy">Una lectura por periodo para comparar piezas concretas, detectar patrones y decidir hacia donde mover el contenido.</p>
+          </div>
+          <div class="sync-status">
+            <span id="sync-dot" class="dot ok"></span>
+            <div>
+              <strong id="sync-label">Cargando</strong>
+              <span id="sync-time">--</span>
+            </div>
+          </div>
+        </section>
 
-</Layout>
+        <section class="analysis-controls" aria-label="Filtros globales">
+          <div>
+            <span>Periodo</span>
+            <div class="period-toggle" role="group" aria-label="Periodo">
+              <button class="period-button active" data-range="30d" type="button">30 dias</button>
+              <button class="period-button" data-range="7d" type="button">7 dias</button>
+              <button class="period-button" data-range="this-month" type="button">Este mes</button>
+              <button class="period-button" data-range="last-month" type="button">Mes pasado</button>
+              <button class="period-button" data-range="3m" type="button">3 meses</button>
+              <button class="period-button" data-range="6m" type="button">6 meses</button>
+              <button class="period-button" data-range="all" type="button">Todo</button>
+            </div>
+          </div>
+          <div class="filter-row">
+            <label>
+              Canal
+              <select id="global-channel-filter" aria-label="Filtrar canal">
+                <option value="all">Todos</option>
+                <option value="instagram">Instagram</option>
+                <option value="linkedin">LinkedIn</option>
+                <option value="newsletter">Newsletter</option>
+                <option value="website">Website</option>
+                <option value="youtube">YouTube</option>
+              </select>
+            </label>
+          </div>
+        </section>
 
-<style>
-  /* ── HERO ── */
-  .hero-section {
-    min-height: 85vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    gap: 24px;
-    padding: 48px 24px;
-    box-sizing: border-box;
-  }
+        <section class="channel-switcher" aria-label="Elegir canal">
+          <div>
+            <p class="eyebrow">Elegir una vista</p>
+            <h2>Que canal queres entender?</h2>
+          </div>
+          <div class="channel-switcher-list" id="channel-switcher-list">
+            <button class="channel-switch active" data-channel="all" type="button">Resumen</button>
+            <button class="channel-switch" data-channel="instagram" type="button">Instagram</button>
+            <button class="channel-switch" data-channel="linkedin" type="button">LinkedIn</button>
+            <button class="channel-switch" data-channel="newsletter" type="button">Newsletter</button>
+            <button class="channel-switch" data-channel="website" type="button">Website</button>
+            <button class="channel-switch" data-channel="youtube" type="button">YouTube</button>
+          </div>
+        </section>
 
-  .hero-top {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
+        <section class="decision-grid" id="overview-grid"></section>
 
-  .gild-logo {
-    height: 42px;
-    width: auto;
-    filter: brightness(0) invert(1);
-  }
+        <section class="board question-board">
+          <div class="board-header">
+            <div>
+              <h2>Decision check</h2>
+              <p>Lo minimo para decidir el proximo movimiento sin perderse en metricas generales.</p>
+            </div>
+          </div>
+          <div class="quick-grid" id="quick-check"></div>
+        </section>
 
-  .hero-eyebrow {
-    color: #7ec8b8;
-    margin: 0;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    font-size: 12px;
-    font-weight: 400;
-  }
+        <section class="board">
+          <div class="board-header">
+            <div>
+              <h2>Comparador de posteos</h2>
+              <p>Que piezas ganaron por atencion, accion o distribucion. Mirar diferencias entre posteos, no solo totales.</p>
+            </div>
+          </div>
+          <div class="top-content-grid" id="top-content"></div>
+        </section>
 
-  .hero-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-  }
+        <section class="channel-stack" id="channels">
+          <div class="section-heading">
+            <p class="eyebrow">Channel analysis</p>
+            <h2>Canales separados</h2>
+          </div>
+          <div id="channel-sections"></div>
+        </section>
 
-  .hero-title {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
-    font-size: clamp(1.8rem, 5.6vw, 4.4rem);
-    line-height: 1.15;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    color: var(--color-fg);
-    margin: 0;
-    max-width: 1000px;
-  }
+        <section class="board" id="content-intelligence">
+          <div class="board-header">
+            <div>
+              <h2>Content Intelligence</h2>
+              <p>Patrones por plataforma, formato y metadata disponible. No inventa topicos si no existen en los datos.</p>
+            </div>
+          </div>
+          <div class="intelligence-grid" id="content-intelligence-grid"></div>
+        </section>
 
-  .hero-bottom {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-  }
+        <section class="board" id="learnings">
+          <div class="board-header">
+            <div>
+              <h2>Learnings</h2>
+              <p>Memoria institucional separando hechos, observaciones, hipotesis y recomendaciones.</p>
+            </div>
+          </div>
+          <div class="learning-list" id="learning-list"></div>
+        </section>
 
-  .hero-partner-label {
-    color: var(--color-fg-muted);
-    margin: 0;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    font-size: 14px;
-    font-weight: 400;
-  }
+        <section class="board" id="content-record">
+          <div class="board-header">
+            <div>
+              <h2>Registro completo</h2>
+              <p>Deep analysis: todas las piezas del periodo, con miniatura cuando el CSV/API la trae.</p>
+            </div>
+          </div>
+          <div class="content-table-wrap">
+            <table class="content-table">
+              <thead>
+                <tr>
+                  <th>Contenido</th>
+                  <th>Canal</th>
+                  <th>Fecha</th>
+                  <th>Metricas</th>
+                  <th>Score</th>
+                  <th>Lectura</th>
+                </tr>
+              </thead>
+              <tbody id="content-table-body"></tbody>
+            </table>
+          </div>
+        </section>
 
-  .partner-link {
-    display: inline-block;
-    transition: opacity var(--duration-hover) var(--ease-entrance);
-  }
+        <section class="board setup-grid" id="data-health">
+          <div>
+            <h2>Data Health</h2>
+            <p class="setup-copy">Estado de cada fuente. Esto queda separado de la lectura analitica para no mezclar integraciones con performance.</p>
+          </div>
+          <div class="queue-list" id="data-health-list"></div>
+        </section>
+      </div>
+    </main>
 
-  .partner-link:hover {
-    opacity: 0.8;
-  }
-
-  .partner-logo {
-    height: 44px;
-    width: auto;
-  }
-
-  .hero-scroll-arrow {
-    color: var(--color-fg-muted);
-    margin-top: 12px;
-    animation: hero-bounce 2s ease-in-out infinite;
-    width: 28px;
-    height: 28px;
-  }
-
-  @keyframes hero-bounce {
-    0%, 100% { transform: translateY(0); opacity: 0.5; }
-    50% { transform: translateY(8px); opacity: 0.9; }
-  }
-
-  /* ── NEXT EVENT WRAPPER ── */
-  .next-event-wrapper {
-    padding: 64px 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 32px;
-  }
-
-  .next-event-header {
-    max-width: 480px;
-    margin: 0 auto;
-  }
-
-  .next-event-content {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .next-event-link {
-    display: block;
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: transform var(--duration-hover) var(--ease-entrance);
-  }
-
-  .next-event-link:hover {
-    transform: scale(1.02);
-  }
-
-  .next-event-image {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  .next-event-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity var(--duration-hover) var(--ease-entrance);
-  }
-
-  .next-event-link:hover .next-event-overlay {
-    opacity: 1;
-  }
-
-  .text-button {
-    color: white;
-    font-family: var(--font-body);
-    font-size: 14px;
-    letter-spacing: 0.1em;
-    font-weight: 500;
-    padding: 12px 24px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 4px;
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(4px);
-  }
-
-  /* ── Mobile: fit hero in 100vh ── */
-  @media (max-width: 767px) {
-    .hero-section {
-      min-height: 85vh;
-      min-height: 85dvh;
-      padding: 48px 20px;
-    }
-
-    .hero-top {
-      gap: 14px;
-    }
-
-    .gild-logo {
-      height: 28px;
-    }
-
-    .hero-eyebrow {
-      font-size: 10px;
-    }
-
-    .hero-center {
-      padding: 20px 0;
-    }
-
-    .hero-title {
-      font-size: 1.6rem;
-    }
-
-    .hero-bottom {
-      gap: 8px;
-    }
-
-    .hero-partner-label {
-      font-size: 9px;
-    }
-
-    .sponsor-logo {
-      height: 28px;
-    }
-
-    .hero-scroll-arrow {
-      margin-top: 16px;
-      width: 22px;
-      height: 22px;
-    }
-  }
-
-  /* ── Desktop ── */
-  @media (min-width: 768px) {
-    .hero-section {
-      padding: 96px 64px;
-    }
-  }
-</style>
-
-<script>
-  import { animateCoverTitle, animateFadeUp } from '../lib/gsap-utils';
-
-  document.addEventListener('DOMContentLoaded', () => {
-    // Hero Entrance
-    animateCoverTitle('.hero-section', '.hero-line');
-    animateFadeUp('.hero-section', '.hero-top, .hero-bottom', {
-      stagger: 0.15,
-      delay: 0.4,
-    });
-
-    // Sections Entrance
-    animateFadeUp('.next-event-wrapper', '.next-event-header h2, .next-event-content', { stagger: 0.2 });
-  });
-</script>
+    <script src="/dashboard/app.js?v=gild-learning-3" type="module"></script>
+  </body>
+</html>
