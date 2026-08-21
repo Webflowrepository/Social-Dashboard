@@ -31,7 +31,8 @@ const metricLabels = {
   saves: "Saves",
   shares: "Shares",
   views: "Views",
-  watchMinutes: "Watch min"
+  watchMinutes: "Watch min",
+  score: "Channel index"
 };
 
 const state = {
@@ -48,7 +49,7 @@ const formatNumber = (value) =>
 const formatPercent = (value) => `${Number(value || 0).toFixed(Number(value || 0) >= 10 ? 1 : 2)}%`;
 
 const formatDate = (value) =>
-  value ? new Intl.DateTimeFormat("es", { month: "short", day: "numeric", year: "numeric" }).format(new Date(value)) : "Sin fecha";
+  value ? new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(value)) : "No date";
 
 function channelById() {
   return Object.fromEntries((state.data.channels || []).map((channel) => [channel.id, channel]));
@@ -76,7 +77,7 @@ function rangeWindow(range) {
   let start = null;
   let previousStart = null;
   let previousEnd = null;
-  let label = "Todo el historico";
+  let label = "All-time history";
 
   if (range === "all") return { start, end, previousStart, previousEnd, label };
 
@@ -84,14 +85,14 @@ function rangeWindow(range) {
     start = monthStart(now);
     previousStart = addMonths(start, -1);
     previousEnd = new Date(start.getTime() - 1);
-    label = new Intl.DateTimeFormat("es", { month: "long", year: "numeric" }).format(start);
+    label = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" }).format(start);
   } else if (range === "last-month") {
     const thisMonth = monthStart(now);
     start = addMonths(thisMonth, -1);
     end.setTime(thisMonth.getTime() - 1);
     previousStart = addMonths(start, -1);
     previousEnd = new Date(start.getTime() - 1);
-    label = new Intl.DateTimeFormat("es", { month: "long", year: "numeric" }).format(start);
+    label = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" }).format(start);
   } else {
     const days = range === "7d" ? 7 : range === "3m" ? 90 : range === "6m" ? 180 : 30;
     start = new Date(now);
@@ -99,7 +100,7 @@ function rangeWindow(range) {
     previousEnd = new Date(start.getTime() - 1);
     previousStart = new Date(previousEnd);
     previousStart.setDate(previousEnd.getDate() - days);
-    label = range === "7d" ? "Ultimos 7 dias" : range === "3m" ? "Ultimos 3 meses" : range === "6m" ? "Ultimos 6 meses" : "Ultimos 30 dias";
+    label = range === "7d" ? "Last 7 days" : range === "3m" ? "Last 3 months" : range === "6m" ? "Last 6 months" : "Last 30 days";
   }
 
   return { start, end, previousStart, previousEnd, label };
@@ -152,23 +153,46 @@ function engagementText(item) {
   });
   if (metrics.openRate) parts.push(`${formatPercent(metrics.openRate)} open`);
   if (metrics.clickRate) parts.push(`${formatPercent(metrics.clickRate)} click`);
-  return parts.length ? parts.join(" · ") : "Sin metricas";
+  return parts.length ? parts.join(" · ") : "No metrics";
 }
 
 function score(item) {
   return item.score ?? null;
 }
 
+function primaryMetricFor(channelId) {
+  if (channelId === "newsletter") return "clicks";
+  if (channelId === "website" || channelId === "youtube") return "views";
+  return "engagement";
+}
+
+function decisionScore(item, cohort) {
+  const metric = primaryMetricFor(item.platform);
+  const value = metricValue(item, metric);
+  const comparable = cohort.filter((candidate) => candidate.platform === item.platform && metricValue(candidate, metric) > 0);
+  const average = averageMetric(comparable, metric);
+  if (value > 0 && average > 0) return Math.round((value / average) * 100);
+  return score(item) == null ? null : Number(score(item));
+}
+
+function rankedByDecision(items, limit = 8) {
+  return items
+    .slice()
+    .filter((item) => decisionScore(item, items) != null)
+    .sort((a, b) => decisionScore(b, items) - decisionScore(a, items))
+    .slice(0, limit);
+}
+
 function confidenceLabel(count) {
-  if (count === 0) return { label: "Sin datos", className: "insufficient" };
-  if (count < 3) return { label: "Insuficiente", className: "insufficient" };
-  if (count < 8) return { label: "Senal debil", className: "weak" };
-  return { label: "Senal util", className: "strong" };
+  if (count === 0) return { label: "No data", className: "insufficient" };
+  if (count < 3) return { label: "Insufficient", className: "insufficient" };
+  if (count < 8) return { label: "Weak signal", className: "weak" };
+  return { label: "Useful signal", className: "strong" };
 }
 
 function deltaLabel(current, previous) {
   if (!previous || previous < 3) {
-    return { text: previous ? `+${formatNumber(current - previous)} vs base chica` : "sin base previa", className: "neutral" };
+    return { text: previous ? `+${formatNumber(current - previous)} vs small baseline` : "no previous baseline", className: "neutral" };
   }
   const diff = current - previous;
   const pct = (diff / previous) * 100;
@@ -199,21 +223,21 @@ function sourceLabel(item) {
   if (item.signal?.includes("api")) return "API";
   if (item.signal?.includes("rss")) return "Public RSS";
   if (item.signal === "manual_import") return "CSV";
-  return "Importado";
+  return "Imported";
 }
 
 function readingFor(item) {
-  if (item.platform === "newsletter") return "Evaluar asunto, tema y CTA para proximas ediciones.";
-  if (item.platform === "website") return "Revisar CTA y continuidad hacia newsletter o evento.";
-  if (item.platform === "youtube") return "Recortar para LinkedIn/Instagram si el tema tiene traccion.";
-  if (item.platform === "instagram") return "Comparar formato/visual con otros posts del periodo.";
-  if (item.platform === "linkedin") return "Reutilizar POV si genero conversacion o clicks.";
+  if (item.platform === "newsletter") return "Review subject line, topic and CTA for future issues.";
+  if (item.platform === "website") return "Review the CTA and next step toward the newsletter or an event.";
+  if (item.platform === "youtube") return "Repurpose for LinkedIn/Instagram if the topic has traction.";
+  if (item.platform === "instagram") return "Compare format and visual treatment with other posts in the period.";
+  if (item.platform === "linkedin") return "Reuse the point of view if it generated conversation or clicks.";
   return "Revisar como referencia.";
 }
 
 function renderSyncStatus() {
-  document.querySelector("#sync-label").textContent = "Auto-sync activo";
-  document.querySelector("#sync-time").textContent = `Ultimo sync: ${formatDate(state.data.lastSyncAt)}`;
+  document.querySelector("#sync-label").textContent = "Auto-sync active";
+  document.querySelector("#sync-time").textContent = `Last sync: ${formatDate(state.data.lastSyncAt)}`;
   document.querySelector("#sidebar-mode").textContent = state.data.mode || "local";
 }
 
@@ -230,28 +254,37 @@ function renderControls() {
 
 function renderOverview() {
   const current = selectedItems();
-  const ranked = topBy(current, "score", 8);
+  if (state.channel === "all") {
+    document.querySelector("#overview-grid").innerHTML = `<article class="decision-card primary channel-prompt">
+      <span>Start with one channel</span>
+      <h2>Choose Instagram, LinkedIn, Newsletter, Website or YouTube to compare like with like.</h2>
+      <p>The dashboard keeps each channel separate because a view, a click and a comment do not mean the same thing. Pick a channel above to see its ranking, trend and next action.</p>
+    </article>`;
+    return;
+  }
+
+  const ranked = rankedByDecision(current, 8);
   const winner = ranked[0];
   const runnerUp = ranked[1];
   const confidence = confidenceLabel(current.length);
 
   if (!winner) {
     document.querySelector("#overview-grid").innerHTML = `<article class="decision-card primary">
-      <span>Decision pendiente</span>
-      <h2>No hay posteos rankeables en este periodo</h2>
-      <p>Para tomar decisiones reales necesitamos piezas con fecha y metricas. Cuando cargues los CSVs de Instagram y LinkedIn, entran aca automaticamente.</p>
+      <span>Decision pending</span>
+      <h2>No rankable posts in this period</h2>
+      <p>Real decisions require dated pieces with metrics. Instagram and LinkedIn CSV imports will appear here automatically.</p>
     </article>`;
     return;
   }
 
-  const gap = runnerUp ? metricValue(winner, "score") - metricValue(runnerUp, "score") : metricValue(winner, "score");
+  const gap = runnerUp ? decisionScore(winner, current) - decisionScore(runnerUp, current) : decisionScore(winner, current);
   const driver = strongestMetric(winner);
   const action = recommendedAction(winner, current);
   const crossChannel = crossChannelMove(winner);
 
   document.querySelector("#overview-grid").innerHTML = `
     <article class="decision-card primary">
-      <span>Posteo ganador</span>
+      <span>Winning post</span>
       <div class="decision-post">
         ${postVisual(winner)}
         <div>
@@ -260,23 +293,23 @@ function renderOverview() {
         </div>
       </div>
       <div class="decision-metrics">
-        <div><small>Score</small><strong>${formatNumber(metricValue(winner, "score"))}</strong></div>
-        <div><small>Principal senal</small><strong>${driver.label}</strong></div>
-        <div><small>Confianza</small><strong>${confidence.label}</strong></div>
+        <div><small>Channel index</small><strong>${formatNumber(decisionScore(winner, current))}</strong></div>
+        <div><small>Main signal</small><strong>${driver.label}</strong></div>
+        <div><small>Confidence</small><strong>${confidence.label}</strong></div>
       </div>
     </article>
     <article class="decision-card">
-      <span>Que aprendemos</span>
+      <span>What we learned</span>
       <h3>${driver.interpretation}</h3>
-      <p>${runnerUp ? `Le gano al segundo por ${formatNumber(gap)} puntos de score. Comparalo contra "${runnerUp.title}" para aislar tema, formato, hook y CTA.` : "Es la unica pieza fuerte del periodo, asi que todavia es senal inicial."}</p>
+      <p>${runnerUp ? `It beat the runner-up by ${formatNumber(gap)} channel-index points. Compare it with "${runnerUp.title}" to isolate topic, format, hook and CTA.` : "It is the only strong piece in the period, so treat it as an early signal."}</p>
     </article>
     <article class="decision-card action">
-      <span>Proxima decision</span>
+      <span>Next decision</span>
       <h3>${action.title}</h3>
       <p>${action.body}</p>
     </article>
     <article class="decision-card">
-      <span>Reuso cross-channel</span>
+      <span>Cross-channel reuse</span>
       <h3>${crossChannel.title}</h3>
       <p>${crossChannel.body}</p>
     </article>
@@ -289,21 +322,21 @@ function strongestMetric(item) {
     .map((metric) => ({ metric, value: metricValue(item, metric) }))
     .sort((a, b) => b.value - a.value)[0];
   if (!best || best.value <= 0) {
-    return { label: "Score compuesto", interpretation: "Gano por combinacion de senales, no por una metrica dominante." };
+    return { label: "Composite score", interpretation: "It won through a combination of signals, not one dominant metric." };
   }
   const label = `${formatNumber(best.value)} ${metricLabels[best.metric].toLowerCase()}`;
   const interpretations = {
-    views: "El tema genero atencion visible.",
-    impressions: "El post tuvo distribucion superior.",
-    reach: "La pieza alcanzo mas audiencia.",
-    opens: "El asunto o tema abrio mejor.",
-    clicks: "La pieza movio accion, no solo atencion.",
-    likes: "El contenido genero aprobacion rapida.",
-    comments: "El contenido genero conversacion.",
-    shares: "El contenido tuvo valor para redistribuir.",
-    saves: "El contenido parecio util o guardable."
+    views: "The topic generated visible attention.",
+    impressions: "The post had stronger distribution.",
+    reach: "The piece reached more people.",
+    opens: "The subject line or topic opened better.",
+    clicks: "The piece drove action, not just attention.",
+    likes: "The content generated quick approval.",
+    comments: "The content generated conversation.",
+    shares: "The content was valuable enough to redistribute.",
+    saves: "The content looked useful or save-worthy."
   };
-  return { label, interpretation: interpretations[best.metric] || "Tuvo una senal dominante clara." };
+  return { label, interpretation: interpretations[best.metric] || "It had one clear dominant signal." };
 }
 
 function recommendedAction(item, cohort) {
@@ -316,52 +349,53 @@ function recommendedAction(item, cohort) {
   if (lift >= 1.4) {
     return {
       title: "Repetir con una variante controlada",
-      body: `Esta pieza esta por encima del promedio del canal en ${metricLabels[metric].toLowerCase()}. Repeti tema o hook cambiando solo una variable: formato, CTA o angulo.`
+      body: `This piece is above the channel average in ${metricLabels[metric].toLowerCase()}. Repeat the topic or hook while changing only one variable: format, CTA or angle.`
     };
   }
   if (item.platform === "website") {
-    return { title: "Mejorar conversion del path", body: "Hay demanda en esa pagina. Revisar CTA, siguiente paso y relacion con newsletter/evento." };
+    return { title: "Improve path conversion", body: "There is demand on this page. Review the CTA, next step and relationship to the newsletter/event." };
   }
   if (item.platform === "newsletter") {
-    return { title: "Convertir clicks en contenido social", body: "Tomar el bloque o CTA que genero clicks y convertirlo en un post de LinkedIn y una pieza visual para Instagram." };
+    return { title: "Turn clicks into social content", body: "Turn the block or CTA that generated clicks into a LinkedIn post and an Instagram visual." };
   }
-  return { title: "Comparar contra el segundo", body: "Mirar diferencia de tema, apertura, visual y CTA antes de decidir si repetir o pausar esa linea." };
+  return { title: "Compare against the runner-up", body: "Compare topic, opening, visual and CTA before deciding whether to repeat or pause that line." };
 }
 
 function crossChannelMove(item) {
   if (item.platform === "youtube") {
-    return { title: "Video a social", body: "Cortar el momento mas fuerte en una version LinkedIn y otra Instagram; medir si el tema viaja fuera de YouTube." };
+    return { title: "Video to social", body: "Cut the strongest moment into LinkedIn and Instagram versions; measure whether the topic travels beyond YouTube." };
   }
   if (item.platform === "newsletter") {
-    return { title: "Newsletter a posts", body: "Convertir el tema ganador en carrusel/visual para Instagram y POV corto para LinkedIn." };
+    return { title: "Newsletter to posts", body: "Turn the winning topic into an Instagram carousel/visual and a short LinkedIn point of view." };
   }
   if (item.platform === "website") {
-    return { title: "Website a editorial", body: "Usar la pagina con mas views como senal de demanda: crear newsletter o post explicando ese tema." };
+    return { title: "Website to editorial", body: "Use the page with the most views as a demand signal: create a newsletter or post explaining that topic." };
   }
   if (item.platform === "instagram") {
-    return { title: "Instagram a LinkedIn", body: "Si el visual funciono, testear el mismo insight con mas contexto y una pregunta final en LinkedIn." };
+    return { title: "Instagram to LinkedIn", body: "If the visual worked, test the same insight with more context and a closing question on LinkedIn." };
   }
-  return { title: "LinkedIn a Instagram", body: "Si el POV funciono, llevarlo a una pieza visual mas simple para Instagram." };
+  return { title: "LinkedIn to Instagram", body: "If the point of view worked, turn it into a simpler Instagram visual." };
 }
 
 function renderQuickCheck() {
   const current = selectedItems();
   const range = rangeWindow(state.range);
   const confidence = confidenceLabel(current.length);
-  const top = topBy(current, "score", 1)[0];
+  const top = state.channel === "all" ? null : rankedByDecision(current, 1)[0];
   const topChannel = top
     ? channelNames[top.platform]
-    : "Sin ganador";
+    : "No winner";
   const previous = previousItems();
-  const currentScore = sumMetric(current, "score");
-  const previousScore = sumMetric(previous, "score");
+  const comparisonMetric = state.channel === "all" ? "score" : primaryMetricFor(state.channel);
+  const currentScore = sumMetric(current, comparisonMetric);
+  const previousScore = sumMetric(previous, comparisonMetric);
   const delta = deltaLabel(currentScore, previousScore);
 
   const checks = [
-    ["Muestra", range.label, `${current.length} piezas comparables. ${confidence.label}.`, confidence.className],
-    ["Ganador", top ? top.title : "Sin contenido rankeable", top ? `${topChannel} · ${strongestMetric(top).label}` : "Faltan datos", confidence.className],
-    ["Cambio del periodo", delta.text, "Usar como contexto, no como decision principal.", delta.className],
-    ["Decision inmediata", decisionText(current), "La accion sale del post ganador y su metrica dominante.", confidence.className]
+    ["Sample", range.label, `${current.length} comparable pieces. ${confidence.label}.`, confidence.className],
+    ["Winner", top ? top.title : state.channel === "all" ? "Choose a channel" : "No rankable content", top ? `${topChannel} · ${strongestMetric(top).label}` : state.channel === "all" ? "Channel comparison required" : "Data needed", confidence.className],
+    ["Period change", delta.text, `Context only. Based on ${metricLabels[comparisonMetric].toLowerCase()}.`, delta.className],
+    ["Next move", state.channel === "all" ? "Choose a channel first" : decisionText(current), "The action comes from the channel winner and its strongest signal.", confidence.className]
   ];
 
   document.querySelector("#quick-check").innerHTML = checks
@@ -376,15 +410,24 @@ function renderQuickCheck() {
 function decisionText(items) {
   if (!items.length) return "Esperar datos";
   const top = topBy(items, "score", 1)[0];
-  if (!top) return "Completar metricas";
-  if (top.platform === "newsletter") return "Convertir el mejor tema de newsletter en posts sociales";
-  if (top.platform === "website") return "Mejorar CTA de la pagina con mas demanda";
-  if (top.platform === "youtube") return "Recortar el mejor video en piezas sociales";
-  return "Replicar la pieza ganadora con una variante controlada";
+  if (!top) return "Complete the metrics";
+  if (top.platform === "newsletter") return "Turn the best newsletter topic into social posts";
+  if (top.platform === "website") return "Improve the CTA on the highest-demand page";
+  if (top.platform === "youtube") return "Repurpose the best video into social pieces";
+  return "Replicate the winning piece with one controlled variation";
 }
 
 function renderTopContent() {
   const current = selectedItems();
+  if (state.channel === "all") {
+    document.querySelector("#top-content").innerHTML = CHANNELS.map((channelId) => {
+      const items = selectedItems(rangeWindow(state.range), { includeChannel: false }).filter((item) => item.platform === channelId);
+      const metric = primaryMetricFor(channelId);
+      const top = topBy(items, metric, 1)[0];
+      return `<article class="ranking-card channel-overview-card"><h3>${channelNames[channelId]}</h3><strong>${items.length} pieces</strong><p>${top ? `Top signal: ${formatNumber(metricValue(top, metric))} ${metricLabels[metric].toLowerCase()}. Open this channel to compare posts.` : "No comparable content yet."}</p></article>`;
+    }).join("");
+    return;
+  }
   const rankingDefs = [
     ["score", "Top por score"],
     ["engagement", "Top por engagement"],
@@ -400,21 +443,21 @@ function renderTopContent() {
 }
 
 function renderPostComparison(items) {
-  const rows = topBy(items, "score", 6);
+  const rows = rankedByDecision(items, 6);
   return `<article class="ranking-card comparison-card">
-    <h3>Comparacion para decidir</h3>
+    <h3>Decision comparison</h3>
     ${rows.length ? `<table>
-      <thead><tr><th>Posteo</th><th>Canal</th><th>Senal</th><th>Accion</th></tr></thead>
+      <thead><tr><th>Post</th><th>Channel</th><th>Signal</th><th>Action</th></tr></thead>
       <tbody>${rows.map((item) => {
         const action = recommendedAction(item, items);
         return `<tr>
-          <td><div class="post-cell compact">${postVisual(item)}<div><strong>${itemTitle(item)}</strong><span>${formatDate(item.publishedAt)} · score ${formatNumber(metricValue(item, "score"))}</span></div></div></td>
+          <td><div class="post-cell compact">${postVisual(item)}<div><strong>${itemTitle(item)}</strong><span>${formatDate(item.publishedAt)} · index ${formatNumber(decisionScore(item, items))}</span></div></div></td>
           <td>${channelNames[item.platform]}</td>
           <td>${strongestMetric(item).label}</td>
           <td>${action.title}</td>
         </tr>`;
       }).join("")}</tbody>
-    </table>` : `<p class="empty-insight">No hay posteos para comparar en este periodo.</p>`}
+    </table>` : `<p class="empty-insight">No posts to compare in this period.</p>`}
   </article>`;
 }
 
@@ -427,7 +470,7 @@ function renderRankingCard(title, items, metric) {
         <div><strong>${itemTitle(item)}</strong><span>${channelNames[item.platform]} · ${formatDate(item.publishedAt)}</span></div>
         <b>${formatNumber(metricValue(item, metric))}</b>
       </li>`)
-      .join("")}</ol>` : `<p class="empty-insight">No hay datos para esta metrica en el periodo.</p>`}
+      .join("")}</ol>` : `<p class="empty-insight">No data for this metric in the selected period.</p>`}
   </article>`;
 }
 
@@ -447,7 +490,7 @@ function renderChannelSections() {
   document.querySelector("#channel-sections").innerHTML = visibleChannels.map((channelId) => {
     const items = allCurrent.filter((item) => item.platform === channelId);
     const confidence = confidenceLabel(items.length);
-    const primaryMetric = channelId === "newsletter" ? "clicks" : channelId === "website" || channelId === "youtube" ? "views" : "engagement";
+    const primaryMetric = primaryMetricFor(channelId);
     const secondaryMetric = channelId === "newsletter" ? "openRate" : channelId === "website" ? "views" : channelId === "youtube" ? "likes" : "reach";
     return `<article class="board channel-section ${channelId}">
       <div class="board-header channel-section-header">
@@ -460,6 +503,7 @@ function renderChannelSections() {
       <div class="channel-metrics">${channelSummary(channelId, items)}</div>
       <div class="channel-analysis-grid">
         ${renderTrendCard(channelId, items, primaryMetric)}
+        ${renderDecisionChart(channelId, items, primaryMetric)}
         ${renderRankingCard(`Top ${metricLabels[primaryMetric].toLowerCase()}`, topBy(items, primaryMetric, 5), primaryMetric)}
         ${renderRankingCard(`Top ${metricLabels[secondaryMetric].toLowerCase()}`, topBy(items, secondaryMetric, 5), secondaryMetric)}
       </div>
@@ -467,15 +511,29 @@ function renderChannelSections() {
   }).join("");
 }
 
+function renderDecisionChart(channelId, items, metric) {
+  const rows = topBy(items, metric, 5);
+  const max = Math.max(1, ...rows.map((item) => metricValue(item, metric)));
+  return `<article class="trend-card decision-chart">
+    <h3>Relative performance</h3>
+    <p class="chart-note">100 = channel average</p>
+    ${rows.length ? `<div class="decision-bars">${rows.map((item) => {
+      const index = decisionScore(item, items) || 0;
+      const width = Math.max(5, Math.round((metricValue(item, metric) / max) * 100));
+      return `<div class="decision-bar-row"><span title="${item.title}">${item.title}</span><div><i style="width:${width}%"></i></div><b>${formatNumber(index)}</b></div>`;
+    }).join("")}</div>` : `<p class="empty-insight">No comparable content in this period.</p>`}
+  </article>`;
+}
+
 function channelFocusDescription(channelId) {
   const descriptions = {
-    instagram: "Compará piezas visuales y reels para ver qué genera atención, interacción y guardados.",
-    linkedin: "Compará posts para detectar qué ideas generan conversación, alcance y clicks.",
-    newsletter: "Compará envíos para identificar qué temas y CTAs mueven aperturas y clicks.",
-    website: "Compará páginas y paths para entender qué demanda merece más contenido o mejor CTA.",
-    youtube: "Compará videos para detectar temas con atención y oportunidades de reutilización."
+    instagram: "Compare visual pieces and reels to see what drives attention, interaction and saves.",
+    linkedin: "Compare posts to identify which ideas drive conversation, reach and clicks.",
+    newsletter: "Compare issues to identify which topics and CTAs drive opens and clicks.",
+    website: "Compare pages and paths to understand which demand deserves more content or a better CTA.",
+    youtube: "Compare videos to identify topics with attention and repurposing opportunities."
   };
-  return descriptions[channelId] || "Compará el histórico del canal y elegí el próximo movimiento.";
+  return descriptions[channelId] || "Compare the channel history and choose the next move.";
 }
 
 function channelDescription(channelId) {
@@ -483,7 +541,7 @@ function channelDescription(channelId) {
     instagram: "Posts/reels importados por CSV o API futura. Analizar likes, reach, shares, saves y engagement sin mezclarlos con newsletter.",
     linkedin: "Company posts importados por CSV o API futura. Prioridad: POV, comentarios, clicks y conversacion.",
     newsletter: "Issues de Beehiiv con opens, clicks, open rate y click rate.",
-    website: "Demanda por pagina/path desde Cloudflare. No sustituye GA4 para usuarios, sesiones o adquisicion.",
+    website: "Demand by page/path from Cloudflare. This does not replace GA4 for users, sessions or acquisition.",
     youtube: "Videos del canal con Data API. Analytics profundo requiere habilitar YouTube Analytics API."
   };
   return descriptions[channelId] || "";
@@ -518,7 +576,7 @@ function renderTrendCard(channelId, items, metric) {
   const max = Math.max(1, ...entries.map(([, value]) => value));
   return `<article class="trend-card">
     <h3>${channelNames[channelId]} over time</h3>
-    <div class="trend-bars">${entries.length ? entries.map(([label, value]) => `<div><span style="height:${Math.max(4, Math.round((value / max) * 100))}%"></span><em>${label.slice(5)}</em></div>`).join("") : `<p class="empty-insight">Sin serie temporal para este periodo.</p>`}</div>
+    <div class="trend-bars">${entries.length ? entries.map(([label, value]) => `<div><span style="height:${Math.max(4, Math.round((value / max) * 100))}%"></span><em>${label.slice(5)}</em></div>`).join("") : `<p class="empty-insight">No time series for this period.</p>`}</div>
   </article>`;
 }
 
@@ -573,37 +631,37 @@ function renderLearnings() {
   if (top) {
     learnings.push({
       channel: channelNames[top.platform],
-      fact: `${top.title} genero ${formatNumber(metricValue(top, "score"))} puntos de score operativo.`,
-      observation: `Fue la pieza mejor rankeada del periodo seleccionado.`,
-      hypothesis: confidence.className === "strong" ? "Puede indicar un tema o formato con traccion repetible." : "La muestra es chica; tratar como senal, no como conclusion.",
-      recommendation: "Crear una variante controlada y comparar contra el proximo periodo."
+      fact: `${top.title} generated a channel index of ${formatNumber(decisionScore(top, current))}.`,
+      observation: `It was the highest-ranked piece in the selected period.`,
+      hypothesis: confidence.className === "strong" ? "This may indicate a repeatable topic or format." : "The sample is small; treat it as a signal, not a conclusion.",
+      recommendation: "Create one controlled variation and compare it with the next period."
     });
   }
   if (newsletterTop) {
     learnings.push({
       channel: "Newsletter",
-      fact: `${newsletterTop.title} genero ${formatNumber(metricValue(newsletterTop, "clicks"))} clicks.`,
-      observation: "Es el mejor newsletter por clicks dentro del periodo.",
-      hypothesis: "El tema o CTA puede estar mas cerca de la demanda actual.",
-      recommendation: "Convertir ese tema en una pieza LinkedIn y una pieza Instagram."
+      fact: `${newsletterTop.title} generated ${formatNumber(metricValue(newsletterTop, "clicks"))} clicks.`,
+      observation: "It is the best newsletter by clicks in the period.",
+      hypothesis: "The topic or CTA may be closer to current demand.",
+      recommendation: "Turn that topic into one LinkedIn piece and one Instagram piece."
     });
   }
   if (websiteTop) {
     learnings.push({
       channel: "Website",
       fact: `${websiteTop.title} recibio ${formatNumber(metricValue(websiteTop, "views"))} views.`,
-      observation: "Es la pagina con mas demanda visible en Cloudflare.",
-      hypothesis: "La audiencia puede estar buscando mas profundidad o conversion desde esa seccion.",
-      recommendation: "Revisar CTA y continuidad hacia newsletter/eventos."
+      observation: "It is the page with the most visible demand in Cloudflare.",
+      hypothesis: "The audience may be looking for more depth or a clearer conversion path from that section.",
+      recommendation: "Review the CTA and next step toward the newsletter/events."
     });
   }
   if (!learnings.length) {
     learnings.push({
       channel: "General",
-      fact: "No hay contenido rankeable en el periodo seleccionado.",
-      observation: "La evidencia disponible es insuficiente.",
+      fact: "No rankable content in the selected period.",
+      observation: "The available evidence is insufficient.",
       hypothesis: "Puede faltar data o actividad en ese rango.",
-      recommendation: "Cambiar periodo o importar CSV de LinkedIn/Instagram."
+      recommendation: "Change the period or import LinkedIn/Instagram CSV data."
     });
   }
 
@@ -632,20 +690,20 @@ function renderRegistry() {
         <td><span class="channel-dot ${item.platform}"></span>${channelNames[item.platform] || item.platform}</td>
         <td>${formatDate(item.publishedAt)}</td>
         <td>${engagementText(item)}</td>
-        <td>${score(item) == null ? "Sin score" : formatNumber(score(item))}</td>
+        <td>${score(item) == null ? "No score" : formatNumber(score(item))}</td>
         <td>${readingFor(item)}</td>
       </tr>`)
-      .join("") || `<tr><td colspan="6" class="empty-cell">No hay registros reales para este periodo/canal.</td></tr>`;
+      .join("") || `<tr><td colspan="6" class="empty-cell">No real records for this period/channel.</td></tr>`;
 }
 
 function missingFor(channel) {
   const status = state.data.sourceStatus?.[channel.id];
-  if (channel.id === "linkedin") return "CSV activo; API oficial pendiente para posts/analytics automaticos.";
-  if (channel.id === "instagram") return "CSV activo; Meta API pendiente para posts/reels automaticos.";
-  if (channel.id === "youtube") return status?.note || "YouTube conectado.";
-  if (channel.id === "newsletter") return status?.note || "Beehiiv conectado.";
-  if (channel.id === "website") return status?.note || "Cloudflare conectado.";
-  return "Fuente pendiente.";
+  if (channel.id === "linkedin") return "CSV active; official API still pending for automatic posts/analytics.";
+  if (channel.id === "instagram") return "CSV active; Meta API still pending for automatic posts/reels.";
+  if (channel.id === "youtube") return status?.note || "YouTube connected.";
+  if (channel.id === "newsletter") return status?.note || "Beehiiv connected.";
+  if (channel.id === "website") return status?.note || "Cloudflare connected.";
+  return "Source pending.";
 }
 
 function renderDataHealth() {
@@ -659,7 +717,7 @@ function renderDataHealth() {
           <strong>${channel.name}</strong>
           <span class="queue-meta">${source.sync || channel.status} · ${missingFor(channel)}</span>
         </div>
-        <span class="pill ${connected ? "connected" : "linked"}">${connected ? "conectado" : "parcial"}</span>
+        <span class="pill ${connected ? "connected" : "linked"}">${connected ? "connected" : "partial"}</span>
       </article>`;
     })
     .join("");
@@ -680,7 +738,7 @@ function render() {
 
 async function loadData() {
   const response = await fetch(`/dashboard/social-data.json?ts=${Date.now()}`);
-  if (!response.ok) throw new Error("No se pudo cargar social-data.json");
+  if (!response.ok) throw new Error("Could not load social-data.json");
   state.data = await response.json();
   render();
 }
