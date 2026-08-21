@@ -41,6 +41,17 @@ const state = {
   channel: "all"
 };
 
+function moveTechnicalDetails() {
+  const target = document.querySelector("#technical-details");
+  if (!target || target.dataset.ready) return;
+  ["#overview-grid", ".question-board", "#top-content", "#channels", "#content-intelligence", "#learnings", "#content-record", "#data-health"].forEach((selector) => {
+    const node = document.querySelector(selector);
+    const section = selector === "#top-content" ? node?.closest(".board") : node;
+    if (section) target.append(section);
+  });
+  target.dataset.ready = "true";
+}
+
 const formatNumber = (value) =>
   new Intl.NumberFormat("en", { notation: Math.abs(Number(value || 0)) >= 1000000 ? "compact" : "standard" }).format(
     Number(value || 0)
@@ -253,6 +264,106 @@ function renderControls() {
   document.body.classList.toggle("channel-start", state.channel === "all");
 }
 
+function relativeLabel(item, cohort) {
+  const index = decisionScore(item, cohort);
+  if (index == null) return { label: "Not enough data", className: "insufficient" };
+  if (index >= 140) return { label: "Well above your average", className: "strong" };
+  if (index >= 110) return { label: "Above your average", className: "strong" };
+  if (index >= 85) return { label: "Similar to usual", className: "neutral" };
+  return { label: "Below your usual level", className: "weak" };
+}
+
+function briefWhy(item) {
+  const driver = strongestMetric(item);
+  const metricCopy = {
+    views: "It earned attention.",
+    impressions: "It reached more people.",
+    reach: "It reached more people.",
+    opens: "The topic or subject line drew people in.",
+    clicks: "It moved people to take an action.",
+    likes: "It earned quick approval.",
+    comments: "It started a conversation.",
+    shares: "People found it useful enough to pass along.",
+    saves: "People found it useful enough to keep."
+  };
+  return metricCopy[driver.metric] || driver.interpretation;
+}
+
+function nextActionFor(channelId, top, items) {
+  if (!top || items.length < 3) {
+    return {
+      title: "Keep publishing before changing direction",
+      body: `There are only ${items.length} comparable pieces in this period. Treat the current result as an early signal, not a rule.`
+    };
+  }
+  const metric = primaryMetricFor(channelId);
+  const average = averageMetric(items, metric);
+  const lift = average > 0 ? metricValue(top, metric) / average : 0;
+  if (channelId === "linkedin") {
+    return {
+      title: lift >= 1.4 ? "Repeat this point of view twice" : "Test one clearer point of view",
+      body: "Use a real example, make one specific claim and finish with a question. Change only the topic in the next post."
+    };
+  }
+  if (channelId === "newsletter") {
+    return { title: "Reuse the strongest topic in your next issue", body: "Keep the subject line simple and make the main link visible early in the email." };
+  }
+  if (channelId === "website") {
+    return { title: "Give the strongest page a clearer next step", body: "Keep the topic, then make the path to the newsletter or event easier to find." };
+  }
+  if (channelId === "youtube") {
+    return { title: "Turn the strongest video into two short pieces", body: "Keep the same idea and test a shorter version on LinkedIn and Instagram." };
+  }
+  return { title: "Repeat the strongest visual idea once", body: "Keep the subject, change one visual element and compare it with the next post." };
+}
+
+function renderWeeklyBrief() {
+  const title = document.querySelector("#brief-channel-title");
+  const summary = document.querySelector("#brief-summary");
+  const evidence = document.querySelector("#brief-evidence");
+  const worked = document.querySelector("#worked-content");
+  const actionTitle = document.querySelector("#next-action-title");
+  const actionBody = document.querySelector("#next-action-body");
+  const details = document.querySelector("#brief-details");
+  if (!title || !summary || !worked || !actionTitle || !actionBody || !details) return;
+
+  if (state.channel === "all") return;
+  const items = selectedItems();
+  const channel = channelNames[state.channel];
+  const ranked = rankedByDecision(items, 3);
+  const top = ranked[0];
+  const period = rangeWindow(state.range);
+  document.querySelector("#brief-period")?.replaceChildren(period.label);
+  title.replaceChildren(`${channel} · ${period.label}`);
+
+  if (!top) {
+    summary.replaceChildren(`There is not enough comparable ${channel} content yet to find a reliable pattern.`);
+    evidence.replaceChildren("Keep publishing and this report will become more useful as the history grows.");
+    worked.innerHTML = `<p class="empty-insight">No comparable posts in this period.</p>`;
+    actionTitle.replaceChildren("Keep publishing before changing direction");
+    actionBody.replaceChildren("The dashboard will not turn a small or empty sample into a confident recommendation.");
+    details.innerHTML = `<p>Available records: ${items.length}. No conclusion was generated.</p>`;
+    return;
+  }
+
+  const confidence = confidenceLabel(items.length);
+  const driver = strongestMetric(top);
+  const result = relativeLabel(top, items);
+  summary.replaceChildren(`${top.title} gave you the clearest signal in ${channel}.`);
+  evidence.replaceChildren(`${briefWhy(top)} ${result.label}. This is based on ${items.length} comparable pieces; confidence is ${confidence.label.toLowerCase()}.`);
+  worked.innerHTML = ranked.map((item) => {
+    const relative = relativeLabel(item, items);
+    return `<article class="worked-item">
+      ${postVisual(item)}
+      <div><strong>${itemTitle(item)}</strong><span>${formatDate(item.publishedAt)} · ${relative.label}</span><p>${briefWhy(item)}</p></div>
+    </article>`;
+  }).join("");
+  const action = nextActionFor(state.channel, top, items);
+  actionTitle.replaceChildren(action.title);
+  actionBody.replaceChildren(action.body);
+  details.innerHTML = `<p><strong>Evidence:</strong> ${formatNumber(metricValue(top, primaryMetricFor(state.channel)))} ${metricLabels[primaryMetricFor(state.channel)].toLowerCase()} on the strongest piece.</p><p><strong>Records:</strong> ${items.length} comparable pieces in this period.</p><p><strong>Source:</strong> ${sourceLabel(top)}. Private metrics are not inferred when they are unavailable.</p>`;
+}
+
 function renderOverview() {
   const current = selectedItems();
   if (state.channel === "all") {
@@ -323,7 +434,7 @@ function strongestMetric(item) {
     .map((metric) => ({ metric, value: metricValue(item, metric) }))
     .sort((a, b) => b.value - a.value)[0];
   if (!best || best.value <= 0) {
-    return { label: "Composite score", interpretation: "It won through a combination of signals, not one dominant metric." };
+    return { metric: "score", label: "Composite signal", interpretation: "It won through a combination of signals, not one dominant metric." };
   }
   const label = `${formatNumber(best.value)} ${metricLabels[best.metric].toLowerCase()}`;
   const interpretations = {
@@ -337,7 +448,7 @@ function strongestMetric(item) {
     shares: "The content was valuable enough to redistribute.",
     saves: "The content looked useful or save-worthy."
   };
-  return { label, interpretation: interpretations[best.metric] || "It had one clear dominant signal." };
+  return { metric: best.metric, label, interpretation: interpretations[best.metric] || "It had one clear dominant signal." };
 }
 
 function recommendedAction(item, cohort) {
@@ -727,6 +838,7 @@ function renderDataHealth() {
 function render() {
   renderSyncStatus();
   renderControls();
+  renderWeeklyBrief();
   renderOverview();
   renderQuickCheck();
   renderTopContent();
@@ -738,6 +850,7 @@ function render() {
 }
 
 async function loadData() {
+  moveTechnicalDetails();
   const response = await fetch(`/dashboard/social-data.json?ts=${Date.now()}`);
   if (!response.ok) throw new Error("Could not load social-data.json");
   state.data = await response.json();
@@ -762,6 +875,11 @@ document.querySelectorAll("[data-channel]").forEach((button) => {
     render();
     document.querySelector("#channels")?.scrollIntoView({ behavior: "smooth", block: "start" });
   });
+});
+
+document.querySelector("#next-action-cta")?.addEventListener("click", (event) => {
+  event.currentTarget.textContent = "Direction saved";
+  event.currentTarget.classList.add("saved");
 });
 
 loadData().catch((error) => {
