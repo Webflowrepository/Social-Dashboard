@@ -18,7 +18,7 @@
           <img src="/assets/logos/logo-gild.png" alt="GILD" />
         </a>
         <div class="nav-list">
-          <a href="#overview">Decisions</a>
+          <a href="#channel-picker">Choose channel</a>
           <a href="#channels">Channels</a>
           <a href="#content-intelligence">Intelligence</a>
           <a href="#learnings">Learnings</a>
@@ -33,21 +33,6 @@
 
     <main class="dashboard-main">
       <div class="shell learning-shell">
-        <section class="dashboard-head" id="overview">
-          <div>
-            <p class="eyebrow">GILD Content intelligence</p>
-            <h1>Which posts should we repeat, adapt or stop</h1>
-            <p class="hero-copy">A period-based view to compare concrete pieces, spot patterns and decide what content to make next.</p>
-          </div>
-          <div class="sync-status">
-            <span id="sync-dot" class="dot ok"></span>
-            <div>
-              <strong id="sync-label">Loading</strong>
-              <span id="sync-time">--</span>
-            </div>
-          </div>
-        </section>
-
         <section class="analysis-controls" aria-label="Global filters">
           <div>
             <span>Period</span>
@@ -76,7 +61,7 @@
           </div>
         </section>
 
-        <section class="channel-switcher" aria-label="Choose channel">
+        <section class="channel-switcher" id="channel-picker" aria-label="Choose channel">
           <div>
             <p class="eyebrow">Start here</p>
             <h2>Choose a channel to understand what to do next</h2>
@@ -84,11 +69,11 @@
           </div>
           <div class="channel-switcher-list" id="channel-switcher-list">
             <button class="channel-switch active" data-channel="all" type="button" hidden>Overview</button>
-            <button class="channel-switch" data-channel="instagram" type="button"><span class="channel-picker-icon">IG</span><span><strong>Instagram</strong><small>Visual format and engagement</small></span><span class="channel-picker-arrow">→</span></button>
             <button class="channel-switch" data-channel="linkedin" type="button"><span class="channel-picker-icon">IN</span><span><strong>LinkedIn</strong><small>Conversation and clicks</small></span><span class="channel-picker-arrow">→</span></button>
             <button class="channel-switch" data-channel="newsletter" type="button"><span class="channel-picker-icon">NL</span><span><strong>Newsletter</strong><small>Opens and clicks</small></span><span class="channel-picker-arrow">→</span></button>
             <button class="channel-switch" data-channel="website" type="button"><span class="channel-picker-icon">WEB</span><span><strong>Website</strong><small>Visits and actions</small></span><span class="channel-picker-arrow">→</span></button>
             <button class="channel-switch" data-channel="youtube" type="button"><span class="channel-picker-icon">YT</span><span><strong>YouTube</strong><small>Views and watch time</small></span><span class="channel-picker-arrow">→</span></button>
+            <button class="channel-switch" data-channel="instagram" type="button"><span class="channel-picker-icon">IG</span><span><strong>Instagram</strong><small>Visual format and engagement</small></span><span class="channel-picker-arrow">→</span></button>
           </div>
         </section>
 

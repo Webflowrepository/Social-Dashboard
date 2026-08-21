@@ -236,9 +236,9 @@ function readingFor(item) {
 }
 
 function renderSyncStatus() {
-  document.querySelector("#sync-label").textContent = "Auto-sync active";
-  document.querySelector("#sync-time").textContent = `Last sync: ${formatDate(state.data.lastSyncAt)}`;
-  document.querySelector("#sidebar-mode").textContent = state.data.mode || "local";
+  document.querySelector("#sync-label")?.replaceChildren("Auto-sync active");
+  document.querySelector("#sync-time")?.replaceChildren(`Last sync: ${formatDate(state.data.lastSyncAt)}`);
+  document.querySelector("#sidebar-mode")?.replaceChildren(state.data.mode || "local");
 }
 
 function renderControls() {
