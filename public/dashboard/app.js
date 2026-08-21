@@ -222,6 +222,10 @@ function renderControls() {
     button.classList.toggle("active", button.dataset.range === state.range);
   });
   document.querySelector("#global-channel-filter").value = state.channel;
+  document.querySelectorAll("[data-channel]").forEach((button) => {
+    button.classList.toggle("active", button.dataset.channel === state.channel);
+  });
+  document.body.classList.toggle("channel-focus", state.channel !== "all");
 }
 
 function renderOverview() {
@@ -439,16 +443,17 @@ function channelSummary(channelId, items) {
 
 function renderChannelSections() {
   const allCurrent = selectedItems(rangeWindow(state.range), { includeChannel: false });
-  document.querySelector("#channel-sections").innerHTML = CHANNELS.map((channelId) => {
+  const visibleChannels = state.channel === "all" ? CHANNELS : [state.channel];
+  document.querySelector("#channel-sections").innerHTML = visibleChannels.map((channelId) => {
     const items = allCurrent.filter((item) => item.platform === channelId);
     const confidence = confidenceLabel(items.length);
     const primaryMetric = channelId === "newsletter" ? "clicks" : channelId === "website" || channelId === "youtube" ? "views" : "engagement";
     const secondaryMetric = channelId === "newsletter" ? "openRate" : channelId === "website" ? "views" : channelId === "youtube" ? "likes" : "reach";
     return `<article class="board channel-section ${channelId}">
-      <div class="board-header">
+      <div class="board-header channel-section-header">
         <div>
           <h2>${channelNames[channelId]}</h2>
-          <p>${channelDescription(channelId)}</p>
+          <p>${state.channel === channelId ? channelFocusDescription(channelId) : channelDescription(channelId)}</p>
         </div>
         <span class="confidence ${confidence.className}">${confidence.label} · n=${items.length}</span>
       </div>
@@ -460,6 +465,17 @@ function renderChannelSections() {
       </div>
     </article>`;
   }).join("");
+}
+
+function channelFocusDescription(channelId) {
+  const descriptions = {
+    instagram: "Compará piezas visuales y reels para ver qué genera atención, interacción y guardados.",
+    linkedin: "Compará posts para detectar qué ideas generan conversación, alcance y clicks.",
+    newsletter: "Compará envíos para identificar qué temas y CTAs mueven aperturas y clicks.",
+    website: "Compará páginas y paths para entender qué demanda merece más contenido o mejor CTA.",
+    youtube: "Compará videos para detectar temas con atención y oportunidades de reutilización."
+  };
+  return descriptions[channelId] || "Compará el histórico del canal y elegí el próximo movimiento.";
 }
 
 function channelDescription(channelId) {
@@ -679,6 +695,14 @@ document.querySelectorAll("[data-range]").forEach((button) => {
 document.querySelector("#global-channel-filter").addEventListener("change", (event) => {
   state.channel = event.target.value;
   render();
+});
+
+document.querySelectorAll("[data-channel]").forEach((button) => {
+  button.addEventListener("click", () => {
+    state.channel = button.dataset.channel;
+    render();
+    document.querySelector("#channels")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
 });
 
 loadData().catch((error) => {

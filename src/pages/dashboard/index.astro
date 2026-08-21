@@ -9,7 +9,7 @@
     <meta name="description" content="Content intelligence dashboard de GILD." />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <title>GILD Content Intelligence</title>
-    <link rel="stylesheet" href="/dashboard/styles.css?v=gild-learning-2" />
+    <link rel="stylesheet" href="/dashboard/styles.css?v=gild-learning-3" />
   </head>
   <body>
     <header class="site-header">
@@ -73,6 +73,21 @@
                 <option value="youtube">YouTube</option>
               </select>
             </label>
+          </div>
+        </section>
+
+        <section class="channel-switcher" aria-label="Elegir canal">
+          <div>
+            <p class="eyebrow">Elegir una vista</p>
+            <h2>Que canal queres entender?</h2>
+          </div>
+          <div class="channel-switcher-list" id="channel-switcher-list">
+            <button class="channel-switch active" data-channel="all" type="button">Resumen</button>
+            <button class="channel-switch" data-channel="instagram" type="button">Instagram</button>
+            <button class="channel-switch" data-channel="linkedin" type="button">LinkedIn</button>
+            <button class="channel-switch" data-channel="newsletter" type="button">Newsletter</button>
+            <button class="channel-switch" data-channel="website" type="button">Website</button>
+            <button class="channel-switch" data-channel="youtube" type="button">YouTube</button>
           </div>
         </section>
 
@@ -160,6 +175,6 @@
       </div>
     </main>
 
-    <script src="/dashboard/app.js?v=gild-learning-2" type="module"></script>
+    <script src="/dashboard/app.js?v=gild-learning-3" type="module"></script>
   </body>
 </html>
