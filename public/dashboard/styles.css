@@ -1333,6 +1333,58 @@ h2 {
   line-height: 1.45;
 }
 
+.website-range-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 18px 0 12px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.website-range-button {
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+}
+
+.website-range-button:hover,
+.website-range-button.active {
+  border-color: var(--teal);
+  background: rgba(94, 166, 166, 0.12);
+  color: var(--text);
+}
+
+.website-metrics small {
+  display: block;
+  margin-top: 5px;
+  color: var(--teal-light);
+  font-size: 10px;
+}
+
+.website-metrics small.down {
+  color: #e28f8f;
+}
+
+.website-missing-page-data {
+  display: grid;
+  gap: 6px;
+  padding: 18px;
+  border: 1px dashed var(--line);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.website-missing-page-data strong {
+  color: var(--text);
+}
+
 .website-trend-panel {
   max-width: none;
 }

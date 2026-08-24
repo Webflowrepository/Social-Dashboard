@@ -536,27 +536,43 @@ function renderMinimalWebsiteReport(items) {
   const totalErrors = sumMetric(items, "errors");
   const secondaryMetricLabel = totalBytes > 0 ? "Data transferred" : "Subrequests";
   const secondaryMetricValue = totalBytes > 0 ? formatBytes(totalBytes) : formatNumber(totalEvents);
+  const previous = previousItems();
+  const currentRequests = sumMetric(items, "views");
+  const previousRequests = sumMetric(previous, "views");
+  const change = previousRequests ? Math.round(((currentRequests - previousRequests) / previousRequests) * 100) : null;
+  const changeLabel = change == null ? "No previous period" : `${change >= 0 ? "+" : ""}${change}% vs previous period`;
   const trendMap = new Map();
   items.forEach((item) => {
     const date = new Date(item.publishedAt);
-    const key = state.range === "3m" || state.range === "all"
-      ? `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`
-      : `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}-${String(date.getUTCDate()).padStart(2, "0")}`;
+    const daily = state.range === "this-week" || state.range === "this-month" || state.range === "last-month";
+    const bucketDate = new Date(date);
+    if (!daily) {
+      const mondayOffset = (bucketDate.getUTCDay() + 6) % 7;
+      bucketDate.setUTCDate(bucketDate.getUTCDate() - mondayOffset);
+    }
+    const key = daily
+      ? `${bucketDate.getUTCFullYear()}-${String(bucketDate.getUTCMonth() + 1).padStart(2, "0")}-${String(bucketDate.getUTCDate()).padStart(2, "0")}`
+      : `${bucketDate.getUTCFullYear()}-${String(bucketDate.getUTCMonth() + 1).padStart(2, "0")}-${String(bucketDate.getUTCDate()).padStart(2, "0")}`;
     trendMap.set(key, (trendMap.get(key) || 0) + metricValue(item, "views"));
   });
   const trend = [...trendMap.entries()].sort(([a], [b]) => a.localeCompare(b));
   const maxTrend = Math.max(1, ...trend.map(([, value]) => value));
-  const trendLabel = state.range === "3m" || state.range === "all" ? "month" : "day";
+  const trendLabel = state.range === "this-week" || state.range === "this-month" || state.range === "last-month" ? "day" : "week";
   const websiteRangeLabel = state.range === "all" ? "All available · last 30 days" : rangeWindow(state.range).label;
   document.querySelector("#brief-shell").innerHTML = `
-    <div class="minimal-head website-report-head"><div><p class="eyebrow">Website · ${websiteRangeLabel}</p><h2>Traffic by page, over time</h2><p class="website-source-note">Real Cloudflare request counts for the selected period. Available history: the last 30 days. This is traffic demand, not unique users.</p></div><span class="record-count">${sections.length} pages</span></div>
-    <div class="minimal-metrics website-metrics"><div><span>Requests</span><strong>${formatNumber(sumMetric(items, "views"))}</strong></div><div><span>${secondaryMetricLabel}</span><strong>${secondaryMetricValue}</strong></div><div><span>Errors</span><strong>${formatNumber(totalErrors)}</strong></div><div><span>${trendLabel === "month" ? "Months" : "Days"} measured</span><strong>${formatNumber(trend.length)}</strong></div></div>
+    <div class="minimal-head website-report-head"><div><p class="eyebrow">Website · ${websiteRangeLabel}</p><h2>Traffic by page, over time</h2><p class="website-source-note">Real Cloudflare request counts. Choose a period here to compare the current result with the previous one.</p></div><span class="record-count">${sections.length} pages</span></div>
+    <div class="website-range-controls" role="group" aria-label="Website period"><span>View:</span>${["this-week", "this-month", "last-month", "3m", "all"].map((range) => `<button class="website-range-button ${state.range === range ? "active" : ""}" data-website-range="${range}" type="button">${range === "this-week" ? "Week" : range === "this-month" ? "Month" : range === "last-month" ? "Last month" : range === "3m" ? "3 months" : "Available"}</button>`).join("")}</div>
+    <div class="minimal-metrics website-metrics"><div><span>Requests</span><strong>${formatNumber(currentRequests)}</strong><small class="website-change ${change != null && change < 0 ? "down" : ""}">${changeLabel}</small></div><div><span>${secondaryMetricLabel}</span><strong>${secondaryMetricValue}</strong></div><div><span>Errors</span><strong>${formatNumber(totalErrors)}</strong></div><div><span>${trendLabel === "week" ? "Weeks" : "Days"} measured</span><strong>${formatNumber(trend.length)}</strong></div></div>
     <article class="minimal-panel website-panel website-trend-panel"><div class="minimal-panel-head"><h3>Traffic over time</h3><span>${trend.length} ${trendLabel}${trend.length === 1 ? "" : "s"} in this view</span></div>
-      ${trend.length ? `<div class="trend-bars website-trend-bars">${trend.map(([label, value]) => `<div title="${label}: ${formatNumber(value)} requests"><span style="height:${Math.max(4, Math.round((value / maxTrend) * 100))}%"></span><em>${label.slice(trendLabel === "month" ? 5 : 8)}</em></div>`).join("")}</div>` : `<p class="minimal-empty">No time series for this period.</p>`}
+      ${trend.length ? `<div class="trend-bars website-trend-bars">${trend.map(([label, value]) => `<div title="${label}: ${formatNumber(value)} requests"><span style="height:${Math.max(4, Math.round((value / maxTrend) * 100))}%"></span><em>${trendLabel === "week" ? `W ${label.slice(5)}` : label.slice(5)}</em></div>`).join("")}</div>` : `<p class="minimal-empty">No time series for this period.</p>`}
     </article>
     <article class="minimal-panel website-panel"><div class="minimal-panel-head"><h3>Pages with most traffic</h3><span>Highest request volume first</span></div>
-      ${sections.length ? `<div class="website-bars">${sections.map((item) => `<div class="website-row"><div class="website-title"><a href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><small>${formatNumber(metricValue(item, "views"))} requests · ${metricValue(item, "errors") ? `${formatNumber(metricValue(item, "errors"))} errors · ` : ""}${item.samples} data points</small></div><div class="website-track"><i>${metricBar(metricValue(item, "views"), maxViews, "views-fill")}</i></div></div>`).join("")}</div><div class="signal-legend"><span><i class="legend-views"></i>Requests</span></div>` : `<p class="minimal-empty">No website pages in this period.</p>`}
+      ${sections.length > 1 ? `<div class="website-bars">${sections.map((item) => `<div class="website-row"><div class="website-title"><a href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><small>${formatNumber(metricValue(item, "views"))} requests · ${metricValue(item, "errors") ? `${formatNumber(metricValue(item, "errors"))} errors · ` : ""}${item.samples} data points</small></div><div class="website-track"><i>${metricBar(metricValue(item, "views"), maxViews, "views-fill")}</i></div></div>`).join("")}</div><div class="signal-legend"><span><i class="legend-views"></i>Requests</span></div>` : `<div class="website-missing-page-data"><strong>Page-by-page traffic is not available yet.</strong><span>Cloudflare is returning total website traffic. Connect Zone Analytics or GA4 to rank Home, Podcast, Blog and Newsletter separately.</span></div>`}
     </article>`;
+  document.querySelectorAll("[data-website-range]").forEach((button) => button.addEventListener("click", () => {
+    state.range = button.dataset.websiteRange;
+    render();
+  }));
 }
 
 function renderMinimalReport() {
