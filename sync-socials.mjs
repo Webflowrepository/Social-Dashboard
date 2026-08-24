@@ -148,9 +148,9 @@ function importedRowToItem(row, fallbackPlatform = "") {
   const platform = String(importedMetric(row, ["platform", "channel", "source"]) || fallbackPlatform).toLowerCase();
   if (!["linkedin", "instagram"].includes(platform)) return null;
   const title = importedMetric(row, ["title", "post", "caption", "text", "content"]) || `${platform} post`;
-  const url = importedMetric(row, ["url", "link", "permalink", "posturl"]) || "";
+  const url = importedMetric(row, ["url", "link", "permalink", "posturl", "instagrampost"]) || "";
   const imageUrl = importedMetric(row, ["imageurl", "image", "mediaurl", "thumbnail", "thumbnailurl", "picture", "coverurl"]) || "";
-  const publishedAt = importedMetric(row, ["publishedat", "date", "createdat", "postedat", "timestamp"]) || null;
+  const publishedAt = importedMetric(row, ["publishedat", "date", "createdat", "postedat", "timestamp", "timeposted"]) || null;
   const metrics = {
     views: numberFrom(importedMetric(row, ["views", "plays", "videoviews"])),
     reach: numberFrom(importedMetric(row, ["reach"])),
@@ -159,7 +159,9 @@ function importedRowToItem(row, fallbackPlatform = "") {
     comments: numberFrom(importedMetric(row, ["comments", "commentcount"])),
     shares: numberFrom(importedMetric(row, ["shares", "reposts"])),
     saves: numberFrom(importedMetric(row, ["saves"])),
-    clicks: numberFrom(importedMetric(row, ["clicks", "linkclicks"]))
+    clicks: numberFrom(importedMetric(row, ["clicks", "linkclicks", "linkinbio"])),
+    engagementRate: numberFrom(importedMetric(row, ["engagementrate"])),
+    skipRate: numberFrom(importedMetric(row, ["skiprate"]))
   };
   const score =
     numberFrom(importedMetric(row, ["score"])) ||
@@ -191,7 +193,7 @@ async function readImportedContentItems() {
   await fs.mkdir(importsDir, { recursive: true });
   const files = await fs.readdir(importsDir).catch(() => []);
   const items = [];
-  for (const file of files.filter((name) => /\.(csv|json)$/i.test(name))) {
+  for (const file of files.filter((name) => /\.(csv|json)$/i.test(name)).filter((name) => !/(profile|growth|discovery)/i.test(name))) {
     const fileUrl = new URL(file, importsDir);
     const body = await fs.readFile(fileUrl, "utf8").catch(() => "");
     const fallbackPlatform = file.toLowerCase().includes("instagram") ? "instagram" : file.toLowerCase().includes("linkedin") ? "linkedin" : "";
@@ -209,7 +211,21 @@ async function readImportedContentItems() {
       .filter(Boolean)
       .forEach((item) => items.push(item));
   }
-  return items;
+  const unique = new Map();
+  items.forEach((item) => {
+    const key = item.url || item.id;
+    const existing = unique.get(key);
+    if (!existing) {
+      unique.set(key, item);
+      return;
+    }
+    Object.keys(item.metrics || {}).forEach((metric) => {
+      existing.metrics[metric] = Math.max(Number(existing.metrics[metric] || 0), Number(item.metrics[metric] || 0));
+    });
+    if ((item.score || 0) > (existing.score || 0)) existing.score = item.score;
+    if (!existing.imageUrl && item.imageUrl) existing.imageUrl = item.imageUrl;
+  });
+  return [...unique.values()];
 }
 
 async function fetchText(url) {

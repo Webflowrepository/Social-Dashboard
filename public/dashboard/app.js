@@ -27,6 +27,7 @@ const metricLabels = {
   clickRate: "Click rate",
   comments: "Comments",
   engagement: "Engagement",
+  engagementRate: "Engagement rate",
   impressions: "Impressions",
   likes: "Likes",
   openRate: "Open rate",
@@ -192,6 +193,7 @@ function engagementText(item) {
   });
   if (metrics.openRate) parts.push(`${formatPercent(metrics.openRate)} open`);
   if (metrics.clickRate) parts.push(`${formatPercent(metrics.clickRate)} click`);
+  if (metrics.engagementRate) parts.push(`${formatPercent(metrics.engagementRate)} engagement`);
   return parts.length ? parts.join(" · ") : "No metrics";
 }
 
@@ -459,7 +461,7 @@ function renderMinimalSocialReport(items, channelId) {
         <div class="post-card-top"><span class="post-rank">#${index + 1}</span><span>${formatDate(item.publishedAt)}</span></div>
         <a class="post-preview" href="${item.url || "#"}" target="_blank" rel="noreferrer">${postPreview(item)}</a>
         <a class="post-card-title" href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a>
-        <div class="post-card-metrics">${channelId === "youtube" ? `<span><b>${formatNumber(metricValue(item, "views"))}</b> views</span><span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatNumber(metricValue(item, "comments"))}</b> comments</span><span><b>${formatNumber(metricValue(item, "watchMinutes"))}</b> watch min</span>` : `<span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatNumber(metricValue(item, "comments"))}</b> comments</span><span><b>${formatNumber(metricValue(item, "shares"))}</b> shares</span>`}</div>
+        <div class="post-card-metrics">${channelId === "youtube" ? `<span><b>${formatNumber(metricValue(item, "views"))}</b> views</span><span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatNumber(metricValue(item, "comments"))}</b> comments</span><span><b>${formatNumber(metricValue(item, "watchMinutes"))}</b> watch min</span>` : channelId === "instagram" ? `<span><b>${formatNumber(metricValue(item, "views"))}</b> views</span><span><b>${formatNumber(metricValue(item, "reach"))}</b> reach</span><span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatPercent(metricValue(item, "engagementRate"))}</b> engagement</span>` : `<span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatNumber(metricValue(item, "comments"))}</b> comments</span><span><b>${formatNumber(metricValue(item, "shares"))}</b> shares</span>`}</div>
         <div class="post-card-score"><span>${sortLabel}</span><strong>${formatNumber(metricValue(item, sortMetric))}</strong><i>${metricBar(metricValue(item, sortMetric), maxEngagement, "engagement-fill")}</i></div>
       </article>`).join("")}</div>` : `<p class="minimal-empty">No comparable posts in this period.</p>`}
     </article>
