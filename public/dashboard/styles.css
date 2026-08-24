@@ -1393,6 +1393,45 @@ h2 {
   min-height: 180px;
 }
 
+.website-winner-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: none;
+  border-color: rgba(94, 166, 166, 0.5);
+}
+
+.website-winner-panel h3,
+.website-winner-panel p {
+  margin: 0;
+}
+
+.website-winner-panel h3 {
+  margin-top: 5px;
+  font-size: 20px;
+}
+
+.website-winner-panel p:not(.eyebrow) {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.website-winner-panel > strong {
+  color: var(--teal-light);
+  font-size: 22px;
+  text-align: right;
+}
+
+.website-winner-panel > strong span {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
 .website-row {
   display: grid;
   grid-template-columns: minmax(180px, 0.8fr) minmax(180px, 1.2fr);
