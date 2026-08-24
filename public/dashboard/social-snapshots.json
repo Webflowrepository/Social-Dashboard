@@ -1491,5 +1491,89 @@
       "newsletter": 64,
       "website": 0
     }
+  },
+  {
+    "at": "2026-08-24T18:49:30.148Z",
+    "metrics": {
+      "linkedin": 1020,
+      "instagram": 80,
+      "youtube": 26,
+      "spotify": 0,
+      "luma": 0,
+      "newsletter": 16961,
+      "website": 0
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "spotify": 0,
+      "luma": 0,
+      "newsletter": 64,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-08-24T18:50:21.999Z",
+    "metrics": {
+      "linkedin": 1020,
+      "instagram": 80,
+      "youtube": 26,
+      "spotify": 0,
+      "luma": 0,
+      "newsletter": 16961,
+      "website": 0
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "spotify": 0,
+      "luma": 0,
+      "newsletter": 64,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-08-24T18:58:25.375Z",
+    "metrics": {
+      "linkedin": 1020,
+      "instagram": 80,
+      "youtube": 26,
+      "spotify": 0,
+      "luma": 0,
+      "newsletter": 16961,
+      "website": 0
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "spotify": 0,
+      "luma": 0,
+      "newsletter": 64,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-08-24T18:59:02.846Z",
+    "metrics": {
+      "linkedin": 1020,
+      "instagram": 80,
+      "youtube": 26,
+      "spotify": 0,
+      "luma": 0,
+      "newsletter": 16961,
+      "website": 0
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "spotify": 0,
+      "luma": 0,
+      "newsletter": 64,
+      "website": 0
+    }
   }
 ]

@@ -1,5 +1,5 @@
 {
-  "lastSyncAt": "2026-08-24T18:40:34.473Z",
+  "lastSyncAt": "2026-08-24T18:59:02.846Z",
   "mode": "api-ready",
   "brand": {
     "name": "GILD",
@@ -74,10 +74,22 @@
       "status": "connected"
     },
     {
+      "id": "luma",
+      "name": "Luma",
+      "metrics": {
+        "events": 30,
+        "registrations": 1125,
+        "attendees": 0
+      },
+      "handle": "GILD Events",
+      "url": "https://lu.ma/gild",
+      "status": "connected"
+    },
+    {
       "id": "newsletter",
       "name": "Newsletter",
       "metrics": {
-        "subscribers": 16962,
+        "subscribers": 16961,
         "posts": 64,
         "openRate": 32.57,
         "clickRate": 2.99,
@@ -94,8 +106,8 @@
       "metrics": {
         "users": 0,
         "sessions": 0,
-        "pageViews": 611248,
-        "events": 1630016,
+        "pageViews": 611363,
+        "events": 1629911,
         "errors": 4295
       },
       "handle": "gildhq.com",
@@ -110,7 +122,7 @@
       "format": "profile_signal",
       "title": "Instagram profile signal",
       "imageUrl": "",
-      "publishedAt": "2026-08-24T18:40:34.473Z",
+      "publishedAt": "2026-08-24T18:59:02.846Z",
       "month": "2026-08",
       "url": "https://www.instagram.com/gild.hq/",
       "metric": "610 proxy score",
@@ -134,7 +146,7 @@
       "format": "profile_signal",
       "title": "Spotify profile signal",
       "imageUrl": "",
-      "publishedAt": "2026-08-24T18:40:34.473Z",
+      "publishedAt": "2026-08-24T18:59:02.846Z",
       "month": "2026-08",
       "url": "https://creators.spotify.com/pod/show/0TSnQszN4VY8tyOgIYPsQy/episodes",
       "metric": "1 proxy score",
@@ -335,7 +347,7 @@
       "linkedin": 1020,
       "instagram": 80,
       "youtube": 26,
-      "newsletter": 16962,
+      "newsletter": 16961,
       "website": 0
     },
     {
@@ -343,7 +355,7 @@
       "linkedin": 1020,
       "instagram": 80,
       "youtube": 26,
-      "newsletter": 16962,
+      "newsletter": 16961,
       "website": 0
     },
     {
@@ -351,7 +363,7 @@
       "linkedin": 1020,
       "instagram": 80,
       "youtube": 26,
-      "newsletter": 16962,
+      "newsletter": 16961,
       "website": 0
     },
     {
@@ -359,7 +371,7 @@
       "linkedin": 1020,
       "instagram": 80,
       "youtube": 26,
-      "newsletter": 16962,
+      "newsletter": 16961,
       "website": 0
     }
   ],
@@ -409,6 +421,11 @@
       "sync": "profile_linked",
       "note": "https://api.spotify.com/v1/shows/0TSnQszN4VY8tyOgIYPsQy?market=US returned 403: Active premium subscription required for the owner of the app. When the subscription status changes, it can take a few hours before requests are allowed again."
     },
+    "luma": {
+      "url": "https://lu.ma/gild",
+      "sync": "api",
+      "note": "Luma events, registrations and attendance are active."
+    },
     "website": {
       "url": "https://gildhq.com/",
       "sync": "cloudflare_api",
@@ -422,7 +439,7 @@
       "format": "profile_signal",
       "title": "Instagram profile signal",
       "imageUrl": "",
-      "publishedAt": "2026-08-24T18:40:34.473Z",
+      "publishedAt": "2026-08-24T18:59:02.846Z",
       "month": "2026-08",
       "url": "https://www.instagram.com/gild.hq/",
       "metric": "610 proxy score",
@@ -446,7 +463,7 @@
       "format": "profile_signal",
       "title": "Spotify profile signal",
       "imageUrl": "",
-      "publishedAt": "2026-08-24T18:40:34.473Z",
+      "publishedAt": "2026-08-24T18:59:02.846Z",
       "month": "2026-08",
       "url": "https://creators.spotify.com/pod/show/0TSnQszN4VY8tyOgIYPsQy/episodes",
       "metric": "1 proxy score",
@@ -3416,15 +3433,15 @@
       "publishedAt": "2026-08-19T13:00:00.000Z",
       "month": "2026-08",
       "url": "https://gild-austin.beehiiv.com/p/can-ai-ship-faster-than-teams-can-understand-it-what-s-next-at-gild",
-      "metric": "4888 opens",
+      "metric": "4889 opens",
       "metrics": {
-        "opens": 4888,
+        "opens": 4889,
         "clicks": 97,
         "views": 18,
-        "openRate": 35.67,
+        "openRate": 35.68,
         "clickRate": 1.98
       },
-      "score": 5188,
+      "score": 5189,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -3555,23 +3572,574 @@
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
     {
-      "id": "website:https://gildhq.com/",
-      "platform": "website",
-      "format": "website_worker_metrics",
-      "title": "Website traffic",
-      "imageUrl": "",
-      "publishedAt": "2026-07-25T18:00:00.000Z",
-      "month": "2026-07",
-      "url": "https://gildhq.com/",
-      "metric": "106 requests",
+      "id": "luma:evt-fZGeuAwGLViA77A",
+      "platform": "luma",
+      "format": "event",
+      "title": "Austin GILD AI Forum x Tecla: AI and Engineering Leaders Dinner",
+      "imageUrl": "https://images.lumacdn.com/uploads/4n/a4e43ae8-d67a-4fef-97f1-ebd45dcb8889.png",
+      "publishedAt": "2026-12-11T00:00:00.000Z",
+      "month": "2026-12",
+      "url": "https://luma.com/GILD32",
+      "metric": "registrations and attendance",
       "metrics": {
-        "views": 106,
-        "events": 330,
-        "errors": 2
+        "events": 1,
+        "registrations": 1,
+        "attendees": 0
       },
-      "score": 86,
-      "signal": "cloudflare_api",
-      "nextUse": "Use Cloudflare traffic as a real demand trend; add GA4 or Web Analytics for unique users, referrers and page-level journeys."
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-8ZPL3nAWZn653Jf",
+      "platform": "luma",
+      "format": "event",
+      "title": "New York GILD AI Forum x Tecla: AI and Engineering Leaders Dinner",
+      "imageUrl": "https://images.lumacdn.com/uploads/jl/2a162f37-2b13-41fd-aa0c-eb862c7c2140.png",
+      "publishedAt": "2026-11-10T23:00:00.000Z",
+      "month": "2026-11",
+      "url": "https://luma.com/GILDNY1",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 0,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-2woSCrpgOF8geUW",
+      "platform": "luma",
+      "format": "event",
+      "title": "Dallas GILD AI Forum x Tecla: AI and Engineering Leaders Dinner",
+      "imageUrl": "https://images.lumacdn.com/uploads/fx/2ce6020d-e8de-4f32-91f8-e61f42ae440e.png",
+      "publishedAt": "2026-11-04T00:00:00.000Z",
+      "month": "2026-11",
+      "url": "https://luma.com/GILD31",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 0,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-zRYT8lJfF6XXzF9",
+      "platform": "luma",
+      "format": "event",
+      "title": "Austin GILD AI Forum x Tecla: AI and Engineering Leaders Dinner",
+      "imageUrl": "https://images.lumacdn.com/uploads/4n/a4e43ae8-d67a-4fef-97f1-ebd45dcb8889.png",
+      "publishedAt": "2026-10-27T23:00:00.000Z",
+      "month": "2026-10",
+      "url": "https://luma.com/GILD30",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 1,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-wUX7JC6UGqcTkN9",
+      "platform": "luma",
+      "format": "event",
+      "title": "Miami GILD AI Forum x Tecla: AI and Engineering Leaders Dinner - Coral Gables",
+      "imageUrl": "https://images.lumacdn.com/uploads/r6/5c498b7d-f64c-47da-b813-63b0b61c49d2.png",
+      "publishedAt": "2026-10-06T22:00:00.000Z",
+      "month": "2026-10",
+      "url": "https://luma.com/GILD29",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 3,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-vAG1ZtYk12hddKm",
+      "platform": "luma",
+      "format": "event",
+      "title": "Dallas GILD AI Forum x Tecla: AI and Engineering Leaders Dinner - Grapevine",
+      "imageUrl": "https://images.lumacdn.com/uploads/fx/2ce6020d-e8de-4f32-91f8-e61f42ae440e.png",
+      "publishedAt": "2026-09-22T23:00:00.000Z",
+      "month": "2026-09",
+      "url": "https://luma.com/GILD28",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 50,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-BTNhYAHKPoxsao5",
+      "platform": "luma",
+      "format": "event",
+      "title": "Austin GILD AI Forum x Tecla: AI and Engineering Leaders Dinner",
+      "imageUrl": "https://images.lumacdn.com/uploads/4n/a4e43ae8-d67a-4fef-97f1-ebd45dcb8889.png",
+      "publishedAt": "2026-09-10T23:00:00.000Z",
+      "month": "2026-09",
+      "url": "https://luma.com/GILD27",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 15,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-mK8XtKBrAiqoqxr",
+      "platform": "luma",
+      "format": "event",
+      "title": "Miami GILD AI Forum x Tecla: AI and Engineering Leaders Dinner - Coral Gables",
+      "imageUrl": "https://images.lumacdn.com/uploads/r6/5c498b7d-f64c-47da-b813-63b0b61c49d2.png",
+      "publishedAt": "2026-08-17T22:00:00.000Z",
+      "month": "2026-08",
+      "url": "https://luma.com/GILD26",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 50,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-LrDcNXALnPVCnho",
+      "platform": "luma",
+      "format": "event",
+      "title": "Austin GILD AI Forum x Tecla: AI and Engineering Leaders Dinner",
+      "imageUrl": "https://images.lumacdn.com/uploads/zf/9b7680b2-2731-4ab9-968a-293ca3310f0d.png",
+      "publishedAt": "2026-08-11T23:00:00.000Z",
+      "month": "2026-08",
+      "url": "https://luma.com/GILD24",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 50,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-MBUugrltC5mGVU4",
+      "platform": "luma",
+      "format": "event",
+      "title": "Miami GILD AI Forum x Tecla: AI and Engineering Leaders Dinner",
+      "imageUrl": "https://images.lumacdn.com/uploads/27/4c479f12-9f66-4da5-b6a1-ce4d7bf92ae7.png",
+      "publishedAt": "2026-07-21T22:00:00.000Z",
+      "month": "2026-07",
+      "url": "https://luma.com/Gild25",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 50,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-sAUzK9B6JxhNBXv",
+      "platform": "luma",
+      "format": "event",
+      "title": "Austin GILD AI Forum x Tecla: AI and Engineering Leaders Dinner",
+      "imageUrl": "https://images.lumacdn.com/uploads/14/4fa4ea02-c5df-4422-acee-af5b4d05272d.png",
+      "publishedAt": "2026-07-14T23:00:00.000Z",
+      "month": "2026-07",
+      "url": "https://luma.com/GILD23",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 50,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-riacit5U6EIu16q",
+      "platform": "luma",
+      "format": "event",
+      "title": "Dallas GILD AI Forum x Tecla: AI and Engineering Leaders Dinner",
+      "imageUrl": "https://images.lumacdn.com/uploads/lz/66e5d19a-d956-438b-84c8-2419f032cbf2.png",
+      "publishedAt": "2026-06-16T23:00:00.000Z",
+      "month": "2026-06",
+      "url": "https://luma.com/Gild21",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 50,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-HtO8UWOTqgcE0z0",
+      "platform": "luma",
+      "format": "event",
+      "title": "Austin GILD AI Forum x Tecla: AI and Engineering Leaders Dinner",
+      "imageUrl": "https://images.lumacdn.com/uploads/2w/8454c113-c254-4e46-9266-e19a8c7a9807.png",
+      "publishedAt": "2026-05-27T23:00:00.000Z",
+      "month": "2026-05",
+      "url": "https://luma.com/Gild19",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 50,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-faLc69aVe8KeQOY",
+      "platform": "luma",
+      "format": "event",
+      "title": "GILD Dallas: Making AI Gains Stick",
+      "imageUrl": "https://images.lumacdn.com/event-covers/oh/0dcdb576-0010-4c80-bc88-0727537fe282.png",
+      "publishedAt": "2026-05-12T23:00:00.000Z",
+      "month": "2026-05",
+      "url": "https://luma.com/GildDallas1",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 50,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-WY5bSFU07Fde0vH",
+      "platform": "luma",
+      "format": "event",
+      "title": "AI Agents in Real Workflows",
+      "imageUrl": "https://images.lumacdn.com/event-covers/v0/4540f2f8-3c67-4ba0-9400-39f8b034ed75.png",
+      "publishedAt": "2026-04-28T23:00:00.000Z",
+      "month": "2026-04",
+      "url": "https://luma.com/Gild18",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 50,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-3AzauZSxy47aJde",
+      "platform": "luma",
+      "format": "event",
+      "title": "Speed as an AI Advantage",
+      "imageUrl": "https://images.lumacdn.com/event-covers/4y/31fc5615-bb39-43b5-9582-bc6f80651ae8.png",
+      "publishedAt": "2026-04-14T23:00:00.000Z",
+      "month": "2026-04",
+      "url": "https://luma.com/Gild17",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 50,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-2bAhtgbwemWtYL3",
+      "platform": "luma",
+      "format": "event",
+      "title": "AI and the Future of Product Development",
+      "imageUrl": "https://images.lumacdn.com/event-covers/ah/d64bde60-b4bd-4e26-8286-d3e9936d863b.png",
+      "publishedAt": "2026-03-24T23:00:00.000Z",
+      "month": "2026-03",
+      "url": "https://luma.com/Gild16",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 50,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-gF8gzCVA8z0HXcs",
+      "platform": "luma",
+      "format": "event",
+      "title": "Hiring in the Age of AI",
+      "imageUrl": "https://images.lumacdn.com/event-covers/ag/f92e77d1-8459-42ce-bb2b-41a8a778dcee.png",
+      "publishedAt": "2026-03-10T23:00:00.000Z",
+      "month": "2026-03",
+      "url": "https://luma.com/Gild14",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 50,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-Y4tddYdHR7i93tY",
+      "platform": "luma",
+      "format": "event",
+      "title": "Why Human in the Loop Is Key",
+      "imageUrl": "https://images.lumacdn.com/event-covers/hq/a382f38a-1306-45cd-a1f1-0e4620d68a5d.png",
+      "publishedAt": "2026-02-25T00:00:00.000Z",
+      "month": "2026-02",
+      "url": "https://luma.com/Gild10",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 50,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-xltYdhs54s9GQax",
+      "platform": "luma",
+      "format": "event",
+      "title": "Measuring the ROI of AI",
+      "imageUrl": "https://images.lumacdn.com/event-covers/ay/dfad2050-8490-4364-82a7-a3f40ccec183.png",
+      "publishedAt": "2026-02-12T00:00:00.000Z",
+      "month": "2026-02",
+      "url": "https://luma.com/Gild13",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 50,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-GybCLT9fYiU1Jd8",
+      "platform": "luma",
+      "format": "event",
+      "title": "AI Search Is Changing Everything",
+      "imageUrl": "https://images.lumacdn.com/event-covers/9a/0deab5de-bd98-444c-b7f2-68f37da28348.webp",
+      "publishedAt": "2026-01-28T00:00:00.000Z",
+      "month": "2026-01",
+      "url": "https://luma.com/Gild11",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 50,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-VPOCEEAzOlThFar",
+      "platform": "luma",
+      "format": "event",
+      "title": "AI and the Future of Internal Productivity",
+      "imageUrl": "https://images.lumacdn.com/event-covers/a9/6abfe734-4a60-4d22-825f-017d64131c55.png",
+      "publishedAt": "2026-01-14T00:00:00.000Z",
+      "month": "2026-01",
+      "url": "https://luma.com/Gild12",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 50,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-6htAOxmnY9ChChR",
+      "platform": "luma",
+      "format": "event",
+      "title": "Gild Mixer: 2025 Year in Review: Lessons from AI Deployment",
+      "imageUrl": "https://images.lumacdn.com/event-covers/lg/aa855271-8660-410d-ab8f-a02f9cc6af31.png",
+      "publishedAt": "2025-12-12T00:00:00.000Z",
+      "month": "2025-12",
+      "url": "https://luma.com/Gild7",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 41,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-HCS2UTF9fgej6Km",
+      "platform": "luma",
+      "format": "event",
+      "title": "Gild Mixer: The AI Stacks for Speed and Scale",
+      "imageUrl": "https://images.lumacdn.com/event-covers/94/94e42423-218d-4bf9-a556-8b25a4a7a5c2.png",
+      "publishedAt": "2025-12-11T00:00:00.000Z",
+      "month": "2025-12",
+      "url": "https://luma.com/Gild8",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 40,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-Vd35jcaR29Tt8Oc",
+      "platform": "luma",
+      "format": "event",
+      "title": "Gild Dinner: AI Bets CEOs Are Making",
+      "imageUrl": "https://images.lumacdn.com/event-covers/fd/8f1f2783-64d9-4639-bf73-fb0f5ab70101.png",
+      "publishedAt": "2025-12-10T00:00:00.000Z",
+      "month": "2025-12",
+      "url": "https://luma.com/Gild9",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 31,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-fUsmKr4skpVkp4A",
+      "platform": "luma",
+      "format": "event",
+      "title": "The New B2B Playbooks for Growth",
+      "imageUrl": "https://images.lumacdn.com/event-covers/7t/680e0b15-0c3b-49f7-8e82-f78bae2e733b.png",
+      "publishedAt": "2025-11-13T00:00:00.000Z",
+      "month": "2025-11",
+      "url": "https://luma.com/Gild6",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 27,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-AW7JfOolDj5dkYV",
+      "platform": "luma",
+      "format": "event",
+      "title": "Gild Mixer: AI and The Future of Engineering",
+      "imageUrl": "https://images.lumacdn.com/event-covers/ff/e0a0c479-b294-4706-98ef-e49fdba309d7.png",
+      "publishedAt": "2025-11-12T00:00:00.000Z",
+      "month": "2025-11",
+      "url": "https://luma.com/Gild5",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 50,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-tTGWWvYiU2HyGWI",
+      "platform": "luma",
+      "format": "event",
+      "title": "Gild Mixer: Scaling Products with AI Talent",
+      "imageUrl": "https://images.lumacdn.com/event-covers/6a/61692435-678b-478d-88ba-615968240398.webp",
+      "publishedAt": "2025-10-16T23:00:00.000Z",
+      "month": "2025-10",
+      "url": "https://luma.com/Gild4",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 50,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-QXdJCLTFW30BsKd",
+      "platform": "luma",
+      "format": "event",
+      "title": "Gild Inauguration Dinner: Leadership in the Age of AI",
+      "imageUrl": "https://images.lumacdn.com/event-covers/ka/951f7d37-51e1-4825-9725-f52f09e7fdd5.webp",
+      "publishedAt": "2025-10-01T23:00:00.000Z",
+      "month": "2025-10",
+      "url": "https://luma.com/Gild2",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 21,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-HVKrSkDDJYPCTnd",
+      "platform": "luma",
+      "format": "event",
+      "title": "Gild Inauguration Mixer: AI Beyond the Hype",
+      "imageUrl": "https://images.lumacdn.com/event-covers/n8/444ff6b0-84b0-4f25-b932-2010b65c5fc9.webp",
+      "publishedAt": "2025-09-23T23:00:00.000Z",
+      "month": "2025-09",
+      "url": "https://luma.com/Gild1",
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 45,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
     },
     {
       "id": "website:https://gildhq.com/",
@@ -17243,13 +17811,13 @@
       "publishedAt": "2026-08-24T18:00:00.000Z",
       "month": "2026-08",
       "url": "https://gildhq.com/",
-      "metric": "352 requests",
+      "metric": "573 requests",
       "metrics": {
-        "views": 352,
-        "events": 779,
-        "errors": 3
+        "views": 573,
+        "events": 1004,
+        "errors": 5
       },
-      "score": 322,
+      "score": 523,
       "signal": "cloudflare_api",
       "nextUse": "Use Cloudflare traffic as a real demand trend; add GA4 or Web Analytics for unique users, referrers and page-level journeys."
     }
