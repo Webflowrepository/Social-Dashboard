@@ -680,20 +680,46 @@ async function getGoogleAnalyticsData(propertyId) {
       "content-type": "application/json"
     },
     body: JSON.stringify({
-      dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
+      dateRanges: [{ startDate: "90daysAgo", endDate: "today" }],
+      dimensions: [{ name: "date" }, { name: "pagePath" }],
       metrics: [
         { name: "activeUsers" },
         { name: "sessions" },
         { name: "screenPageViews" },
         { name: "eventCount" }
-      ]
+      ],
+      limit: 10000
     })
   });
-  const values = report.rows?.[0]?.metricValues || [];
-  const activeUsers = Number(values[0]?.value || 0);
-  const sessions = Number(values[1]?.value || 0);
-  const pageViews = Number(values[2]?.value || 0);
-  const events = Number(values[3]?.value || 0);
+  const entries = (report.rows || [])
+    .map((row) => {
+      const date = row.dimensionValues?.[0]?.value || "";
+      const path = row.dimensionValues?.[1]?.value || "/";
+      const values = row.metricValues || [];
+      const activeUsers = Number(values[0]?.value || 0);
+      const sessions = Number(values[1]?.value || 0);
+      const pageViews = Number(values[2]?.value || 0);
+      const events = Number(values[3]?.value || 0);
+      return {
+        platform: "website",
+        format: "website_section",
+        title: sectionTitle(path),
+        publishedAt: date.length === 8 ? `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}T12:00:00Z` : new Date().toISOString(),
+        metric: `${pageViews} page views`,
+        url: new URL(path, publicProfiles.website.url).toString(),
+        metrics: { views: pageViews, users: activeUsers, sessions, events },
+        score: pageViews + activeUsers * 0.4 + sessions * 0.2,
+        signal: "ga4_api",
+        nextUse: "Compare this section with the previous period and use the strongest topic to guide the next content.",
+        _path: path
+      };
+    })
+    .filter((item) => isContentPath(item._path))
+    .map(({ _path, ...item }) => item);
+  const activeUsers = entries.reduce((sum, item) => sum + Number(item.metrics.users || 0), 0);
+  const sessions = entries.reduce((sum, item) => sum + Number(item.metrics.sessions || 0), 0);
+  const pageViews = entries.reduce((sum, item) => sum + Number(item.metrics.views || 0), 0);
+  const events = entries.reduce((sum, item) => sum + Number(item.metrics.events || 0), 0);
   return {
     metrics: {
       users: activeUsers,
@@ -701,20 +727,7 @@ async function getGoogleAnalyticsData(propertyId) {
       pageViews,
       events
     },
-    entries: [
-      {
-        platform: "website",
-        format: "website_traffic",
-        title: "Website traffic last 30 days",
-        publishedAt: new Date().toISOString(),
-        metric: `${activeUsers} users`,
-        url: publicProfiles.website.url,
-        metrics: { users: activeUsers, sessions, pageViews, events },
-        score: activeUsers + sessions * 0.4 + pageViews * 0.15,
-        signal: "ga4_api",
-        nextUse: "Use landing-page demand to decide which content themes deserve more LinkedIn and newsletter distribution."
-      }
-    ]
+    entries
   };
 }
 
@@ -1057,12 +1070,12 @@ async function main() {
       (error) => ({ error: error.message })
     ),
     website:
+      (await getGoogleAnalyticsData(process.env.GA4_PROPERTY_ID).catch((error) => ({ error: error.message }))) ||
       (await getCloudflareWebsiteData(
         process.env.CLOUDFLARE_ACCOUNT_ID,
         process.env.CLOUDFLARE_API_TOKEN,
         process.env.CLOUDFLARE_WORKER_NAME || "gildhq"
-      ).catch((error) => ({ error: error.message }))) ||
-      (await getGoogleAnalyticsData(process.env.GA4_PROPERTY_ID).catch((error) => ({ error: error.message })))
+      ).catch((error) => ({ error: error.message })))
   };
 
   const syncedItems = [
@@ -1149,7 +1162,9 @@ async function main() {
       website: {
         url: publicProfiles.website.url,
         sync: apiData.website?.metrics ? apiData.website.entries?.[0]?.signal || "api" : "profile_linked",
-        note: apiData.website?.error || "Cloudflare website metrics are active."
+        note: apiData.website?.error || (apiData.website?.entries?.[0]?.signal === "ga4_api"
+          ? "Google Analytics page-level data is active."
+          : "Overall website traffic is active; page-level analytics is still needed.")
       }
     },
     channels,
