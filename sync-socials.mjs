@@ -1220,7 +1220,11 @@ async function main() {
         process.env[`GILD_${channel.id.toUpperCase()}_HANDLE`] ||
         publicProfile.handle ||
         channel.handle,
-      status: statusFor(channel.id)
+      status: apiData[channel.id]?.metrics
+        ? "connected"
+        : channel.id === "luma" && apiData[channel.id]?.error
+          ? "profile_linked"
+          : statusFor(channel.id)
     };
   });
 
