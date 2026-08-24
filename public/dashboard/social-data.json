@@ -1,5 +1,5 @@
 {
-  "lastSyncAt": "2026-08-24T19:27:34.508Z",
+  "lastSyncAt": "2026-08-24T19:30:59.226Z",
   "mode": "api-ready",
   "brand": {
     "name": "GILD",
@@ -78,8 +78,8 @@
       "name": "Luma",
       "metrics": {
         "events": 30,
-        "registrations": 1126,
-        "attendees": 0
+        "registrations": 1063,
+        "attendees": 438
       },
       "handle": "GILD Events",
       "url": "https://lu.ma/gild",
@@ -106,9 +106,9 @@
       "metrics": {
         "users": 0,
         "sessions": 0,
-        "pageViews": 611432,
-        "events": 1630075,
-        "errors": 4295
+        "pageViews": 611422,
+        "events": 1630106,
+        "errors": 4294
       },
       "handle": "gildhq.com",
       "url": "https://gildhq.com/",
@@ -122,7 +122,7 @@
       "format": "profile_signal",
       "title": "Instagram profile signal",
       "imageUrl": "",
-      "publishedAt": "2026-08-24T19:27:34.508Z",
+      "publishedAt": "2026-08-24T19:30:59.226Z",
       "month": "2026-08",
       "url": "https://www.instagram.com/gild.hq/",
       "metric": "610 proxy score",
@@ -315,7 +315,7 @@
       "linkedin": 1020,
       "instagram": 80,
       "youtube": 26,
-      "newsletter": 16962,
+      "newsletter": 16961,
       "website": 0
     },
     {
@@ -323,7 +323,7 @@
       "linkedin": 1020,
       "instagram": 80,
       "youtube": 26,
-      "newsletter": 16962,
+      "newsletter": 16961,
       "website": 0
     },
     {
@@ -347,7 +347,7 @@
       "linkedin": 1020,
       "instagram": 80,
       "youtube": 26,
-      "newsletter": 16961,
+      "newsletter": 16962,
       "website": 0
     },
     {
@@ -355,7 +355,7 @@
       "linkedin": 1020,
       "instagram": 80,
       "youtube": 26,
-      "newsletter": 16961,
+      "newsletter": 16962,
       "website": 0
     },
     {
@@ -439,7 +439,7 @@
       "format": "profile_signal",
       "title": "Instagram profile signal",
       "imageUrl": "",
-      "publishedAt": "2026-08-24T19:27:34.508Z",
+      "publishedAt": "2026-08-24T19:30:59.226Z",
       "month": "2026-08",
       "url": "https://www.instagram.com/gild.hq/",
       "metric": "610 proxy score",
@@ -3708,7 +3708,7 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 50,
+        "registrations": 42,
         "attendees": 0
       },
       "score": null,
@@ -3727,7 +3727,7 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 16,
+        "registrations": 14,
         "attendees": 0
       },
       "score": null,
@@ -3746,8 +3746,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 50,
-        "attendees": 0
+        "registrations": 58,
+        "attendees": 25
       },
       "score": null,
       "signal": "luma_api",
@@ -3765,8 +3765,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 50,
-        "attendees": 0
+        "registrations": 49,
+        "attendees": 27
       },
       "score": null,
       "signal": "luma_api",
@@ -3784,8 +3784,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 50,
-        "attendees": 0
+        "registrations": 39,
+        "attendees": 15
       },
       "score": null,
       "signal": "luma_api",
@@ -3803,8 +3803,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 50,
-        "attendees": 0
+        "registrations": 66,
+        "attendees": 26
       },
       "score": null,
       "signal": "luma_api",
@@ -3822,8 +3822,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 50,
-        "attendees": 0
+        "registrations": 55,
+        "attendees": 20
       },
       "score": null,
       "signal": "luma_api",
@@ -3841,8 +3841,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 50,
-        "attendees": 0
+        "registrations": 82,
+        "attendees": 26
       },
       "score": null,
       "signal": "luma_api",
@@ -3860,8 +3860,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 50,
-        "attendees": 0
+        "registrations": 72,
+        "attendees": 25
       },
       "score": null,
       "signal": "luma_api",
@@ -3879,8 +3879,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 50,
-        "attendees": 0
+        "registrations": 54,
+        "attendees": 22
       },
       "score": null,
       "signal": "luma_api",
@@ -3898,8 +3898,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 50,
-        "attendees": 0
+        "registrations": 53,
+        "attendees": 21
       },
       "score": null,
       "signal": "luma_api",
@@ -3917,8 +3917,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 50,
-        "attendees": 0
+        "registrations": 33,
+        "attendees": 15
       },
       "score": null,
       "signal": "luma_api",
@@ -3936,8 +3936,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 50,
-        "attendees": 0
+        "registrations": 42,
+        "attendees": 14
       },
       "score": null,
       "signal": "luma_api",
@@ -3955,8 +3955,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 50,
-        "attendees": 0
+        "registrations": 30,
+        "attendees": 18
       },
       "score": null,
       "signal": "luma_api",
@@ -3974,8 +3974,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 50,
-        "attendees": 0
+        "registrations": 37,
+        "attendees": 23
       },
       "score": null,
       "signal": "luma_api",
@@ -3993,8 +3993,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 50,
-        "attendees": 0
+        "registrations": 25,
+        "attendees": 17
       },
       "score": null,
       "signal": "luma_api",
@@ -4012,8 +4012,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 50,
-        "attendees": 0
+        "registrations": 52,
+        "attendees": 17
       },
       "score": null,
       "signal": "luma_api",
@@ -4031,8 +4031,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 41,
-        "attendees": 0
+        "registrations": 30,
+        "attendees": 12
       },
       "score": null,
       "signal": "luma_api",
@@ -4050,8 +4050,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 40,
-        "attendees": 0
+        "registrations": 33,
+        "attendees": 18
       },
       "score": null,
       "signal": "luma_api",
@@ -4069,8 +4069,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 31,
-        "attendees": 0
+        "registrations": 24,
+        "attendees": 13
       },
       "score": null,
       "signal": "luma_api",
@@ -4088,8 +4088,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 27,
-        "attendees": 0
+        "registrations": 19,
+        "attendees": 8
       },
       "score": null,
       "signal": "luma_api",
@@ -4107,8 +4107,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 50,
-        "attendees": 0
+        "registrations": 45,
+        "attendees": 23
       },
       "score": null,
       "signal": "luma_api",
@@ -4126,8 +4126,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 50,
-        "attendees": 0
+        "registrations": 48,
+        "attendees": 20
       },
       "score": null,
       "signal": "luma_api",
@@ -4145,8 +4145,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 21,
-        "attendees": 0
+        "registrations": 19,
+        "attendees": 13
       },
       "score": null,
       "signal": "luma_api",
@@ -4164,8 +4164,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 45,
-        "attendees": 0
+        "registrations": 37,
+        "attendees": 20
       },
       "score": null,
       "signal": "luma_api",
@@ -4180,13 +4180,13 @@
       "publishedAt": "2026-07-25T19:00:00.000Z",
       "month": "2026-07",
       "url": "https://gildhq.com/",
-      "metric": "209 requests",
+      "metric": "183 requests",
       "metrics": {
-        "views": 209,
-        "events": 421,
-        "errors": 3
+        "views": 183,
+        "events": 406,
+        "errors": 2
       },
-      "score": 179,
+      "score": 163,
       "signal": "cloudflare_api",
       "nextUse": "Use Cloudflare traffic as a real demand trend; add GA4 or Web Analytics for unique users, referrers and page-level journeys."
     },
@@ -17860,13 +17860,13 @@
       "publishedAt": "2026-08-24T19:00:00.000Z",
       "month": "2026-08",
       "url": "https://gildhq.com/",
-      "metric": "241 requests",
+      "metric": "257 requests",
       "metrics": {
-        "views": 241,
-        "events": 648,
+        "views": 257,
+        "events": 694,
         "errors": 3
       },
-      "score": 211,
+      "score": 227,
       "signal": "cloudflare_api",
       "nextUse": "Use Cloudflare traffic as a real demand trend; add GA4 or Web Analytics for unique users, referrers and page-level journeys."
     }

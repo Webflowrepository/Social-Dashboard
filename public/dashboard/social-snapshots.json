@@ -1617,5 +1617,47 @@
       "newsletter": 64,
       "website": 0
     }
+  },
+  {
+    "at": "2026-08-24T19:30:15.079Z",
+    "metrics": {
+      "linkedin": 1020,
+      "instagram": 80,
+      "youtube": 26,
+      "spotify": 0,
+      "luma": 0,
+      "newsletter": 16962,
+      "website": 0
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "spotify": 3,
+      "luma": 0,
+      "newsletter": 64,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-08-24T19:30:59.226Z",
+    "metrics": {
+      "linkedin": 1020,
+      "instagram": 80,
+      "youtube": 26,
+      "spotify": 0,
+      "luma": 0,
+      "newsletter": 16962,
+      "website": 0
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "spotify": 3,
+      "luma": 0,
+      "newsletter": 64,
+      "website": 0
+    }
   }
 ]

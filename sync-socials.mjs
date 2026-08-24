@@ -722,20 +722,39 @@ async function getSpotifyPublicCatalog() {
 async function getLumaApiData(apiKey) {
   if (!apiKey) return null;
   const headers = { "x-luma-api-key": apiKey };
-  const response = await fetchJson("https://public-api.luma.com/v1/calendars/events/list?pagination_limit=100&sort_column=start_at&sort_direction=desc&access=manage", { headers });
-  const events = response.entries || [];
+  const fetchLumaPages = async (url) => {
+    const entries = [];
+    let cursor = "";
+    for (let page = 0; page < 100; page += 1) {
+      const separator = url.includes("?") ? "&" : "?";
+      const cursorQuery = cursor ? `${separator}pagination_cursor=${encodeURIComponent(cursor)}` : "";
+      const response = await fetchJson(`${url}${cursorQuery}`, { headers });
+      entries.push(...(response.entries || []));
+      if (!response.has_more || !response.next_cursor) break;
+      cursor = response.next_cursor;
+    }
+    return entries;
+  };
+
+  const events = await fetchLumaPages("https://public-api.luma.com/v1/calendars/events/list?pagination_limit=100&sort_column=start_at&sort_direction=desc&access=manage");
   const enriched = await Promise.all(events.map(async (event) => {
     const eventId = event.api_id || event.id;
     if (!eventId) return { event, guests: [] };
     try {
-      const guests = await fetchJson(`https://public-api.luma.com/v1/events/guests/list?event_id=${encodeURIComponent(eventId)}&pagination_limit=100`, { headers });
-      return { event, guests: guests.entries || [] };
+      const guests = await fetchLumaPages(`https://public-api.luma.com/v1/events/guests/list?event_id=${encodeURIComponent(eventId)}&pagination_limit=100`);
+      return { event, guests };
     } catch {
       return { event, guests: [] };
     }
   }));
-  const registrations = enriched.reduce((total, item) => total + item.guests.length, 0);
-  const attendees = enriched.reduce((total, item) => total + item.guests.filter((guest) => guest.checked_in_at).length, 0);
+  const isCheckedIn = (guest) => Boolean(
+    guest.checked_in_at || guest.event_tickets?.some((ticket) => ticket.checked_in_at)
+  );
+  const registrations = enriched.reduce(
+    (total, item) => total + item.guests.filter((guest) => guest.approval_status !== "declined").length,
+    0
+  );
+  const attendees = enriched.reduce((total, item) => total + item.guests.filter(isCheckedIn).length, 0);
   return {
     handle: publicProfiles.luma.handle,
     metrics: { events: events.length, registrations, attendees },
@@ -750,8 +769,8 @@ async function getLumaApiData(apiKey) {
       metric: "registrations and attendance",
       metrics: {
         events: 1,
-        registrations: guests.length,
-        attendees: guests.filter((guest) => guest.checked_in_at).length
+        registrations: guests.filter((guest) => guest.approval_status !== "declined").length,
+        attendees: guests.filter(isCheckedIn).length
       },
       signal: "luma_api",
       nextUse: "Compare registrations and attendance to decide which event themes and formats to repeat."
