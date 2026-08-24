@@ -28,6 +28,10 @@ const publicProfiles = {
     url: "https://creators.spotify.com/pod/show/0TSnQszN4VY8tyOgIYPsQy/episodes",
     showId: process.env.SPOTIFY_SHOW_ID || "0TSnQszN4VY8tyOgIYPsQy"
   },
+  luma: {
+    handle: "GILD Events",
+    url: process.env.GILD_LUMA_URL || "https://lu.ma/gild"
+  },
   newsletter: {
     handle: "Beehiiv",
     url: process.env.GILD_NEWSLETTER_URL || "https://www.beehiiv.com/"
@@ -43,6 +47,7 @@ const baseChannels = [
   { id: "instagram", name: "Instagram", metrics: { followers: 0, posts: 0, following: 0, engagementRate: 0, reach: 0 } },
   { id: "youtube", name: "YouTube", metrics: { subscribers: 0, videos: 0, views: 0, engagementRate: 0 } },
   { id: "spotify", name: "Spotify", metrics: { episodes: 0, listeners: 0, plays: 0 } },
+  { id: "luma", name: "Luma", metrics: { events: 0, registrations: 0, attendees: 0 } },
   { id: "newsletter", name: "Newsletter", metrics: { subscribers: 0, posts: 0, openRate: 0, clickRate: 0, sent: 0 } },
   { id: "website", name: "Website", metrics: { users: 0, sessions: 0, pageViews: 0, events: 0 } }
 ];
@@ -66,6 +71,7 @@ const requiredConfig = {
   instagram: ["GILD_INSTAGRAM_BUSINESS_ID", "META_ACCESS_TOKEN"],
   youtube: ["GILD_YOUTUBE_CHANNEL_ID"],
   spotify: ["SPOTIFY_CLIENT_ID", "SPOTIFY_CLIENT_SECRET", "SPOTIFY_SHOW_ID"],
+  luma: ["LUMA_API_KEY"],
   newsletter: ["BEEHIIV_API_KEY"],
   website: []
 };
@@ -670,6 +676,46 @@ async function getSpotifyApiData(clientId, clientSecret, showId) {
   };
 }
 
+async function getLumaApiData(apiKey) {
+  if (!apiKey) return null;
+  const headers = { "x-luma-api-key": apiKey };
+  const response = await fetchJson("https://public-api.luma.com/v1/calendars/events/list?pagination_limit=100&sort_column=start_at&sort_direction=desc&access=manage", { headers });
+  const events = response.entries || [];
+  const enriched = await Promise.all(events.map(async (event) => {
+    const eventId = event.api_id || event.id;
+    if (!eventId) return { event, guests: [] };
+    try {
+      const guests = await fetchJson(`https://public-api.luma.com/v1/events/guests/list?event_id=${encodeURIComponent(eventId)}&pagination_limit=100`, { headers });
+      return { event, guests: guests.entries || [] };
+    } catch {
+      return { event, guests: [] };
+    }
+  }));
+  const registrations = enriched.reduce((total, item) => total + item.guests.length, 0);
+  const attendees = enriched.reduce((total, item) => total + item.guests.filter((guest) => guest.checked_in_at).length, 0);
+  return {
+    handle: publicProfiles.luma.handle,
+    metrics: { events: events.length, registrations, attendees },
+    entries: enriched.map(({ event, guests }) => ({
+      id: `luma:${event.api_id || event.id}`,
+      platform: "luma",
+      format: "event",
+      title: event.name || "Luma event",
+      publishedAt: event.start_at || event.created_at || null,
+      url: event.url || publicProfiles.luma.url,
+      imageUrl: event.cover_url || "",
+      metric: "registrations and attendance",
+      metrics: {
+        events: 1,
+        registrations: guests.length,
+        attendees: guests.filter((guest) => guest.checked_in_at).length
+      },
+      signal: "luma_api",
+      nextUse: "Compare registrations and attendance to decide which event themes and formats to repeat."
+    }))
+  };
+}
+
 function base64Url(value) {
   return Buffer.from(value)
     .toString("base64")
@@ -1121,6 +1167,7 @@ async function main() {
       process.env.SPOTIFY_CLIENT_SECRET,
       process.env.SPOTIFY_SHOW_ID || publicProfiles.spotify.showId
     ).catch((error) => ({ error: error.message })),
+    luma: await getLumaApiData(process.env.LUMA_API_KEY).catch((error) => ({ error: error.message })),
     website: await (async () => {
       const ga4 = await getGoogleAnalyticsData(process.env.GA4_PROPERTY_ID).catch((error) => ({ error: error.message }));
       if (ga4?.entries?.length || ga4?.metrics) return ga4;
@@ -1140,6 +1187,7 @@ async function main() {
     ...(apiData.youtube?.entries || youtubePublic.entries),
     ...(apiData.newsletter?.entries || []),
     ...(apiData.spotify?.entries || []),
+    ...(apiData.luma?.entries || []),
     ...(apiData.website?.entries || [])
   ].map(normalizeContentItem);
 
@@ -1219,6 +1267,11 @@ async function main() {
         url: publicProfiles.spotify.url,
         sync: apiData.spotify?.metrics ? "api" : "profile_linked",
         note: apiData.spotify?.error || "Spotify public show and episode data is active; private listener metrics are not available through this API."
+      },
+      luma: {
+        url: publicProfiles.luma.url,
+        sync: apiData.luma?.metrics ? "api" : "profile_linked",
+        note: apiData.luma?.error || "Luma events, registrations and attendance are active."
       },
       website: {
         url: publicProfiles.website.url,

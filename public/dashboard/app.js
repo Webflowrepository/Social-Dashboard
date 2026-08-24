@@ -1,4 +1,4 @@
-const CHANNELS = ["instagram", "linkedin", "newsletter", "website", "youtube", "spotify"];
+const CHANNELS = ["instagram", "linkedin", "newsletter", "website", "youtube", "spotify", "luma"];
 const SOCIAL_CHANNELS = ["instagram", "linkedin", "youtube"];
 
 const channelNames = {
@@ -7,7 +7,8 @@ const channelNames = {
   newsletter: "Newsletter",
   website: "Website",
   youtube: "YouTube",
-  spotify: "Spotify"
+  spotify: "Spotify",
+  luma: "Luma"
 };
 
 const channelMetricConfig = {
@@ -16,7 +17,8 @@ const channelMetricConfig = {
   newsletter: ["opens", "clicks", "openRate", "clickRate", "views"],
   website: ["views", "bytes"],
   youtube: ["views", "likes", "comments", "shares", "watchMinutes", "engagement"],
-  spotify: ["plays", "listeners", "episodes"]
+  spotify: ["plays", "listeners", "episodes"],
+  luma: ["registrations", "attendees", "events"]
 };
 
 const metricLabels = {
@@ -37,6 +39,9 @@ const metricLabels = {
   listeners: "Listeners",
   plays: "Plays",
   episodes: "Episodes",
+  registrations: "Registrations",
+  attendees: "Attendees",
+  events: "Events",
   score: "Channel index"
 };
 
@@ -837,7 +842,7 @@ function renderChannelSections() {
     const items = allCurrent.filter((item) => item.platform === channelId);
     const confidence = confidenceLabel(items.length);
     const primaryMetric = primaryMetricFor(channelId);
-    const secondaryMetric = channelId === "newsletter" ? "openRate" : channelId === "website" ? "views" : channelId === "youtube" ? "likes" : "reach";
+    const secondaryMetric = channelId === "newsletter" ? "openRate" : channelId === "website" ? "views" : channelId === "youtube" ? "likes" : channelId === "luma" ? "attendees" : "reach";
     return `<article class="board channel-section ${channelId}">
       <div class="board-header channel-section-header">
         <div>
@@ -877,7 +882,8 @@ function channelFocusDescription(channelId) {
     linkedin: "Compare posts to identify which ideas drive conversation, reach and clicks.",
     newsletter: "Compare issues to identify which topics and CTAs drive opens and clicks.",
     website: "Compare pages and paths to understand which demand deserves more content or a better CTA.",
-    youtube: "Compare videos to identify topics with attention and repurposing opportunities."
+    youtube: "Compare videos to identify topics with attention and repurposing opportunities.",
+    luma: "Compare events by registrations and attendance to see which formats and topics bring people together."
   };
   return descriptions[channelId] || "Compare the channel history and choose the next move.";
 }
@@ -888,7 +894,8 @@ function channelDescription(channelId) {
     linkedin: "Company posts imported by CSV or a future API. Focus on point of view, comments, clicks and conversation.",
     newsletter: "Beehiiv issues with opens, clicks, open rate and click rate.",
     website: "Demand by page/path from Cloudflare. This does not replace GA4 for users, sessions or acquisition.",
-    youtube: "Channel videos from the Data API. Deeper analytics requires the YouTube Analytics API."
+    youtube: "Channel videos from the Data API. Deeper analytics requires the YouTube Analytics API.",
+    luma: "Luma events with registrations and check-ins, so event formats can be compared over time."
   };
   return descriptions[channelId] || "";
 }
@@ -1049,6 +1056,7 @@ function missingFor(channel) {
   if (channel.id === "youtube") return status?.note || "YouTube connected.";
   if (channel.id === "newsletter") return status?.note || "Beehiiv connected.";
   if (channel.id === "website") return status?.note || "Cloudflare connected.";
+  if (channel.id === "luma") return status?.note || "Luma API pending. Add the calendar API key to sync events.";
   return "Source pending.";
 }
 
