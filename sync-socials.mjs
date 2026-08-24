@@ -676,6 +676,49 @@ async function getSpotifyApiData(clientId, clientSecret, showId) {
   };
 }
 
+async function getSpotifyPublicCatalog() {
+  const homepage = await fetchText("https://gildhq.com/");
+  const links = [...homepage.matchAll(/href="(\/podcast\/[^\"]+)"/g)]
+    .map((match) => match[1])
+    .filter((value, index, values) => values.indexOf(value) === index);
+
+  const entries = await Promise.all(
+    links.map(async (path, index) => {
+      const cardStart = homepage.indexOf(`href="${path}"`);
+      const cardContext = homepage.slice(cardStart, cardStart + 1800);
+      const titleMarkup = cardContext.match(/<h3[^>]*>([\s\S]*?)<\/h3>/i)?.[1] || path.split("/").pop();
+      const date = cardContext.match(/>([A-Z][a-z]{2} \d{1,2}, \d{4})<\/span>/)?.[1] || null;
+      const title = decodeXml(titleMarkup.replace(/<[^>]+>/g, "").replace(/<!--.*?-->/g, "").trim());
+      let imageUrl = "";
+      try {
+        const episodePage = await fetchText(`https://gildhq.com${path}`);
+        imageUrl = episodePage.match(/<meta property="og:image" content="([^\"]+)"/)?.[1] || "";
+      } catch {
+        // The catalog remains useful if an individual episode page is unavailable.
+      }
+      return {
+        id: `spotify:public:${path.split("/").pop() || index}`,
+        platform: "spotify",
+        format: "podcast_episode",
+        title,
+        publishedAt: date ? new Date(date).toISOString() : null,
+        url: `https://gildhq.com${path}`,
+        imageUrl,
+        metric: "public episode catalog",
+        metrics: { listeners: 0, plays: 0 },
+        signal: "spotify_public_catalog",
+        nextUse: "Compare episode topics and publishing dates. Use the strongest topics as source material for LinkedIn, Instagram and the newsletter."
+      };
+    })
+  );
+
+  return {
+    handle: "GILD Podcast",
+    metrics: { episodes: entries.length, listeners: 0, plays: 0 },
+    entries
+  };
+}
+
 async function getLumaApiData(apiKey) {
   if (!apiKey) return null;
   const headers = { "x-luma-api-key": apiKey };
@@ -1166,7 +1209,17 @@ async function main() {
       process.env.SPOTIFY_CLIENT_ID,
       process.env.SPOTIFY_CLIENT_SECRET,
       process.env.SPOTIFY_SHOW_ID || publicProfiles.spotify.showId
-    ).catch((error) => ({ error: error.message })),
+    ).catch(async (error) => {
+      try {
+        const catalog = await getSpotifyPublicCatalog();
+        return {
+          ...catalog,
+          note: `Spotify API unavailable (${error.message}); showing the public GILD podcast catalog instead.`
+        };
+      } catch {
+        return { error: error.message };
+      }
+    }),
     luma: await getLumaApiData(process.env.LUMA_API_KEY).catch((error) => ({ error: error.message })),
     website: await (async () => {
       const ga4 = await getGoogleAnalyticsData(process.env.GA4_PROPERTY_ID).catch((error) => ({ error: error.message }));
@@ -1269,8 +1322,8 @@ async function main() {
       },
       spotify: {
         url: publicProfiles.spotify.url,
-        sync: apiData.spotify?.metrics ? "api" : "profile_linked",
-        note: apiData.spotify?.error || "Spotify public show and episode data is active; private listener metrics are not available through this API."
+        sync: apiData.spotify?.entries?.length ? (apiData.spotify.entries[0].signal === "spotify_public_catalog" ? "public_catalog" : "api") : "profile_linked",
+        note: apiData.spotify?.note || apiData.spotify?.error || "Spotify public show and episode data is active; private listener metrics are not available through this API."
       },
       luma: {
         url: publicProfiles.luma.url,
