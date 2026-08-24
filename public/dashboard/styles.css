@@ -1321,6 +1321,26 @@ h2 {
   max-width: 920px;
 }
 
+.website-report-head h2 {
+  margin-bottom: 6px;
+}
+
+.website-source-note {
+  max-width: 720px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.website-trend-panel {
+  max-width: none;
+}
+
+.website-trend-bars {
+  min-height: 180px;
+}
+
 .website-row {
   display: grid;
   grid-template-columns: minmax(180px, 0.8fr) minmax(180px, 1.2fr);

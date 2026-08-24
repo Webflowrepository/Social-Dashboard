@@ -721,20 +721,23 @@ async function getGoogleAnalyticsData(propertyId) {
 async function getCloudflareWebsiteData(accountId, apiToken, workerName = "gildhq") {
   if (!accountId || !apiToken) return null;
   const now = new Date();
-  const start = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  // Keep enough history for the dashboard's weekly and monthly comparisons.
+  // Cloudflare counts requests, so this remains a demand proxy rather than unique users.
+  const start = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
   const zoneId = process.env.CLOUDFLARE_ZONE_ID;
   if (zoneId) {
     const topPathsQuery = `query TopPaths($zoneTag: string!, $datetimeStart: Time!, $datetimeEnd: Time!) {
       viewer {
         zones(filter: { zoneTag: $zoneTag }) {
           httpRequestsAdaptiveGroups(
-            limit: 100
+            limit: 10000
             orderBy: [count_DESC]
             filter: { datetime_geq: $datetimeStart, datetime_leq: $datetimeEnd, requestSource: "eyeball" }
           ) {
             count
             dimensions {
               clientRequestPath
+              datetimeHour
             }
             sum {
               edgeResponseBytes
@@ -764,11 +767,11 @@ async function getCloudflareWebsiteData(accountId, apiToken, workerName = "gildh
     const contentPaths = groups
       .map((group) => ({
         path: group.dimensions?.clientRequestPath || "/",
+        publishedAt: group.dimensions?.datetimeHour || now.toISOString(),
         views: Number(group.count || 0),
         bytes: Number(group.sum?.edgeResponseBytes || 0)
       }))
-      .filter((item) => isContentPath(item.path))
-      .slice(0, 12);
+      .filter((item) => isContentPath(item.path));
     if (contentPaths.length) {
       const totalViews = contentPaths.reduce((sum, item) => sum + item.views, 0);
       return {
@@ -777,13 +780,15 @@ async function getCloudflareWebsiteData(accountId, apiToken, workerName = "gildh
           sessions: 0,
           pageViews: totalViews,
           events: contentPaths.length,
+          range: "last_30_days",
+          granularity: "hour",
           errors: 0
         },
         entries: contentPaths.map((item) => ({
           platform: "website",
           format: "website_section",
           title: sectionTitle(item.path),
-          publishedAt: now.toISOString(),
+          publishedAt: item.publishedAt,
           metric: `${item.views} views`,
           url: new URL(item.path, publicProfiles.website.url).toString(),
           metrics: {
@@ -804,7 +809,11 @@ async function getCloudflareWebsiteData(accountId, apiToken, workerName = "gildh
         workersInvocationsAdaptive(
           filter: { datetime_geq: $datetimeStart, datetime_leq: $datetimeEnd, scriptName: $scriptName }
           limit: 10000
+          orderBy: [datetimeHour_ASC]
         ) {
+          dimensions {
+            datetimeHour
+          }
           sum {
             requests
             errors
@@ -830,12 +839,12 @@ async function getCloudflareWebsiteData(accountId, apiToken, workerName = "gildh
       }
     })
   });
-  const sums = response.data?.viewer?.accounts?.[0]?.workersInvocationsAdaptive?.[0]?.sum ||
-    response.viewer?.accounts?.[0]?.workersInvocationsAdaptive?.[0]?.sum ||
-    {};
-  const requests = Number(sums.requests || 0);
-  const errors = Number(sums.errors || 0);
-  const subrequests = Number(sums.subrequests || 0);
+  const groups = response.data?.viewer?.accounts?.[0]?.workersInvocationsAdaptive ||
+    response.viewer?.accounts?.[0]?.workersInvocationsAdaptive ||
+    [];
+  const requests = groups.reduce((total, group) => total + Number(group.sum?.requests || 0), 0);
+  const errors = groups.reduce((total, group) => total + Number(group.sum?.errors || 0), 0);
+  const subrequests = groups.reduce((total, group) => total + Number(group.sum?.subrequests || 0), 0);
   return {
     metrics: {
       users: 0,
@@ -844,24 +853,33 @@ async function getCloudflareWebsiteData(accountId, apiToken, workerName = "gildh
       events: subrequests,
       errors
     },
-    entries: [
-      {
+    entries: groups.length ? groups.map((group) => ({
         platform: "website",
         format: "website_worker_metrics",
-        title: "Website traffic last 24 hours",
-        publishedAt: now.toISOString(),
-        metric: `${requests} requests`,
+        title: "Website traffic",
+        publishedAt: group.dimensions?.datetimeHour || now.toISOString(),
+        metric: `${Number(group.sum?.requests || 0)} requests`,
         url: publicProfiles.website.url,
         metrics: {
-          views: requests,
-          events: subrequests,
-          errors
+          views: Number(group.sum?.requests || 0),
+          events: Number(group.sum?.subrequests || 0),
+          errors: Number(group.sum?.errors || 0)
         },
-        score: Math.max(1, Math.round(requests - errors * 10)),
+        score: Math.max(1, Math.round(Number(group.sum?.requests || 0) - Number(group.sum?.errors || 0) * 10)),
         signal: "cloudflare_api",
-        nextUse: "Use Cloudflare traffic as live demand signal; add Web Analytics later for top pages and referrers."
-      }
-    ]
+        nextUse: "Use Cloudflare traffic as a real demand trend; add GA4 or Web Analytics for unique users, referrers and page-level journeys."
+      })) : [{
+      platform: "website",
+      format: "website_worker_metrics",
+      title: "Website traffic",
+      publishedAt: now.toISOString(),
+      metric: `${requests} requests`,
+      url: publicProfiles.website.url,
+      metrics: { views: requests, events: subrequests, errors },
+      score: Math.max(1, Math.round(requests - errors * 10)),
+      signal: "cloudflare_api",
+      nextUse: "Use Cloudflare traffic as a real demand trend; add GA4 or Web Analytics for unique users, referrers and page-level journeys."
+    }]
   };
 }
 

@@ -57,6 +57,14 @@ const formatNumber = (value) =>
     Number(value || 0)
   );
 
+const formatBytes = (value) => {
+  const bytes = Number(value || 0);
+  if (bytes >= 1024 ** 3) return `${(bytes / 1024 ** 3).toFixed(1)} GB`;
+  if (bytes >= 1024 ** 2) return `${(bytes / 1024 ** 2).toFixed(1)} MB`;
+  if (bytes >= 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${bytes} B`;
+};
+
 const formatPercent = (value) => `${Number(value || 0).toFixed(Number(value || 0) >= 10 ? 1 : 2)}%`;
 
 const formatDate = (value) =>
@@ -506,14 +514,48 @@ function renderMinimalNewsletterReport(items) {
 }
 
 function renderMinimalWebsiteReport(items) {
-  const sections = items.slice().sort((a, b) => metricValue(b, "views") - metricValue(a, "views"));
+  const grouped = new Map();
+  items.forEach((item) => {
+    const key = item.url || item.title;
+    const current = grouped.get(key) || {
+      ...item,
+      metrics: { views: 0, bytes: 0 },
+      samples: 0,
+      latestAt: item.publishedAt
+    };
+    current.metrics.views += metricValue(item, "views");
+    current.metrics.bytes += metricValue(item, "bytes");
+    current.samples += 1;
+    if (new Date(item.publishedAt || 0) > new Date(current.latestAt || 0)) current.latestAt = item.publishedAt;
+    grouped.set(key, current);
+  });
+  const sections = [...grouped.values()].sort((a, b) => metricValue(b, "views") - metricValue(a, "views"));
   const maxViews = Math.max(1, ...sections.map((item) => metricValue(item, "views")));
-  const maxClicks = Math.max(1, ...sections.map((item) => metricValue(item, "clicks")));
+  const totalBytes = sumMetric(items, "bytes");
+  const totalEvents = sumMetric(items, "events");
+  const totalErrors = sumMetric(items, "errors");
+  const secondaryMetricLabel = totalBytes > 0 ? "Data transferred" : "Subrequests";
+  const secondaryMetricValue = totalBytes > 0 ? formatBytes(totalBytes) : formatNumber(totalEvents);
+  const trendMap = new Map();
+  items.forEach((item) => {
+    const date = new Date(item.publishedAt);
+    const key = state.range === "3m" || state.range === "all"
+      ? `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`
+      : `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}-${String(date.getUTCDate()).padStart(2, "0")}`;
+    trendMap.set(key, (trendMap.get(key) || 0) + metricValue(item, "views"));
+  });
+  const trend = [...trendMap.entries()].sort(([a], [b]) => a.localeCompare(b));
+  const maxTrend = Math.max(1, ...trend.map(([, value]) => value));
+  const trendLabel = state.range === "3m" || state.range === "all" ? "month" : "day";
+  const websiteRangeLabel = state.range === "all" ? "All available · last 30 days" : rangeWindow(state.range).label;
   document.querySelector("#brief-shell").innerHTML = `
-    <div class="minimal-head"><div><p class="eyebrow">Website · ${rangeWindow(state.range).label}</p><h2>Views and clicks by section</h2></div><span class="record-count">${sections.length} sections</span></div>
-    <div class="minimal-metrics"><div><span>Views</span><strong>${formatNumber(sumMetric(items, "views"))}</strong></div><div><span>Clicks</span><strong>${formatNumber(sumMetric(items, "clicks"))}</strong></div><div><span>Sections</span><strong>${formatNumber(sections.length)}</strong></div></div>
-    <article class="minimal-panel website-panel"><div class="minimal-panel-head"><h3>Website sections</h3><span>Compare demand by section</span></div>
-      ${sections.length ? `<div class="website-bars">${sections.map((item) => `<div class="website-row"><div class="website-title"><a href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><small>${formatNumber(metricValue(item, "views"))} views · ${metricValue(item, "clicks") ? formatNumber(metricValue(item, "clicks")) : "—"} clicks</small></div><div class="website-track"><i>${metricBar(metricValue(item, "views"), maxViews, "views-fill")}</i><i>${metricBar(metricValue(item, "clicks"), maxClicks, "clicks-fill")}</i></div></div>`).join("")}</div><div class="signal-legend"><span><i class="legend-views"></i>Views</span><span><i class="legend-clicks"></i>Clicks</span></div>` : `<p class="minimal-empty">No website sections in this period.</p>`}
+    <div class="minimal-head website-report-head"><div><p class="eyebrow">Website · ${websiteRangeLabel}</p><h2>Traffic by page, over time</h2><p class="website-source-note">Real Cloudflare request counts for the selected period. Available history: the last 30 days. This is traffic demand, not unique users.</p></div><span class="record-count">${sections.length} pages</span></div>
+    <div class="minimal-metrics website-metrics"><div><span>Requests</span><strong>${formatNumber(sumMetric(items, "views"))}</strong></div><div><span>${secondaryMetricLabel}</span><strong>${secondaryMetricValue}</strong></div><div><span>Errors</span><strong>${formatNumber(totalErrors)}</strong></div><div><span>${trendLabel === "month" ? "Months" : "Days"} measured</span><strong>${formatNumber(trend.length)}</strong></div></div>
+    <article class="minimal-panel website-panel website-trend-panel"><div class="minimal-panel-head"><h3>Traffic over time</h3><span>${trend.length} ${trendLabel}${trend.length === 1 ? "" : "s"} in this view</span></div>
+      ${trend.length ? `<div class="trend-bars website-trend-bars">${trend.map(([label, value]) => `<div title="${label}: ${formatNumber(value)} requests"><span style="height:${Math.max(4, Math.round((value / maxTrend) * 100))}%"></span><em>${label.slice(trendLabel === "month" ? 5 : 8)}</em></div>`).join("")}</div>` : `<p class="minimal-empty">No time series for this period.</p>`}
+    </article>
+    <article class="minimal-panel website-panel"><div class="minimal-panel-head"><h3>Pages with most traffic</h3><span>Highest request volume first</span></div>
+      ${sections.length ? `<div class="website-bars">${sections.map((item) => `<div class="website-row"><div class="website-title"><a href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><small>${formatNumber(metricValue(item, "views"))} requests · ${metricValue(item, "errors") ? `${formatNumber(metricValue(item, "errors"))} errors · ` : ""}${item.samples} data points</small></div><div class="website-track"><i>${metricBar(metricValue(item, "views"), maxViews, "views-fill")}</i></div></div>`).join("")}</div><div class="signal-legend"><span><i class="legend-views"></i>Requests</span></div>` : `<p class="minimal-empty">No website pages in this period.</p>`}
     </article>`;
 }
 
