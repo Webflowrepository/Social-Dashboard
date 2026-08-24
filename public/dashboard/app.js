@@ -395,6 +395,10 @@ function metricBar(value, maximum, className) {
 }
 
 function renderMinimalSocialReport(items, channelId) {
+  if (channelId === "newsletter") {
+    renderMinimalNewsletterReport(items);
+    return;
+  }
   const primaryMetric = channelId === "youtube" ? "views" : "engagement";
   const primaryLabel = channelId === "youtube" ? "views" : "engagement";
   const ranked = items
@@ -445,6 +449,58 @@ function renderMinimalSocialReport(items, channelId) {
           <div><strong>${shortTitle(item)}</strong><span>${formatNumber(metricValue(item, "likes"))} likes · ${formatNumber(metricValue(item, "comments"))} comments</span></div>
           <div class="signal-bars"><i>${metricBar(metricValue(item, "likes"), maxLikes, "likes-fill")}</i><i>${metricBar(metricValue(item, "comments"), maxComments, "comments-fill")}</i></div>
         </div>`).join("")}</div><div class="signal-legend"><span><i class="legend-likes"></i>Likes</span><span><i class="legend-comments"></i>Comments</span></div>` : `<p class="minimal-empty">No engagement data available.</p>`}
+      </article>
+    </div>`;
+}
+
+function renderMinimalNewsletterReport(items) {
+  const ranked = items
+    .slice()
+    .sort((a, b) => metricValue(b, "clicks") - metricValue(a, "clicks") || metricValue(b, "opens") - metricValue(a, "opens"))
+    .slice(0, 8);
+  const maxClicks = Math.max(1, ...ranked.map((item) => metricValue(item, "clicks")));
+  const maxOpens = Math.max(1, ...ranked.map((item) => metricValue(item, "opens")));
+  const totalOpens = sumMetric(items, "opens");
+  const totalClicks = sumMetric(items, "clicks");
+  const averageOpenRate = averageMetric(items, "openRate");
+  const averageClickRate = averageMetric(items, "clickRate");
+
+  document.querySelector("#brief-shell").innerHTML = `
+    <div class="minimal-head newsletter-report-head">
+      <div><p class="eyebrow">Newsletter · ${rangeWindow(state.range).label}</p><h2>Which issues got opened and clicked</h2></div>
+      <span class="record-count">${items.length} issues</span>
+    </div>
+    <div class="minimal-metrics newsletter-metrics">
+      <div><span>Opened</span><strong>${formatNumber(totalOpens)}</strong></div>
+      <div><span>Clicked</span><strong>${formatNumber(totalClicks)}</strong></div>
+      <div><span>Average open rate</span><strong>${formatPercent(averageOpenRate)}</strong></div>
+      <div><span>Average click rate</span><strong>${formatPercent(averageClickRate)}</strong></div>
+    </div>
+    <article class="minimal-panel top-posts-panel newsletter-panel">
+      <div class="minimal-panel-head"><h3>Top newsletter issues</h3><span>Highest clicks first</span></div>
+      ${ranked.slice(0, 3).length ? `<div class="post-card-grid">${ranked.slice(0, 3).map((item, index) => `<article class="content-post-card newsletter-post-card">
+        <div class="post-card-top"><span class="post-rank">#${index + 1}</span><span>${formatDate(item.publishedAt)}</span></div>
+        <a class="post-preview newsletter-preview" href="${item.url || "#"}" target="_blank" rel="noreferrer">${postPreview(item)}</a>
+        <a class="post-card-title" href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a>
+        <div class="post-card-metrics newsletter-card-metrics"><span><b>${formatNumber(metricValue(item, "opens"))}</b> opens</span><span><b>${formatNumber(metricValue(item, "clicks"))}</b> clicks</span><span><b>${formatPercent(metricValue(item, "openRate"))}</b> open rate</span></div>
+        <div class="post-card-score"><span>clicks</span><strong>${formatNumber(metricValue(item, "clicks"))}</strong><i>${metricBar(metricValue(item, "clicks"), maxClicks, "clicks-fill")}</i></div>
+      </article>`).join("")}</div>` : `<p class="minimal-empty">No newsletter issues in this period.</p>`}
+    </article>
+    <div class="minimal-visual-grid newsletter-visual-grid">
+      <article class="minimal-panel engagement-panel">
+        <div class="minimal-panel-head"><h3>Issues with most clicks</h3><span>Which topics drove action</span></div>
+        ${ranked.length ? `<div class="engagement-bars">${ranked.map((item, index) => `<div class="engagement-row">
+          <div class="engagement-title"><b>${index + 1}</b><a href="${item.url || "#"}" target="_blank" rel="noreferrer" title="${shortTitle(item)}">${shortTitle(item)}</a><small>${formatDate(item.publishedAt)}</small></div>
+          <div class="engagement-track"><span class="minimal-bar clicks-fill" style="width:${Math.max(3, Math.round((metricValue(item, "clicks") / maxClicks) * 100))}%"></span></div>
+          <strong>${formatNumber(metricValue(item, "clicks"))}</strong>
+        </div>`).join("")}</div>` : `<p class="minimal-empty">No click data available.</p>`}
+      </article>
+      <article class="minimal-panel signal-panel">
+        <div class="minimal-panel-head"><h3>Opens versus clicks</h3><span>Reach first, action second</span></div>
+        ${ranked.length ? `<div class="signal-list newsletter-signal-list">${ranked.slice(0, 5).map((item) => `<div class="signal-row">
+          <div><strong>${shortTitle(item)}</strong><span>${formatNumber(metricValue(item, "opens"))} opens · ${formatNumber(metricValue(item, "clicks"))} clicks</span></div>
+          <div class="signal-bars"><i>${metricBar(metricValue(item, "opens"), maxOpens, "opens-fill")}</i><i>${metricBar(metricValue(item, "clicks"), maxClicks, "clicks-fill")}</i></div>
+        </div>`).join("")}</div><div class="signal-legend"><span><i class="legend-opens"></i>Opens</span><span><i class="legend-clicks"></i>Clicks</span></div>` : `<p class="minimal-empty">No newsletter metrics available.</p>`}
       </article>
     </div>`;
 }
