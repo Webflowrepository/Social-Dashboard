@@ -828,24 +828,50 @@ async function getGoogleAnalyticsData(propertyId) {
   if (!propertyId) return null;
   const token = await getGoogleAccessToken();
   if (!token) return null;
-  const report = await fetchJson(`https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`, {
+  const reportUrl = `https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`;
+  const runReport = (body) => fetchJson(reportUrl, {
     method: "POST",
     headers: {
       authorization: `Bearer ${token}`,
       "content-type": "application/json"
     },
-    body: JSON.stringify({
-      dateRanges: [{ startDate: "90daysAgo", endDate: "today" }],
-      dimensions: [{ name: "date" }, { name: "pagePath" }],
-      metrics: [
-        { name: "activeUsers" },
-        { name: "sessions" },
-        { name: "screenPageViews" },
-        { name: "eventCount" }
-      ],
-      limit: 10000
-    })
+    body: JSON.stringify(body)
   });
+  const dateRanges = [{ startDate: "90daysAgo", endDate: "today" }];
+  const dimensions = [{ name: "date" }, { name: "pagePath" }];
+  const report = await runReport({
+    dateRanges,
+    dimensions,
+    metrics: [
+      { name: "activeUsers" },
+      { name: "sessions" },
+      { name: "screenPageViews" },
+      { name: "eventCount" }
+    ],
+    limit: 10000
+  });
+  let clickReport = { rows: [] };
+  try {
+    clickReport = await runReport({
+      dateRanges,
+      dimensions,
+      metrics: [{ name: "eventCount" }],
+      dimensionFilter: {
+        filter: {
+          fieldName: "eventName",
+          stringFilter: { matchType: "EXACT", value: "click" }
+        }
+      },
+      limit: 10000
+    });
+  } catch {
+    // Click tracking is optional; the rest of the GA4 report remains valid.
+  }
+  const clicksByKey = new Map((clickReport.rows || []).map((row) => {
+    const date = row.dimensionValues?.[0]?.value || "";
+    const path = row.dimensionValues?.[1]?.value || "/";
+    return [`${date}|${path}`, Number(row.metricValues?.[0]?.value || 0)];
+  }));
   const entries = (report.rows || [])
     .map((row) => {
       const date = row.dimensionValues?.[0]?.value || "";
@@ -855,6 +881,7 @@ async function getGoogleAnalyticsData(propertyId) {
       const sessions = Number(values[1]?.value || 0);
       const pageViews = Number(values[2]?.value || 0);
       const events = Number(values[3]?.value || 0);
+      const clicks = clicksByKey.get(`${date}|${path}`) || 0;
       return {
         platform: "website",
         format: "website_section",
@@ -862,7 +889,7 @@ async function getGoogleAnalyticsData(propertyId) {
         publishedAt: date.length === 8 ? `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}T12:00:00Z` : new Date().toISOString(),
         metric: `${pageViews} page views`,
         url: new URL(path, publicProfiles.website.url).toString(),
-        metrics: { views: pageViews, users: activeUsers, sessions, events },
+        metrics: { views: pageViews, users: activeUsers, sessions, events, clicks },
         score: pageViews + activeUsers * 0.4 + sessions * 0.2,
         signal: "ga4_api",
         nextUse: "Compare this section with the previous period and use the strongest topic to guide the next content.",
@@ -875,12 +902,14 @@ async function getGoogleAnalyticsData(propertyId) {
   const sessions = entries.reduce((sum, item) => sum + Number(item.metrics.sessions || 0), 0);
   const pageViews = entries.reduce((sum, item) => sum + Number(item.metrics.views || 0), 0);
   const events = entries.reduce((sum, item) => sum + Number(item.metrics.events || 0), 0);
+  const clicks = entries.reduce((sum, item) => sum + Number(item.metrics.clicks || 0), 0);
   return {
     metrics: {
       users: activeUsers,
       sessions,
       pageViews,
-      events
+      events,
+      clicks
     },
     entries
   };

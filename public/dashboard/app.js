@@ -584,46 +584,60 @@ function renderMinimalNewsletterReport(items) {
 
 function renderMinimalWebsiteReport(items) {
   const previous = previousItems();
-  const currentTraffic = sumMetric(items, "views");
-  const previousTraffic = sumMetric(previous, "views");
-  const change = previousTraffic ? Math.round(((currentTraffic - previousTraffic) / previousTraffic) * 100) : null;
-  const changeLabel = change == null ? "No comparison available" : `${change >= 0 ? "+" : ""}${change}% from the previous period`;
-  const daily = state.range === "this-week" || state.range === "this-month" || state.range === "last-month";
+  const daily = ["this-week", "this-month", "last-month"].includes(state.range);
+  const websiteRangeLabel = state.range === "all" ? "All available · last 90 days" : rangeWindow(state.range).label;
+  const metricNames = ["users", "sessions", "views", "events", "clicks"];
+  const totals = (records) => Object.fromEntries(metricNames.map((metric) => [metric, sumMetric(records, metric)]));
+  const currentTotals = totals(items);
+  const previousTotals = totals(previous);
+  const change = (metric) => {
+    const result = deltaLabel(currentTotals[metric], previousTotals[metric]);
+    return `<small class="website-change ${result.className}">${result.text}</small>`;
+  };
   const trendMap = new Map();
   items.forEach((item) => {
     const date = new Date(item.publishedAt);
     const bucket = new Date(date);
     if (!daily) bucket.setUTCDate(bucket.getUTCDate() - ((bucket.getUTCDay() + 6) % 7));
     const key = `${bucket.getUTCFullYear()}-${String(bucket.getUTCMonth() + 1).padStart(2, "0")}-${String(bucket.getUTCDate()).padStart(2, "0")}`;
-    trendMap.set(key, (trendMap.get(key) || 0) + metricValue(item, "views"));
+    const point = trendMap.get(key) || { views: 0, users: 0, clicks: 0 };
+    point.views += metricValue(item, "views");
+    point.users += metricValue(item, "users");
+    point.clicks += metricValue(item, "clicks");
+    trendMap.set(key, point);
   });
   const trend = [...trendMap.entries()].sort(([a], [b]) => a.localeCompare(b));
-  const maxTrend = Math.max(1, ...trend.map(([, value]) => value));
-  const bestPeriod = trend.slice().sort(([, a], [, b]) => b - a)[0];
+  const maxTrend = Math.max(1, ...trend.map(([, value]) => value.views));
+  const bestPeriod = trend.slice().sort(([, a], [, b]) => b.views - a.views)[0];
   const bestPeriodLabel = bestPeriod ? formatDate(bestPeriod[0]) : "No period yet";
-  const websiteRangeLabel = state.range === "all" ? "All available · last 30 days" : rangeWindow(state.range).label;
   const grouped = new Map();
   items.filter((item) => item.format === "website_section").forEach((item) => {
     const key = item.url || item.title;
-    const current = grouped.get(key) || { ...item, metrics: { views: 0 }, samples: 0 };
-    current.metrics.views += metricValue(item, "views");
+    const current = grouped.get(key) || { ...item, metrics: {}, samples: 0 };
+    metricNames.forEach((metric) => { current.metrics[metric] = (current.metrics[metric] || 0) + metricValue(item, metric); });
     current.samples += 1;
     grouped.set(key, current);
   });
   const sections = [...grouped.values()].sort((a, b) => metricValue(b, "views") - metricValue(a, "views"));
+  const clickSections = sections.slice().sort((a, b) => metricValue(b, "clicks") - metricValue(a, "clicks"));
   const maxViews = Math.max(1, ...sections.map((item) => metricValue(item, "views")));
-  const hasPageLevelData = sections.length > 1;
+  const maxClicks = Math.max(1, ...clickSections.map((item) => metricValue(item, "clicks")));
   const winner = sections[0];
-  const winnerShare = winner && currentTraffic ? Math.round((metricValue(winner, "views") / currentTraffic) * 100) : 0;
+  const clickWinner = clickSections.find((item) => metricValue(item, "clicks") > 0);
+  const hasPageLevelData = sections.length > 0;
+  const changeForWinner = winner && previous.length ? "Compared with the previous period" : "No previous period to compare";
+  const pageRows = sections.slice(0, 12).map((item) => `<tr><td><a href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><small>${item.url || ""}</small></td><td>${formatNumber(metricValue(item, "users"))}</td><td>${formatNumber(metricValue(item, "sessions"))}</td><td><b>${formatNumber(metricValue(item, "views"))}</b></td><td>${formatNumber(metricValue(item, "clicks"))}</td><td>${formatNumber(metricValue(item, "events"))}</td></tr>`).join("");
   document.querySelector("#brief-shell").innerHTML = `
-    <div class="minimal-head website-report-head"><div><p class="eyebrow">Website · ${websiteRangeLabel}</p><h2>What did people come to GILD for?</h2><p class="website-source-note">A simple view of interest over time, with the strongest website area first.</p></div><span class="record-count">${hasPageLevelData ? `${sections.length} areas` : "Area ranking pending"}</span></div>
-    <div class="website-range-controls" role="group" aria-label="Website period"><span>View:</span>${["this-week", "this-month", "last-month", "3m", "all"].map((range) => `<button class="website-range-button ${state.range === range ? "active" : ""}" data-website-range="${range}" type="button">${range === "this-week" ? "Week" : range === "this-month" ? "Month" : range === "last-month" ? "Last month" : range === "3m" ? "3 months" : "Available"}</button>`).join("")}</div>
-    <div class="minimal-metrics website-metrics"><div><span>Interest recorded</span><strong>${formatNumber(currentTraffic)}</strong><small class="website-change ${change != null && change < 0 ? "down" : ""}">${changeLabel}</small></div><div><span>Busiest ${daily ? "day" : "week"}</span><strong>${bestPeriodLabel}</strong></div><div><span>Traffic points</span><strong>${formatNumber(items.length)}</strong></div><div><span>Periods shown</span><strong>${formatNumber(trend.length)}</strong></div></div>
-    ${hasPageLevelData ? `<article class="minimal-panel website-winner-panel"><div><p class="eyebrow">What worked</p><h3>${shortTitle(winner)}</h3><p>${winnerShare}% of the recorded interest went to this area.</p></div><strong>${formatNumber(metricValue(winner, "views"))}<span>interest</span></strong></article>` : ""}
-    <article class="minimal-panel website-panel website-trend-panel"><div class="minimal-panel-head"><h3>Interest over time</h3><span>${daily ? "Daily" : "Weekly"} comparison</span></div>
-      ${trend.length ? `<div class="trend-bars website-trend-bars">${trend.map(([label, value]) => `<div title="${label}: ${formatNumber(value)} interest"><span style="height:${Math.max(4, Math.round((value / maxTrend) * 100))}%"></span><em>${label.slice(5)}</em></div>`).join("")}</div>` : `<p class="minimal-empty">No time series for this period.</p>`}
+    <div class="minimal-head website-report-head"><div><p class="eyebrow">Website · ${websiteRangeLabel}</p><h2>What is working on the GILD website?</h2><p class="website-source-note">GA4 view: compare people, visits, page views and clicks to see which sections create demand.</p></div><span class="record-count">${sections.length} pages</span></div>
+    <div class="website-range-controls" role="group" aria-label="Website period"><span>Compare:</span>${["this-week", "this-month", "last-month", "3m", "all"].map((range) => `<button class="website-range-button ${state.range === range ? "active" : ""}" data-website-range="${range}" type="button">${range === "this-week" ? "This week" : range === "this-month" ? "This month" : range === "last-month" ? "Last month" : range === "3m" ? "Last 3 months" : "All available"}</button>`).join("")}</div>
+    <div class="minimal-metrics website-metrics website-ga4-metrics"><div><span>Users</span><strong>${formatNumber(currentTotals.users)}</strong>${change("users")}</div><div><span>Sessions</span><strong>${formatNumber(currentTotals.sessions)}</strong>${change("sessions")}</div><div><span>Page views</span><strong>${formatNumber(currentTotals.views)}</strong>${change("views")}</div><div><span>Clicks</span><strong>${formatNumber(currentTotals.clicks)}</strong>${change("clicks")}</div><div><span>Events</span><strong>${formatNumber(currentTotals.events)}</strong>${change("events")}</div></div>
+    ${winner ? `<article class="minimal-panel website-winner-panel"><div><p class="eyebrow">Highest demand</p><h3>${shortTitle(winner)}</h3><p>${formatNumber(metricValue(winner, "views"))} page views from ${formatNumber(metricValue(winner, "users"))} users. ${changeForWinner}.</p></div><strong>${formatNumber(metricValue(winner, "views"))}<span>page views</span></strong></article>` : ""}
+    <article class="minimal-panel website-panel website-trend-panel"><div class="minimal-panel-head"><h3>Performance over time</h3><span>${daily ? "Daily" : "Weekly"} · page views</span></div>
+      ${trend.length ? `<div class="trend-bars website-trend-bars">${trend.map(([label, value]) => `<div title="${label}: ${formatNumber(value.views)} views · ${formatNumber(value.users)} users · ${formatNumber(value.clicks)} clicks"><span style="height:${Math.max(4, Math.round((value.views / maxTrend) * 100))}%"></span><em>${label.slice(5)}</em></div>`).join("")}</div>` : `<p class="minimal-empty">No time series for this period.</p>`}
+      <div class="website-chart-legend"><span><i class="legend-views"></i>Page views</span><span><i class="legend-users"></i>Users and clicks are shown in the table below</span></div>
     </article>
-    ${hasPageLevelData ? `<article class="minimal-panel website-panel"><div class="minimal-panel-head"><h3>Which areas worked best?</h3><span>Ranked for this period</span></div><div class="website-bars">${sections.map((item) => `<div class="website-row"><div class="website-title"><a href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><small>${formatNumber(metricValue(item, "views"))} interest · ${item.samples} observations</small></div><div class="website-track"><i>${metricBar(metricValue(item, "views"), maxViews, "views-fill")}</i></div></div>`).join("")}</div></article>` : `<article class="minimal-panel website-panel website-missing-page-data"><p class="eyebrow">One connection still missing</p><strong>We can see overall interest, but not which website area created it.</strong><span>Once page-level analytics is connected, this panel will rank Home, Podcast, Blog, Newsletter and Sponsors by period.</span></article>`}
+    ${hasPageLevelData ? `<article class="minimal-panel website-panel website-table-panel"><div class="minimal-panel-head"><h3>Pages and sections</h3><span>Highest page views first</span></div><div class="website-table-wrap"><table class="website-table"><thead><tr><th>Page</th><th>Users</th><th>Sessions</th><th>Views</th><th>Clicks</th><th>Events</th></tr></thead><tbody>${pageRows}</tbody></table></div></article>` : `<article class="minimal-panel website-panel website-missing-page-data"><p class="eyebrow">No page-level data</p><strong>GA4 is connected, but this period has no page rows.</strong><span>Choose a longer period to compare website sections.</span></article>`}
+    ${clickWinner ? `<article class="minimal-panel website-panel"><div class="minimal-panel-head"><h3>Where did people click?</h3><span>Pages with tracked click events</span></div><div class="website-bars">${clickSections.filter((item) => metricValue(item, "clicks") > 0).slice(0, 8).map((item) => `<div class="website-row"><div class="website-title"><a href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><small>${formatNumber(metricValue(item, "clicks"))} clicks · ${formatNumber(metricValue(item, "views"))} views</small></div><div class="website-track"><i>${metricBar(metricValue(item, "clicks"), maxClicks, "clicks-fill")}</i></div><strong>${formatNumber(metricValue(item, "clicks"))}</strong></div>`).join("")}</div></article>` : `<article class="minimal-panel website-panel website-missing-page-data"><p class="eyebrow">Clicks</p><strong>No click events were recorded in this period.</strong><span>GA4 must receive the event name <b>click</b> for this comparison to populate.</span></article>`}
     `;
   document.querySelectorAll("[data-website-range]").forEach((button) => button.addEventListener("click", () => {
     state.range = button.dataset.websiteRange;
