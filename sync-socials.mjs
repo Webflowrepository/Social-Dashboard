@@ -23,6 +23,11 @@ const publicProfiles = {
     url: "https://www.youtube.com/@GILDhq",
     channelId: "UCC0lbied2G_PVm_WVK-xhrw"
   },
+  spotify: {
+    handle: "GILD Podcast",
+    url: "https://creators.spotify.com/pod/show/0TSnQszN4VY8tyOgIYPsQy/episodes",
+    showId: process.env.SPOTIFY_SHOW_ID || "0TSnQszN4VY8tyOgIYPsQy"
+  },
   newsletter: {
     handle: "Beehiiv",
     url: process.env.GILD_NEWSLETTER_URL || "https://www.beehiiv.com/"
@@ -37,6 +42,7 @@ const baseChannels = [
   { id: "linkedin", name: "LinkedIn", metrics: { followers: 0, posts: 0, engagementRate: 0, reach: 0 } },
   { id: "instagram", name: "Instagram", metrics: { followers: 0, posts: 0, following: 0, engagementRate: 0, reach: 0 } },
   { id: "youtube", name: "YouTube", metrics: { subscribers: 0, videos: 0, views: 0, engagementRate: 0 } },
+  { id: "spotify", name: "Spotify", metrics: { episodes: 0, listeners: 0, plays: 0 } },
   { id: "newsletter", name: "Newsletter", metrics: { subscribers: 0, posts: 0, openRate: 0, clickRate: 0, sent: 0 } },
   { id: "website", name: "Website", metrics: { users: 0, sessions: 0, pageViews: 0, events: 0 } }
 ];
@@ -59,6 +65,7 @@ const requiredConfig = {
   linkedin: ["GILD_LINKEDIN_ORG_ID", "LINKEDIN_ACCESS_TOKEN"],
   instagram: ["GILD_INSTAGRAM_BUSINESS_ID", "META_ACCESS_TOKEN"],
   youtube: ["GILD_YOUTUBE_CHANNEL_ID"],
+  spotify: ["SPOTIFY_CLIENT_ID", "SPOTIFY_CLIENT_SECRET", "SPOTIFY_SHOW_ID"],
   newsletter: ["BEEHIIV_API_KEY"],
   website: []
 };
@@ -623,6 +630,46 @@ async function getBeehiivApiData(apiKey, publicationId) {
   };
 }
 
+async function getSpotifyApiData(clientId, clientSecret, showId) {
+  if (!clientId || !clientSecret || !showId) return null;
+  const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+  const token = await fetchJson("https://accounts.spotify.com/api/token", {
+    method: "POST",
+    headers: {
+      authorization: `Basic ${credentials}`,
+      "content-type": "application/x-www-form-urlencoded"
+    },
+    body: "grant_type=client_credentials"
+  });
+  const headers = { authorization: `Bearer ${token.access_token}` };
+  const show = await fetchJson(`https://api.spotify.com/v1/shows/${encodeURIComponent(showId)}?market=US`, { headers });
+  const episodes = await fetchJson(
+    `https://api.spotify.com/v1/shows/${encodeURIComponent(showId)}/episodes?market=US&limit=50`,
+    { headers }
+  );
+  return {
+    handle: show.name || publicProfiles.spotify.handle,
+    metrics: {
+      episodes: Number(show.total_episodes || episodes.items?.length || 0),
+      listeners: 0,
+      plays: 0
+    },
+    entries: (episodes.items || []).map((episode) => ({
+      id: `spotify:${episode.id}`,
+      platform: "spotify",
+      format: "podcast_episode",
+      title: episode.name || "Spotify episode",
+      publishedAt: episode.release_date ? `${episode.release_date}T00:00:00.000Z` : null,
+      url: episode.external_urls?.spotify || publicProfiles.spotify.url,
+      imageUrl: episode.images?.[0]?.url || show.images?.[0]?.url || "",
+      metric: "public episode metadata",
+      metrics: { listeners: 0, plays: 0 },
+      signal: "spotify_api",
+      nextUse: "Use the strongest podcast topic as a source for LinkedIn, Instagram and newsletter content."
+    }))
+  };
+}
+
 function base64Url(value) {
   return Buffer.from(value)
     .toString("base64")
@@ -1069,13 +1116,21 @@ async function main() {
     newsletter: await getBeehiivApiData(process.env.BEEHIIV_API_KEY, process.env.BEEHIIV_PUBLICATION_ID).catch(
       (error) => ({ error: error.message })
     ),
-    website:
-      (await getGoogleAnalyticsData(process.env.GA4_PROPERTY_ID).catch((error) => ({ error: error.message }))) ||
-      (await getCloudflareWebsiteData(
+    spotify: await getSpotifyApiData(
+      process.env.SPOTIFY_CLIENT_ID,
+      process.env.SPOTIFY_CLIENT_SECRET,
+      process.env.SPOTIFY_SHOW_ID || publicProfiles.spotify.showId
+    ).catch((error) => ({ error: error.message })),
+    website: await (async () => {
+      const ga4 = await getGoogleAnalyticsData(process.env.GA4_PROPERTY_ID).catch((error) => ({ error: error.message }));
+      if (ga4?.entries?.length || ga4?.metrics) return ga4;
+      const cloudflare = await getCloudflareWebsiteData(
         process.env.CLOUDFLARE_ACCOUNT_ID,
         process.env.CLOUDFLARE_API_TOKEN,
         process.env.CLOUDFLARE_WORKER_NAME || "gildhq"
-      ).catch((error) => ({ error: error.message })))
+      ).catch((error) => ({ error: error.message }));
+      return cloudflare?.entries?.length || cloudflare?.metrics ? cloudflare : ga4;
+    })()
   };
 
   const syncedItems = [
@@ -1084,6 +1139,7 @@ async function main() {
     ...importedItems,
     ...(apiData.youtube?.entries || youtubePublic.entries),
     ...(apiData.newsletter?.entries || []),
+    ...(apiData.spotify?.entries || []),
     ...(apiData.website?.entries || [])
   ].map(normalizeContentItem);
 
@@ -1158,6 +1214,11 @@ async function main() {
         url: publicProfiles.newsletter.url,
         sync: apiData.newsletter?.metrics ? "api" : "profile_linked",
         note: apiData.newsletter?.error || "Beehiiv API is active."
+      },
+      spotify: {
+        url: publicProfiles.spotify.url,
+        sync: apiData.spotify?.metrics ? "api" : "profile_linked",
+        note: apiData.spotify?.error || "Spotify public show and episode data is active; private listener metrics are not available through this API."
       },
       website: {
         url: publicProfiles.website.url,

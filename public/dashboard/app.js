@@ -1,4 +1,4 @@
-const CHANNELS = ["instagram", "linkedin", "newsletter", "website", "youtube"];
+const CHANNELS = ["instagram", "linkedin", "newsletter", "website", "youtube", "spotify"];
 const SOCIAL_CHANNELS = ["instagram", "linkedin", "youtube"];
 
 const channelNames = {
@@ -6,7 +6,8 @@ const channelNames = {
   linkedin: "LinkedIn",
   newsletter: "Newsletter",
   website: "Website",
-  youtube: "YouTube"
+  youtube: "YouTube",
+  spotify: "Spotify"
 };
 
 const channelMetricConfig = {
@@ -14,7 +15,8 @@ const channelMetricConfig = {
   linkedin: ["impressions", "reach", "likes", "comments", "shares", "clicks", "engagement"],
   newsletter: ["opens", "clicks", "openRate", "clickRate", "views"],
   website: ["views", "bytes"],
-  youtube: ["views", "likes", "comments", "shares", "watchMinutes", "engagement"]
+  youtube: ["views", "likes", "comments", "shares", "watchMinutes", "engagement"],
+  spotify: ["plays", "listeners", "episodes"]
 };
 
 const metricLabels = {
@@ -32,6 +34,9 @@ const metricLabels = {
   shares: "Shares",
   views: "Views",
   watchMinutes: "Watch min",
+  listeners: "Listeners",
+  plays: "Plays",
+  episodes: "Episodes",
   score: "Channel index"
 };
 

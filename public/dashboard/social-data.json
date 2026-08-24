@@ -1,5 +1,5 @@
 {
-  "lastSyncAt": "2026-08-24T14:43:53.498Z",
+  "lastSyncAt": "2026-08-24T18:40:34.473Z",
   "mode": "api-ready",
   "brand": {
     "name": "GILD",
@@ -61,6 +61,19 @@
       }
     },
     {
+      "id": "spotify",
+      "name": "Spotify",
+      "metrics": {
+        "episodes": 0,
+        "listeners": 0,
+        "plays": 0
+      },
+      "handle": "GILD Podcast",
+      "url": "https://creators.spotify.com/pod/show/0TSnQszN4VY8tyOgIYPsQy/episodes",
+      "showId": "0TSnQszN4VY8tyOgIYPsQy",
+      "status": "connected"
+    },
+    {
       "id": "newsletter",
       "name": "Newsletter",
       "metrics": {
@@ -81,9 +94,9 @@
       "metrics": {
         "users": 0,
         "sessions": 0,
-        "pageViews": 610596,
-        "events": 1629662,
-        "errors": 4296
+        "pageViews": 611248,
+        "events": 1630016,
+        "errors": 4295
       },
       "handle": "gildhq.com",
       "url": "https://gildhq.com/",
@@ -97,7 +110,7 @@
       "format": "profile_signal",
       "title": "Instagram profile signal",
       "imageUrl": "",
-      "publishedAt": "2026-08-24T14:43:53.498Z",
+      "publishedAt": "2026-08-24T18:40:34.473Z",
       "month": "2026-08",
       "url": "https://www.instagram.com/gild.hq/",
       "metric": "610 proxy score",
@@ -114,6 +127,30 @@
       "score": 610,
       "signal": "profile_proxy",
       "nextUse": "Priority channel: import reel/post insights, then double down on rooms, clips and social proof."
+    },
+    {
+      "id": "spotify:profile-signal:2026-08",
+      "platform": "spotify",
+      "format": "profile_signal",
+      "title": "Spotify profile signal",
+      "imageUrl": "",
+      "publishedAt": "2026-08-24T18:40:34.473Z",
+      "month": "2026-08",
+      "url": "https://creators.spotify.com/pod/show/0TSnQszN4VY8tyOgIYPsQy/episodes",
+      "metric": "1 proxy score",
+      "metrics": {
+        "followers": 0,
+        "subscribers": 0,
+        "users": 0,
+        "posts": 0,
+        "videos": 0,
+        "episodes": 0,
+        "views": 0,
+        "sessions": 0
+      },
+      "score": 1,
+      "signal": "profile_proxy",
+      "nextUse": "Review manually."
     },
     {
       "id": "linkedin:import:https://www.linkedin.com/feed/update/urn:li:activity:7495513285912600578",
@@ -258,55 +295,31 @@
       "score": 45,
       "signal": "manual_import",
       "nextUse": "Use winning LinkedIn posts to shape newsletter and event POV."
-    },
-    {
-      "id": "linkedin:import:https://www.linkedin.com/feed/update/urn:li:activity:7490791825432297472",
-      "platform": "linkedin",
-      "format": "company_post",
-      "title": "AI monitoring tells you a system is running. It doesn't tell you whether to trust what it's doing.\n\nThat's the distinction engineering leaders keep running into as AI moves from pilot to production. Monitoring answers \"did the call succeed.\" Observability answers \"was the output good enough to trust.\"\n\nToken cost. Output quality. Prompt and context traces. Drift. Human feedback loops. That's the operating view technical leaders now need in one place, not scattered across five dashboards.\n\nFull breakdown on the blog: https://lnkd.in/dVpink_B\n\n#AIObservability #AIEngineering #ProductionAI #MLOps #EngineeringLeadership",
-      "imageUrl": "",
-      "publishedAt": "2026-08-05T00:00:00.000Z",
-      "month": "2026-08",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7490791825432297472",
-      "metric": "33 imported score",
-      "metrics": {
-        "views": 0,
-        "reach": 0,
-        "impressions": 73,
-        "likes": 3,
-        "comments": 0,
-        "shares": 0,
-        "saves": 0,
-        "clicks": 1
-      },
-      "score": 33,
-      "signal": "manual_import",
-      "nextUse": "Use winning LinkedIn posts to shape newsletter and event POV."
     }
   ],
   "audienceHistory": [
     {
       "label": "S-7",
-      "linkedin": 1014,
+      "linkedin": 1020,
       "instagram": 80,
       "youtube": 26,
-      "newsletter": 16964,
+      "newsletter": 16962,
       "website": 0
     },
     {
       "label": "S-6",
-      "linkedin": 1016,
+      "linkedin": 1020,
       "instagram": 80,
       "youtube": 26,
-      "newsletter": 16963,
+      "newsletter": 16962,
       "website": 0
     },
     {
       "label": "S-5",
-      "linkedin": 1016,
+      "linkedin": 1020,
       "instagram": 80,
       "youtube": 26,
-      "newsletter": 16963,
+      "newsletter": 16962,
       "website": 0
     },
     {
@@ -391,6 +404,11 @@
       "sync": "api",
       "note": "Beehiiv API is active."
     },
+    "spotify": {
+      "url": "https://creators.spotify.com/pod/show/0TSnQszN4VY8tyOgIYPsQy/episodes",
+      "sync": "profile_linked",
+      "note": "https://api.spotify.com/v1/shows/0TSnQszN4VY8tyOgIYPsQy?market=US returned 403: Active premium subscription required for the owner of the app. When the subscription status changes, it can take a few hours before requests are allowed again."
+    },
     "website": {
       "url": "https://gildhq.com/",
       "sync": "cloudflare_api",
@@ -404,7 +422,7 @@
       "format": "profile_signal",
       "title": "Instagram profile signal",
       "imageUrl": "",
-      "publishedAt": "2026-08-24T14:43:53.498Z",
+      "publishedAt": "2026-08-24T18:40:34.473Z",
       "month": "2026-08",
       "url": "https://www.instagram.com/gild.hq/",
       "metric": "610 proxy score",
@@ -421,6 +439,30 @@
       "score": 610,
       "signal": "profile_proxy",
       "nextUse": "Priority channel: import reel/post insights, then double down on rooms, clips and social proof."
+    },
+    {
+      "id": "spotify:profile-signal:2026-08",
+      "platform": "spotify",
+      "format": "profile_signal",
+      "title": "Spotify profile signal",
+      "imageUrl": "",
+      "publishedAt": "2026-08-24T18:40:34.473Z",
+      "month": "2026-08",
+      "url": "https://creators.spotify.com/pod/show/0TSnQszN4VY8tyOgIYPsQy/episodes",
+      "metric": "1 proxy score",
+      "metrics": {
+        "followers": 0,
+        "subscribers": 0,
+        "users": 0,
+        "posts": 0,
+        "videos": 0,
+        "episodes": 0,
+        "views": 0,
+        "sessions": 0
+      },
+      "score": 1,
+      "signal": "profile_proxy",
+      "nextUse": "Review manually."
     },
     {
       "id": "linkedin:import:https://www.linkedin.com/feed/update/urn:li:activity:7495513285912600578",
@@ -3374,15 +3416,15 @@
       "publishedAt": "2026-08-19T13:00:00.000Z",
       "month": "2026-08",
       "url": "https://gild-austin.beehiiv.com/p/can-ai-ship-faster-than-teams-can-understand-it-what-s-next-at-gild",
-      "metric": "4883 opens",
+      "metric": "4888 opens",
       "metrics": {
-        "opens": 4883,
+        "opens": 4888,
         "clicks": 97,
         "views": 18,
-        "openRate": 35.63,
-        "clickRate": 1.99
+        "openRate": 35.67,
+        "clickRate": 1.98
       },
-      "score": 5183,
+      "score": 5188,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -3518,92 +3560,16 @@
       "format": "website_worker_metrics",
       "title": "Website traffic",
       "imageUrl": "",
-      "publishedAt": "2026-07-25T14:00:00.000Z",
-      "month": "2026-07",
-      "url": "https://gildhq.com/",
-      "metric": "52 requests",
-      "metrics": {
-        "views": 52,
-        "events": 118,
-        "errors": 1
-      },
-      "score": 42,
-      "signal": "cloudflare_api",
-      "nextUse": "Use Cloudflare traffic as a real demand trend; add GA4 or Web Analytics for unique users, referrers and page-level journeys."
-    },
-    {
-      "id": "website:https://gildhq.com/",
-      "platform": "website",
-      "format": "website_worker_metrics",
-      "title": "Website traffic",
-      "imageUrl": "",
-      "publishedAt": "2026-07-25T15:00:00.000Z",
-      "month": "2026-07",
-      "url": "https://gildhq.com/",
-      "metric": "332 requests",
-      "metrics": {
-        "views": 332,
-        "events": 1271,
-        "errors": 5
-      },
-      "score": 282,
-      "signal": "cloudflare_api",
-      "nextUse": "Use Cloudflare traffic as a real demand trend; add GA4 or Web Analytics for unique users, referrers and page-level journeys."
-    },
-    {
-      "id": "website:https://gildhq.com/",
-      "platform": "website",
-      "format": "website_worker_metrics",
-      "title": "Website traffic",
-      "imageUrl": "",
-      "publishedAt": "2026-07-25T16:00:00.000Z",
-      "month": "2026-07",
-      "url": "https://gildhq.com/",
-      "metric": "470 requests",
-      "metrics": {
-        "views": 470,
-        "events": 1141,
-        "errors": 6
-      },
-      "score": 410,
-      "signal": "cloudflare_api",
-      "nextUse": "Use Cloudflare traffic as a real demand trend; add GA4 or Web Analytics for unique users, referrers and page-level journeys."
-    },
-    {
-      "id": "website:https://gildhq.com/",
-      "platform": "website",
-      "format": "website_worker_metrics",
-      "title": "Website traffic",
-      "imageUrl": "",
-      "publishedAt": "2026-07-25T17:00:00.000Z",
-      "month": "2026-07",
-      "url": "https://gildhq.com/",
-      "metric": "242 requests",
-      "metrics": {
-        "views": 242,
-        "events": 718,
-        "errors": 5
-      },
-      "score": 192,
-      "signal": "cloudflare_api",
-      "nextUse": "Use Cloudflare traffic as a real demand trend; add GA4 or Web Analytics for unique users, referrers and page-level journeys."
-    },
-    {
-      "id": "website:https://gildhq.com/",
-      "platform": "website",
-      "format": "website_worker_metrics",
-      "title": "Website traffic",
-      "imageUrl": "",
       "publishedAt": "2026-07-25T18:00:00.000Z",
       "month": "2026-07",
       "url": "https://gildhq.com/",
-      "metric": "474 requests",
+      "metric": "106 requests",
       "metrics": {
-        "views": 474,
-        "events": 1646,
-        "errors": 6
+        "views": 106,
+        "events": 330,
+        "errors": 2
       },
-      "score": 414,
+      "score": 86,
       "signal": "cloudflare_api",
       "nextUse": "Use Cloudflare traffic as a real demand trend; add GA4 or Web Analytics for unique users, referrers and page-level journeys."
     },
@@ -17201,13 +17167,89 @@
       "publishedAt": "2026-08-24T14:00:00.000Z",
       "month": "2026-08",
       "url": "https://gildhq.com/",
-      "metric": "231 requests",
+      "metric": "389 requests",
       "metrics": {
-        "views": 231,
-        "events": 778,
+        "views": 389,
+        "events": 1136,
+        "errors": 6
+      },
+      "score": 329,
+      "signal": "cloudflare_api",
+      "nextUse": "Use Cloudflare traffic as a real demand trend; add GA4 or Web Analytics for unique users, referrers and page-level journeys."
+    },
+    {
+      "id": "website:https://gildhq.com/",
+      "platform": "website",
+      "format": "website_worker_metrics",
+      "title": "Website traffic",
+      "imageUrl": "",
+      "publishedAt": "2026-08-24T15:00:00.000Z",
+      "month": "2026-08",
+      "url": "https://gildhq.com/",
+      "metric": "547 requests",
+      "metrics": {
+        "views": 547,
+        "events": 837,
         "errors": 5
       },
-      "score": 181,
+      "score": 497,
+      "signal": "cloudflare_api",
+      "nextUse": "Use Cloudflare traffic as a real demand trend; add GA4 or Web Analytics for unique users, referrers and page-level journeys."
+    },
+    {
+      "id": "website:https://gildhq.com/",
+      "platform": "website",
+      "format": "website_worker_metrics",
+      "title": "Website traffic",
+      "imageUrl": "",
+      "publishedAt": "2026-08-24T16:00:00.000Z",
+      "month": "2026-08",
+      "url": "https://gildhq.com/",
+      "metric": "450 requests",
+      "metrics": {
+        "views": 450,
+        "events": 1192,
+        "errors": 5
+      },
+      "score": 400,
+      "signal": "cloudflare_api",
+      "nextUse": "Use Cloudflare traffic as a real demand trend; add GA4 or Web Analytics for unique users, referrers and page-level journeys."
+    },
+    {
+      "id": "website:https://gildhq.com/",
+      "platform": "website",
+      "format": "website_worker_metrics",
+      "title": "Website traffic",
+      "imageUrl": "",
+      "publishedAt": "2026-08-24T17:00:00.000Z",
+      "month": "2026-08",
+      "url": "https://gildhq.com/",
+      "metric": "609 requests",
+      "metrics": {
+        "views": 609,
+        "events": 1752,
+        "errors": 6
+      },
+      "score": 549,
+      "signal": "cloudflare_api",
+      "nextUse": "Use Cloudflare traffic as a real demand trend; add GA4 or Web Analytics for unique users, referrers and page-level journeys."
+    },
+    {
+      "id": "website:https://gildhq.com/",
+      "platform": "website",
+      "format": "website_worker_metrics",
+      "title": "Website traffic",
+      "imageUrl": "",
+      "publishedAt": "2026-08-24T18:00:00.000Z",
+      "month": "2026-08",
+      "url": "https://gildhq.com/",
+      "metric": "352 requests",
+      "metrics": {
+        "views": 352,
+        "events": 779,
+        "errors": 3
+      },
+      "score": 322,
       "signal": "cloudflare_api",
       "nextUse": "Use Cloudflare traffic as a real demand trend; add GA4 or Web Analytics for unique users, referrers and page-level journeys."
     }

@@ -1300,5 +1300,196 @@
       "newsletter": 64,
       "website": 0
     }
+  },
+  {
+    "at": "2026-08-24T14:52:49.469Z",
+    "metrics": {
+      "linkedin": 1020,
+      "instagram": 80,
+      "youtube": 26,
+      "newsletter": 16962,
+      "website": 0
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "newsletter": 64,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-08-24T14:58:48.647Z",
+    "metrics": {
+      "linkedin": 1020,
+      "instagram": 80,
+      "youtube": 26,
+      "newsletter": 16962,
+      "website": 0
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "newsletter": 64,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-08-24T15:37:39.370Z",
+    "metrics": {
+      "linkedin": 1020,
+      "instagram": 80,
+      "youtube": 26,
+      "newsletter": 16962,
+      "website": 0
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "newsletter": 64,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-08-24T15:56:34.260Z",
+    "metrics": {
+      "linkedin": 1020,
+      "instagram": 80,
+      "youtube": 26,
+      "newsletter": 16962,
+      "website": 0
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "newsletter": 64,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-08-24T15:57:57.638Z",
+    "metrics": {
+      "linkedin": 1020,
+      "instagram": 80,
+      "youtube": 26,
+      "newsletter": 16962,
+      "website": 0
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "newsletter": 64,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-08-24T16:18:06.344Z",
+    "metrics": {
+      "linkedin": 1020,
+      "instagram": 80,
+      "youtube": 26,
+      "newsletter": 16962,
+      "website": 0
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "newsletter": 64,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-08-24T16:20:06.654Z",
+    "metrics": {
+      "linkedin": 1020,
+      "instagram": 80,
+      "youtube": 26,
+      "newsletter": 16962,
+      "website": 0
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "newsletter": 64,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-08-24T16:58:26.045Z",
+    "metrics": {
+      "linkedin": 1020,
+      "instagram": 80,
+      "youtube": 26,
+      "newsletter": 16962,
+      "website": 0
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "newsletter": 64,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-08-24T17:45:15.090Z",
+    "metrics": {
+      "linkedin": 1020,
+      "instagram": 80,
+      "youtube": 26,
+      "newsletter": 16962,
+      "website": 0
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "newsletter": 64,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-08-24T18:39:30.446Z",
+    "metrics": {
+      "linkedin": 1020,
+      "instagram": 80,
+      "youtube": 26,
+      "spotify": 0,
+      "newsletter": 16962,
+      "website": 0
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "spotify": 0,
+      "newsletter": 64,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-08-24T18:40:34.473Z",
+    "metrics": {
+      "linkedin": 1020,
+      "instagram": 80,
+      "youtube": 26,
+      "spotify": 0,
+      "newsletter": 16962,
+      "website": 0
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "spotify": 0,
+      "newsletter": 64,
+      "website": 0
+    }
   }
 ]
