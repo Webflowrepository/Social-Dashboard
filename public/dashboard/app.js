@@ -420,6 +420,10 @@ function renderMinimalSocialReport(items, channelId) {
     renderMinimalNewsletterReport(items);
     return;
   }
+  if (channelId === "luma") {
+    renderMinimalLumaReport(items);
+    return;
+  }
   const primaryMetric = channelId === "youtube" ? "views" : "engagement";
   const primaryLabel = channelId === "youtube" ? "views" : "engagement";
   const youtubeSortLabels = { views: "Views", engagement: "Engagement", likes: "Likes", comments: "Comments", watchMinutes: "Watch time" };
@@ -480,6 +484,50 @@ function renderMinimalSocialReport(items, channelId) {
     state.youtubeSort = button.dataset.youtubeSort;
     render();
   }));
+}
+
+function renderMinimalLumaReport(items) {
+  const ranked = items
+    .slice()
+    .sort((a, b) => metricValue(b, "registrations") - metricValue(a, "registrations") || metricValue(b, "attendees") - metricValue(a, "attendees"))
+    .slice(0, 10);
+  const maxRegistrations = Math.max(1, ...ranked.map((item) => metricValue(item, "registrations")));
+  const totalRegistrations = sumMetric(items, "registrations");
+  const totalAttendees = sumMetric(items, "attendees");
+  const bestEvent = ranked[0];
+  const attendanceRate = totalRegistrations ? Math.round((totalAttendees / totalRegistrations) * 100) : 0;
+
+  document.querySelector("#brief-shell").innerHTML = `
+    <div class="minimal-head">
+      <div><p class="eyebrow">Luma · ${rangeWindow(state.range).label}</p><h2>Which events brought people together?</h2><p class="website-source-note">Compare registrations and attendance to decide which event topics and formats to repeat.</p></div>
+      <span class="record-count">${items.length} events</span>
+    </div>
+    <div class="minimal-metrics">
+      <div><span>Events</span><strong>${formatNumber(items.length)}</strong></div>
+      <div><span>Registrations</span><strong>${formatNumber(totalRegistrations)}</strong></div>
+      <div><span>Checked in</span><strong>${formatNumber(totalAttendees)}</strong></div>
+      <div><span>Registration to attendance</span><strong>${formatPercent(attendanceRate)}</strong></div>
+    </div>
+    <article class="minimal-panel top-posts-panel">
+      <div class="minimal-panel-head"><h3>Top events by registrations</h3><span>Highest demand first</span></div>
+      ${ranked.slice(0, 3).length ? `<div class="post-card-grid">${ranked.slice(0, 3).map((item, index) => `<article class="content-post-card luma-post-card">
+        <div class="post-card-top"><span class="post-rank">#${index + 1}</span><span>${formatDate(item.publishedAt)}</span></div>
+        <a class="post-preview" href="${item.url || "#"}" target="_blank" rel="noreferrer">${postPreview(item)}</a>
+        <a class="post-card-title" href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a>
+        <div class="post-card-metrics"><span><b>${formatNumber(metricValue(item, "registrations"))}</b> registrations</span><span><b>${formatNumber(metricValue(item, "attendees"))}</b> checked in</span></div>
+        <div class="post-card-score"><span>Registrations</span><strong>${formatNumber(metricValue(item, "registrations"))}</strong><i>${metricBar(metricValue(item, "registrations"), maxRegistrations, "engagement-fill")}</i></div>
+      </article>`).join("")}</div>` : `<p class="minimal-empty">No Luma events in this period.</p>`}
+    </article>
+    <div class="minimal-visual-grid">
+      <article class="minimal-panel engagement-panel">
+        <div class="minimal-panel-head"><h3>Event demand</h3><span>Registrations by event</span></div>
+        ${ranked.length ? `<div class="engagement-bars">${ranked.map((item, index) => `<div class="engagement-row"><div class="engagement-title"><b>${index + 1}</b><a href="${item.url || "#"}" target="_blank" rel="noreferrer" title="${shortTitle(item)}">${shortTitle(item)}</a><small>${formatDate(item.publishedAt)} · ${formatNumber(metricValue(item, "attendees"))} checked in</small></div><div class="engagement-track">${metricBar(metricValue(item, "registrations"), maxRegistrations, "engagement-fill")}</div><strong>${formatNumber(metricValue(item, "registrations"))}</strong></div>`).join("")}</div>` : `<p class="minimal-empty">No registration data available.</p>`}
+      </article>
+      <article class="minimal-panel signal-panel">
+        <div class="minimal-panel-head"><h3>What to repeat</h3><span>Use demand as the signal</span></div>
+        ${bestEvent ? `<div class="signal-list"><div class="signal-row"><div><strong>Strongest event</strong><span>${shortTitle(bestEvent)}</span></div><b>${formatNumber(metricValue(bestEvent, "registrations"))} registrations</b></div><div class="signal-row"><div><strong>Attendance signal</strong><span>Registered people who checked in</span></div><b>${formatPercent(attendanceRate)}</b></div></div><p class="signal-legend">Repeat the topic and format of the event with the strongest registration demand, then improve reminders and check-in follow-through.</p>` : `<p class="minimal-empty">No event learning available.</p>`}
+      </article>
+    </div>`;
 }
 
 function renderMinimalNewsletterReport(items) {
