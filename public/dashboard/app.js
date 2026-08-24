@@ -38,7 +38,8 @@ const metricLabels = {
 const state = {
   data: null,
   range: "all",
-  channel: "all"
+  channel: "all",
+  youtubeSort: "views"
 };
 
 function moveTechnicalDetails() {
@@ -392,8 +393,10 @@ function postExcerpt(item) {
 }
 
 function postPreview(item) {
-  return item.imageUrl
-    ? `<img src="${item.imageUrl}" alt="" loading="lazy" />`
+  const youtubeId = item.platform === "youtube" ? String(item.url || "").match(/[?&]v=([^&]+)/)?.[1] || String(item.id || "").split(":").pop() : "";
+  const previewImage = item.imageUrl || (youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg` : "");
+  return previewImage
+    ? `<img src="${previewImage}" alt="" loading="lazy" />`
     : `<p>${postExcerpt(item)}</p>`;
 }
 
@@ -409,11 +412,14 @@ function renderMinimalSocialReport(items, channelId) {
   }
   const primaryMetric = channelId === "youtube" ? "views" : "engagement";
   const primaryLabel = channelId === "youtube" ? "views" : "engagement";
+  const youtubeSortLabels = { views: "Views", engagement: "Engagement", likes: "Likes", comments: "Comments", watchMinutes: "Watch time" };
+  const sortMetric = channelId === "youtube" ? state.youtubeSort : primaryMetric;
+  const sortLabel = channelId === "youtube" ? youtubeSortLabels[sortMetric] : primaryLabel;
   const ranked = items
     .slice()
-    .sort((a, b) => metricValue(b, primaryMetric) - metricValue(a, primaryMetric))
+    .sort((a, b) => metricValue(b, sortMetric) - metricValue(a, sortMetric) || metricValue(b, "views") - metricValue(a, "views"))
     .slice(0, 8);
-  const maxEngagement = Math.max(1, ...ranked.map((item) => metricValue(item, primaryMetric)));
+  const maxEngagement = Math.max(1, ...ranked.map((item) => metricValue(item, sortMetric)));
   const maxLikes = Math.max(1, ...ranked.map((item) => metricValue(item, "likes")));
   const maxComments = Math.max(1, ...ranked.map((item) => metricValue(item, "comments")));
   const totalLikes = sumMetric(items, "likes");
@@ -423,9 +429,10 @@ function renderMinimalSocialReport(items, channelId) {
 
   document.querySelector("#brief-shell").innerHTML = `
     <div class="minimal-head">
-      <div><p class="eyebrow">${channelNames[channelId]} · ${rangeWindow(state.range).label}</p><h2>Posts and engagement</h2></div>
+      <div><p class="eyebrow">${channelNames[channelId]} · ${rangeWindow(state.range).label}</p><h2>${channelId === "youtube" ? "Videos ranked by performance" : "Posts and engagement"}</h2></div>
       <span class="record-count">${items.length} posts</span>
     </div>
+    ${channelId === "youtube" ? `<div class="youtube-sort-controls" role="group" aria-label="Sort YouTube videos"><span>Rank by:</span>${Object.entries(youtubeSortLabels).map(([metric, label]) => `<button class="youtube-sort-button ${state.youtubeSort === metric ? "active" : ""}" data-youtube-sort="${metric}" type="button">${label}</button>`).join("")}</div>` : ""}
     <div class="minimal-metrics">
       <div><span>Likes</span><strong>${formatNumber(totalLikes)}</strong></div>
       <div><span>Comments</span><strong>${formatNumber(totalComments)}</strong></div>
@@ -433,22 +440,22 @@ function renderMinimalSocialReport(items, channelId) {
       <div><span>${channelId === "youtube" ? "Total views" : "Total engagement"}</span><strong>${formatNumber(totalEngagement)}</strong></div>
     </div>
     <article class="minimal-panel top-posts-panel">
-      <div class="minimal-panel-head"><h3>${channelId === "youtube" ? "Top videos" : "Top posts"}</h3><span>${channelId === "youtube" ? "Highest views first" : "Highest engagement first"}</span></div>
-      ${ranked.slice(0, 3).length ? `<div class="post-card-grid">${ranked.slice(0, 3).map((item, index) => `<article class="content-post-card">
+      <div class="minimal-panel-head"><h3>${channelId === "youtube" ? "Top videos" : "Top posts"}</h3><span>${channelId === "youtube" ? `Highest ${sortLabel.toLowerCase()} first` : "Highest engagement first"}</span></div>
+      ${ranked.slice(0, 3).length ? `<div class="post-card-grid">${ranked.slice(0, 3).map((item, index) => `<article class="content-post-card ${channelId === "youtube" ? "youtube-post-card" : ""}">
         <div class="post-card-top"><span class="post-rank">#${index + 1}</span><span>${formatDate(item.publishedAt)}</span></div>
         <a class="post-preview" href="${item.url || "#"}" target="_blank" rel="noreferrer">${postPreview(item)}</a>
         <a class="post-card-title" href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a>
-        <div class="post-card-metrics"><span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatNumber(metricValue(item, "comments"))}</b> comments</span><span><b>${formatNumber(metricValue(item, "shares"))}</b> shares</span></div>
-        <div class="post-card-score"><span>${primaryLabel}</span><strong>${formatNumber(metricValue(item, primaryMetric))}</strong><i>${metricBar(metricValue(item, primaryMetric), maxEngagement, "engagement-fill")}</i></div>
+        <div class="post-card-metrics">${channelId === "youtube" ? `<span><b>${formatNumber(metricValue(item, "views"))}</b> views</span><span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatNumber(metricValue(item, "comments"))}</b> comments</span><span><b>${formatNumber(metricValue(item, "watchMinutes"))}</b> watch min</span>` : `<span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatNumber(metricValue(item, "comments"))}</b> comments</span><span><b>${formatNumber(metricValue(item, "shares"))}</b> shares</span>`}</div>
+        <div class="post-card-score"><span>${sortLabel}</span><strong>${formatNumber(metricValue(item, sortMetric))}</strong><i>${metricBar(metricValue(item, sortMetric), maxEngagement, "engagement-fill")}</i></div>
       </article>`).join("")}</div>` : `<p class="minimal-empty">No comparable posts in this period.</p>`}
     </article>
     <div class="minimal-visual-grid">
       <article class="minimal-panel engagement-panel">
-        <div class="minimal-panel-head"><h3>${channelId === "youtube" ? "Videos with most views" : "Posts with most engagement"}</h3><span>${channelId === "youtube" ? "Views + audience response" : "Likes + comments + shares"}</span></div>
+        <div class="minimal-panel-head"><h3>${channelId === "youtube" ? `Videos by ${sortLabel.toLowerCase()}` : "Posts with most engagement"}</h3><span>${channelId === "youtube" ? "Compare views, response and watch time" : "Likes + comments + shares"}</span></div>
         ${ranked.length ? `<div class="engagement-bars">${ranked.map((item, index) => `<div class="engagement-row">
           <div class="engagement-title"><b>${index + 1}</b><a href="${item.url || "#"}" target="_blank" rel="noreferrer" title="${shortTitle(item)}">${shortTitle(item)}</a><small>${formatDate(item.publishedAt)}</small></div>
-          <div class="engagement-track">${metricBar(metricValue(item, primaryMetric), maxEngagement, "engagement-fill")}</div>
-          <strong>${formatNumber(metricValue(item, primaryMetric))}</strong>
+          <div class="engagement-track">${metricBar(metricValue(item, sortMetric), maxEngagement, "engagement-fill")}</div>
+          <strong>${formatNumber(metricValue(item, sortMetric))}</strong>
         </div>`).join("")}</div>` : `<p class="minimal-empty">No comparable posts in this period.</p>`}
       </article>
       <article class="minimal-panel signal-panel">
@@ -459,6 +466,10 @@ function renderMinimalSocialReport(items, channelId) {
         </div>`).join("")}</div><div class="signal-legend"><span><i class="legend-likes"></i>Likes</span><span><i class="legend-comments"></i>Comments</span></div>` : `<p class="minimal-empty">No engagement data available.</p>`}
       </article>
     </div>`;
+  document.querySelectorAll("[data-youtube-sort]").forEach((button) => button.addEventListener("click", () => {
+    state.youtubeSort = button.dataset.youtubeSort;
+    render();
+  }));
 }
 
 function renderMinimalNewsletterReport(items) {
@@ -580,7 +591,11 @@ function renderMinimalWebsiteReport(items) {
 
 function renderMinimalReport() {
   if (state.channel === "all") return;
-  const items = selectedItems();
+  let items = selectedItems();
+  if (!items.length && state.channel === "youtube" && realItems().some((item) => item.platform === "youtube")) {
+    state.range = "all";
+    items = selectedItems();
+  }
   if (!items.length) {
     const available = realItems().filter((item) => item.platform === state.channel).length;
     document.querySelector("#brief-shell").innerHTML = `<div class="minimal-empty-state"><p class="eyebrow">${channelNames[state.channel]}</p><h2>No content in this period.</h2><p>${available ? `${available} pieces are available in the full history.` : "No content has been imported for this channel yet."}</p>${available ? '<button class="secondary-button" id="view-all-time" type="button">View all time</button>' : ""}</div>`;

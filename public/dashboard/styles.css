@@ -1245,6 +1245,37 @@ h2 {
   grid-template-columns: repeat(3, 1fr);
 }
 
+.youtube-sort-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 18px 0 12px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.youtube-sort-button {
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+}
+
+.youtube-sort-button:hover,
+.youtube-sort-button.active {
+  border-color: var(--teal);
+  background: rgba(94, 166, 166, 0.12);
+  color: var(--text);
+}
+
+.youtube-post-card .post-card-metrics {
+  grid-template-columns: repeat(4, 1fr);
+}
+
 .signal-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 74px;
