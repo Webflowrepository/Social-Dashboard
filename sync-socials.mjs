@@ -854,7 +854,7 @@ async function getGoogleAnalyticsData(propertyId) {
     body: JSON.stringify(body)
   });
   const dateRanges = [{ startDate: "90daysAgo", endDate: "today" }];
-  const dimensions = [{ name: "date" }, { name: "pagePath" }];
+  const dimensions = [{ name: "date" }, { name: "pagePath" }, { name: "pageTitle" }];
   const report = await runReport({
     dateRanges,
     dimensions,
@@ -892,6 +892,7 @@ async function getGoogleAnalyticsData(propertyId) {
     .map((row) => {
       const date = row.dimensionValues?.[0]?.value || "";
       const path = row.dimensionValues?.[1]?.value || "/";
+      const pageTitle = row.dimensionValues?.[2]?.value || "";
       const values = row.metricValues || [];
       const activeUsers = Number(values[0]?.value || 0);
       const sessions = Number(values[1]?.value || 0);
@@ -901,7 +902,8 @@ async function getGoogleAnalyticsData(propertyId) {
       return {
         platform: "website",
         format: "website_section",
-        title: sectionTitle(path),
+        title: pageTitle || sectionTitle(path),
+        section: websiteSection(path, pageTitle),
         publishedAt: date.length === 8 ? `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}T12:00:00Z` : new Date().toISOString(),
         metric: `${pageViews} page views`,
         url: new URL(path, publicProfiles.website.url).toString(),
@@ -1001,6 +1003,7 @@ async function getCloudflareWebsiteData(accountId, apiToken, workerName = "gildh
           platform: "website",
           format: "website_section",
           title: sectionTitle(item.path),
+          section: websiteSection(item.path),
           publishedAt: item.publishedAt,
           metric: `${item.views} views`,
           url: new URL(item.path, publicProfiles.website.url).toString(),
@@ -1102,6 +1105,10 @@ function isContentPath(pathname) {
   if (path.startsWith("/_") || path.startsWith("/__") || path.startsWith("/assets/") || path.startsWith("/cdn-cgi/")) return false;
   if (path.startsWith("/api") || path.startsWith("/wp-") || path.startsWith("/wordpress")) return false;
   if (path === "/fetch" || path === "/proxy" || path.includes("/wp-json/") || path.includes("/wp-content/")) return false;
+  if (/^\/(event|calendar)\/manage(?:\/|$)/i.test(path)) return false;
+  if (/^\/user(?:\/|$)/i.test(path)) return false;
+  if (/^\/(settings|signin|create|discover|network|embed)(?:\/|$)/i.test(path)) return false;
+  if (/^\/podcast\/admin(?:\/|$)/i.test(path)) return false;
   if (/\/\./.test(path)) return false;
   if (/\.(js|css|map|png|jpe?g|webp|gif|svg|ico|avif|mp4|mov|webm|woff2?|ttf|json|txt|xml|php|asp|aspx|env)$/i.test(path)) return false;
   return true;
@@ -1111,6 +1118,18 @@ function sectionTitle(pathname) {
   const path = String(pathname || "/").split("?")[0];
   if (path === "/") return "Website / Home";
   return `Website ${path}`;
+}
+
+function websiteSection(pathname, pageTitle = "") {
+  const path = String(pathname || "/").split("?")[0].toLowerCase();
+  const title = String(pageTitle || "").toLowerCase();
+  if (path === "/" || path === "/home" || path === "/gild") return { key: "home", label: "Home" };
+  if (path.includes("podcast") || title.includes("podcast")) return { key: "podcast", label: "Podcast" };
+  if (path.includes("insight") || title.includes("insight")) return { key: "insights", label: "Insights" };
+  if (path.includes("newsletter") || title.includes("newsletter")) return { key: "newsletter", label: "Newsletter" };
+  if (path.includes("partner") || path.includes("sponsor") || title.includes("partner")) return { key: "partnerships", label: "Partnerships" };
+  if (/event|calendar|forum|dinner|meetup|buildathon|tech-week|claude|n8n|ai-agents/.test(`${path} ${title}`)) return { key: "events", label: "Events" };
+  return { key: "other", label: "Other public pages" };
 }
 
 async function readSnapshots() {
@@ -1191,6 +1210,7 @@ function normalizeContentItem(item) {
     publishedAt,
     month: monthKey(publishedAt),
     url: item.url || "",
+    section: item.section || null,
     metric: item.metric || "sin datos",
     metrics: item.metrics || {},
     score: item.score ?? null,

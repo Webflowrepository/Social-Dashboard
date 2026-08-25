@@ -1743,5 +1743,68 @@
       "newsletter": 64,
       "website": 0
     }
+  },
+  {
+    "at": "2026-08-25T14:42:10.318Z",
+    "metrics": {
+      "linkedin": 1019,
+      "instagram": 80,
+      "youtube": 26,
+      "spotify": 0,
+      "luma": 0,
+      "newsletter": 18138,
+      "website": 2872
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "spotify": 3,
+      "luma": 0,
+      "newsletter": 65,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-08-25T14:43:51.027Z",
+    "metrics": {
+      "linkedin": 1019,
+      "instagram": 80,
+      "youtube": 26,
+      "spotify": 0,
+      "luma": 0,
+      "newsletter": 18138,
+      "website": 2872
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "spotify": 3,
+      "luma": 0,
+      "newsletter": 65,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-08-25T14:44:53.111Z",
+    "metrics": {
+      "linkedin": 1019,
+      "instagram": 80,
+      "youtube": 26,
+      "spotify": 0,
+      "luma": 0,
+      "newsletter": 18138,
+      "website": 2872
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 51,
+      "youtube": 8,
+      "spotify": 3,
+      "luma": 0,
+      "newsletter": 65,
+      "website": 0
+    }
   }
 ]
