@@ -593,6 +593,9 @@ function renderMinimalWebsiteReport(items) {
   const currentTotals = totals(items);
   const previousTotals = totals(previous);
   const change = (metric) => {
+    if (currentTotals[metric] === 0 && previousTotals[metric] > 0) {
+      return `<small class="website-change neutral">No data in this period</small>`;
+    }
     const result = deltaLabel(currentTotals[metric], previousTotals[metric]);
     return `<small class="website-change ${result.className}">${result.text}</small>`;
   };
