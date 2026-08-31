@@ -1364,6 +1364,54 @@ h2 {
   line-height: 1.45;
 }
 
+.metric-reference {
+  margin-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.metric-reference-head,
+.metric-reference-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.32fr) minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.metric-reference-head {
+  color: var(--text);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.metric-reference-row {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.metric-reference-row > strong {
+  color: var(--text);
+}
+
+.metric-reference-row b {
+  color: var(--teal-light);
+}
+
+.metric-reference + .queue-list {
+  margin-top: 20px;
+}
+
+@media (max-width: 680px) {
+  .metric-reference-head,
+  .metric-reference-row {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+}
+
 .website-range-controls {
   display: flex;
   align-items: center;
