@@ -617,18 +617,23 @@ function renderMinimalWebsiteReport(items) {
   const maxTrend = Math.max(1, ...trend.map(([, value]) => value.views));
   const bestPeriod = trend.slice().sort(([, a], [, b]) => b.views - a.views)[0];
   const bestPeriodLabel = bestPeriod ? formatDate(bestPeriod[0]) : "No period yet";
-  const grouped = new Map();
-  items.filter((item) => item.format === "website_section").forEach((item) => {
-    const key = item.section?.key || (() => {
-      try { return new URL(item.url).pathname.toLowerCase(); } catch { return String(item.url || item.title).toLowerCase(); }
-    })();
-    const current = grouped.get(key) || { ...item, metrics: {}, samples: 0 };
-    current.title = item.section?.label || current.title;
-    current.section = item.section || current.section;
-    metricNames.forEach((metric) => { current.metrics[metric] = (current.metrics[metric] || 0) + metricValue(item, metric); });
-    current.samples += 1;
-    grouped.set(key, current);
-  });
+  const aggregateSections = (records) => {
+    const grouped = new Map();
+    records.filter((item) => item.format === "website_section").forEach((item) => {
+      const key = item.section?.key || (() => {
+        try { return new URL(item.url).pathname.toLowerCase(); } catch { return String(item.url || item.title).toLowerCase(); }
+      })();
+      const current = grouped.get(key) || { ...item, metrics: {}, samples: 0 };
+      current.title = item.section?.label || current.title;
+      current.section = item.section || current.section;
+      metricNames.forEach((metric) => { current.metrics[metric] = (current.metrics[metric] || 0) + metricValue(item, metric); });
+      current.samples += 1;
+      grouped.set(key, current);
+    });
+    return grouped;
+  };
+  const grouped = aggregateSections(items);
+  const previousSections = aggregateSections(previous);
   const sections = [...grouped.values()].sort((a, b) => metricValue(b, "views") - metricValue(a, "views"));
   const clickSections = sections.slice().sort((a, b) => metricValue(b, "clicks") - metricValue(a, "clicks"));
   const maxViews = Math.max(1, ...sections.map((item) => metricValue(item, "views")));
@@ -637,7 +642,12 @@ function renderMinimalWebsiteReport(items) {
   const clickWinner = clickSections.find((item) => metricValue(item, "clicks") > 0);
   const hasPageLevelData = sections.length > 0;
   const changeForWinner = winner && previous.length ? "Compared with the previous period" : "No previous period to compare";
-  const pageRows = sections.slice(0, 12).map((item) => `<tr><td><a href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><small>${item.url || ""}</small></td><td>${formatNumber(metricValue(item, "users"))}</td><td>${formatNumber(metricValue(item, "sessions"))}</td><td><b>${formatNumber(metricValue(item, "views"))}</b></td><td>${formatNumber(metricValue(item, "clicks"))}</td><td>${formatNumber(metricValue(item, "events"))}</td></tr>`).join("");
+  const displaySections = [...sections, ...[...previousSections.values()].filter((item) => !grouped.has(item.section?.key))];
+  const pageRows = displaySections.slice(0, 20).map((item) => {
+    const previousSection = previousSections.get(item.section?.key);
+    const viewChange = deltaLabel(metricValue(item, "views"), previousSection ? metricValue(previousSection, "views") : 0);
+    return `<tr><td><a href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><small>${item.url || ""}</small></td><td>${formatNumber(metricValue(item, "users"))}</td><td>${formatNumber(metricValue(item, "sessions"))}</td><td><b>${formatNumber(metricValue(item, "views"))}</b><small class="website-change ${viewChange.className}">${viewChange.text}</small></td><td>${formatNumber(metricValue(item, "clicks"))}</td><td>${formatNumber(metricValue(item, "events"))}</td></tr>`;
+  }).join("");
   const eventPages = new Map();
   items.filter((item) => item.format === "website_section" && item.section?.key === "events").forEach((item) => {
     const key = item.url || item.title;
@@ -660,7 +670,7 @@ function renderMinimalWebsiteReport(items) {
       ${trend.length ? `<div class="trend-bars website-trend-bars">${trend.map(([label, value]) => `<div title="${label}: ${formatNumber(value.views)} views · ${formatNumber(value.users)} users · ${formatNumber(value.clicks)} clicks"><span style="height:${Math.max(4, Math.round((value.views / maxTrend) * 100))}%"></span><em>${label.slice(5)}</em></div>`).join("")}</div>` : `<p class="minimal-empty">No time series for this period.</p>`}
       <div class="website-chart-legend"><span><i class="legend-views"></i>Page views</span><span><i class="legend-users"></i>Users and clicks are shown in the table below</span></div>
     </article>
-    ${hasPageLevelData ? `<article class="minimal-panel website-panel website-table-panel"><div class="minimal-panel-head"><h3>Areas ranked by demand</h3><span>Views first · clicks show action</span></div><div class="website-table-wrap"><table class="website-table"><thead><tr><th>Area</th><th>Users</th><th>Sessions</th><th>Views</th><th>Clicks</th><th>Events</th></tr></thead><tbody>${pageRows}</tbody></table></div></article>` : `<article class="minimal-panel website-panel website-missing-page-data"><p class="eyebrow">No public area data</p><strong>GA4 is connected, but this period has no public page rows.</strong><span>Choose a longer period to compare website areas.</span></article>`}
+    ${hasPageLevelData ? `<article class="minimal-panel website-panel website-table-panel"><div class="minimal-panel-head"><h3>Every website area, compared</h3><span>Current period · change in views vs previous period</span></div><div class="website-table-wrap"><table class="website-table"><thead><tr><th>Area</th><th>Users</th><th>Sessions</th><th>Views</th><th>Clicks</th><th>Events</th></tr></thead><tbody>${pageRows}</tbody></table></div></article>` : `<article class="minimal-panel website-panel website-missing-page-data"><p class="eyebrow">No public area data</p><strong>GA4 is connected, but this period has no public page rows.</strong><span>Choose a longer period to compare website areas.</span></article>`}
     ${eventRows ? `<article class="minimal-panel website-panel website-table-panel"><div class="minimal-panel-head"><h3>Event pages</h3><span>See which specific events attracted attention</span></div><div class="website-table-wrap"><table class="website-table"><thead><tr><th>Event</th><th>Users</th><th>Sessions</th><th>Views</th><th>Clicks</th></tr></thead><tbody>${eventRows}</tbody></table></div></article>` : ""}
     ${clickWinner ? `<article class="minimal-panel website-panel"><div class="minimal-panel-head"><h3>Where did people click?</h3><span>Pages with tracked click events</span></div><div class="website-bars">${clickSections.filter((item) => metricValue(item, "clicks") > 0).slice(0, 8).map((item) => `<div class="website-row"><div class="website-title"><a href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><small>${formatNumber(metricValue(item, "clicks"))} clicks · ${formatNumber(metricValue(item, "views"))} views</small></div><div class="website-track"><i>${metricBar(metricValue(item, "clicks"), maxClicks, "clicks-fill")}</i></div><strong>${formatNumber(metricValue(item, "clicks"))}</strong></div>`).join("")}</div></article>` : `<article class="minimal-panel website-panel website-missing-page-data"><p class="eyebrow">Clicks</p><strong>No click events were recorded in this period.</strong><span>GA4 must receive the event name <b>click</b> for this comparison to populate.</span></article>`}
     `;
