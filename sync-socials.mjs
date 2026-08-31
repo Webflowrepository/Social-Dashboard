@@ -766,14 +766,16 @@ async function getLumaApiData(apiKey) {
   const isCheckedIn = (guest) => Boolean(
     guest.checked_in_at || guest.event_tickets?.some((ticket) => ticket.checked_in_at)
   );
+  const isGoing = (guest) => String(guest.approval_status || "").toLowerCase() === "approved";
   const registrations = enriched.reduce(
     (total, item) => total + item.guests.filter((guest) => guest.approval_status !== "declined").length,
     0
   );
+  const going = enriched.reduce((total, item) => total + item.guests.filter(isGoing).length, 0);
   const attendees = enriched.reduce((total, item) => total + item.guests.filter(isCheckedIn).length, 0);
   return {
     handle: publicProfiles.luma.handle,
-    metrics: { events: events.length, registrations, attendees },
+    metrics: { events: events.length, registrations, going, attendees },
     entries: enriched.map(({ event, guests }) => ({
       id: `luma:${event.api_id || event.id}`,
       platform: "luma",
@@ -786,6 +788,7 @@ async function getLumaApiData(apiKey) {
       metrics: {
         events: 1,
         registrations: guests.filter((guest) => guest.approval_status !== "declined").length,
+        going: guests.filter(isGoing).length,
         attendees: guests.filter(isCheckedIn).length
       },
       signal: "luma_api",
