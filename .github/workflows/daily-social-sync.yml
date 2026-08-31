@@ -59,6 +59,21 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
 
+      - name: Validate connected source credentials
+        shell: bash
+        run: |
+          missing=()
+          for key in LUMA_API_KEY BEEHIIV_API_KEY GA4_PROPERTY_ID GOOGLE_SERVICE_ACCOUNT_JSON; do
+            if [ -z "${!key}" ]; then missing+=("$key"); fi
+          done
+          if [ -z "$YOUTUBE_API_KEY" ] && { [ -z "$GOOGLE_CLIENT_ID" ] || [ -z "$GOOGLE_CLIENT_SECRET" ] || [ -z "$YOUTUBE_REFRESH_TOKEN" ]; }; then
+            missing+=("YOUTUBE_API_KEY or YouTube OAuth credentials")
+          fi
+          if [ ${#missing[@]} -gt 0 ]; then
+            printf 'Missing GitHub Actions secrets: %s\n' "${missing[*]}"
+            exit 1
+          fi
+
       - name: Sync all connected channels
         run: npm run sync:social
 
