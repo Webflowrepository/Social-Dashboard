@@ -1,0 +1,76 @@
+name: Daily GILD data sync
+
+on:
+  schedule:
+    - cron: "15 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-gild-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      GILD_LINKEDIN_HANDLE: ${{ secrets.GILD_LINKEDIN_HANDLE }}
+      GILD_LINKEDIN_ORG_ID: ${{ secrets.GILD_LINKEDIN_ORG_ID }}
+      LINKEDIN_CLIENT_ID: ${{ secrets.LINKEDIN_CLIENT_ID }}
+      LINKEDIN_CLIENT_SECRET: ${{ secrets.LINKEDIN_CLIENT_SECRET }}
+      LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+      GILD_INSTAGRAM_HANDLE: ${{ secrets.GILD_INSTAGRAM_HANDLE }}
+      GILD_INSTAGRAM_BUSINESS_ID: ${{ secrets.GILD_INSTAGRAM_BUSINESS_ID }}
+      META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
+      GILD_YOUTUBE_HANDLE: ${{ secrets.GILD_YOUTUBE_HANDLE }}
+      GILD_YOUTUBE_CHANNEL_ID: ${{ secrets.GILD_YOUTUBE_CHANNEL_ID }}
+      YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+      GILD_NEWSLETTER_HANDLE: ${{ secrets.GILD_NEWSLETTER_HANDLE }}
+      GILD_NEWSLETTER_URL: ${{ secrets.GILD_NEWSLETTER_URL }}
+      BEEHIIV_API_KEY: ${{ secrets.BEEHIIV_API_KEY }}
+      BEEHIIV_PUBLICATION_ID: ${{ secrets.BEEHIIV_PUBLICATION_ID }}
+      GILD_WEBSITE_HANDLE: ${{ secrets.GILD_WEBSITE_HANDLE }}
+      GILD_WEBSITE_URL: ${{ secrets.GILD_WEBSITE_URL }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+      CLOUDFLARE_WORKER_NAME: ${{ secrets.CLOUDFLARE_WORKER_NAME }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+      GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+      LUMA_API_KEY: ${{ secrets.LUMA_API_KEY }}
+      SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+      SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+      SPOTIFY_SHOW_ID: ${{ secrets.SPOTIFY_SHOW_ID }}
+
+    steps:
+      - name: Check out dashboard
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Sync all connected channels
+        run: npm run sync:social
+
+      - name: Publish refreshed data
+        run: |
+          git config user.name "gild-sync[bot]"
+          git config user.email "gild-sync[bot]@users.noreply.github.com"
+          git add public/dashboard/social-data.json public/dashboard/social-snapshots.json
+          if git diff --cached --quiet; then
+            echo "No data changes detected."
+            exit 0
+          fi
+          git commit -m "chore: refresh social metrics"
+          git push
