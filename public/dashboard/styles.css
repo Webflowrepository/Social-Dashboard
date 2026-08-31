@@ -1529,6 +1529,16 @@ h2 {
   text-decoration: none;
 }
 
+.website-table td .website-section-label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--teal-light);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .website-table td a:hover {
   color: var(--teal-light);
 }

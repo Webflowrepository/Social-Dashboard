@@ -648,18 +648,20 @@ function renderMinimalWebsiteReport(items) {
     const viewChange = deltaLabel(metricValue(item, "views"), previousSection ? metricValue(previousSection, "views") : 0);
     return `<tr><td><a href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><small>${item.url || ""}</small></td><td>${formatNumber(metricValue(item, "users"))}</td><td>${formatNumber(metricValue(item, "sessions"))}</td><td><b>${formatNumber(metricValue(item, "views"))}</b><small class="website-change ${viewChange.className}">${viewChange.text}</small></td><td>${formatNumber(metricValue(item, "clicks"))}</td><td>${formatNumber(metricValue(item, "events"))}</td></tr>`;
   }).join("");
-  const eventPages = new Map();
-  items.filter((item) => item.format === "website_section" && item.section?.key === "events").forEach((item) => {
+  const pageDetails = new Map();
+  items.filter((item) => item.format === "website_section").forEach((item) => {
     const key = item.url || item.title;
-    const current = eventPages.get(key) || { ...item, metrics: {} };
+    const current = pageDetails.get(key) || { ...item, metrics: {}, samples: 0 };
     current.title = item.title || current.title;
+    current.section = item.section || current.section;
     metricNames.forEach((metric) => { current.metrics[metric] = (current.metrics[metric] || 0) + metricValue(item, metric); });
-    eventPages.set(key, current);
+    current.samples += 1;
+    pageDetails.set(key, current);
   });
-  const eventRows = [...eventPages.values()]
+  const pageRowsDetailed = [...pageDetails.values()]
     .sort((a, b) => metricValue(b, "views") - metricValue(a, "views"))
-    .slice(0, 20)
-    .map((item) => `<tr><td><a href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><small>${item.url || ""}</small></td><td>${formatNumber(metricValue(item, "users"))}</td><td>${formatNumber(metricValue(item, "sessions"))}</td><td><b>${formatNumber(metricValue(item, "views"))}</b></td><td>${formatNumber(metricValue(item, "clicks"))}</td></tr>`)
+    .slice(0, 40)
+    .map((item) => `<tr><td><strong class="website-section-label">${item.section?.label || "Other public pages"}</strong><a href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><small>${item.url || ""}</small></td><td>${formatNumber(metricValue(item, "users"))}</td><td>${formatNumber(metricValue(item, "sessions"))}</td><td><b>${formatNumber(metricValue(item, "views"))}</b></td><td>${formatNumber(metricValue(item, "clicks"))}</td><td>${formatNumber(metricValue(item, "events"))}</td></tr>`)
     .join("");
   document.querySelector("#brief-shell").innerHTML = `
     <div class="minimal-head website-report-head"><div><p class="eyebrow">Website · ${websiteRangeLabel}</p><h2>Which areas of GILD are working?</h2><p class="website-source-note">Compare the public areas of the site by people, page views and clicks. This shows where content and promotion should go next.</p></div><span class="record-count">${sections.length} areas</span></div>
@@ -671,7 +673,7 @@ function renderMinimalWebsiteReport(items) {
       <div class="website-chart-legend"><span><i class="legend-views"></i>Page views</span><span><i class="legend-users"></i>Users and clicks are shown in the table below</span></div>
     </article>
     ${hasPageLevelData ? `<article class="minimal-panel website-panel website-table-panel"><div class="minimal-panel-head"><h3>Every website area, compared</h3><span>Current period · change in views vs previous period</span></div><div class="website-table-wrap"><table class="website-table"><thead><tr><th>Area</th><th>Users</th><th>Sessions</th><th>Views</th><th>Clicks</th><th>Events</th></tr></thead><tbody>${pageRows}</tbody></table></div></article>` : `<article class="minimal-panel website-panel website-missing-page-data"><p class="eyebrow">No public area data</p><strong>GA4 is connected, but this period has no public page rows.</strong><span>Choose a longer period to compare website areas.</span></article>`}
-    ${eventRows ? `<article class="minimal-panel website-panel website-table-panel"><div class="minimal-panel-head"><h3>Event pages</h3><span>See which specific events attracted attention</span></div><div class="website-table-wrap"><table class="website-table"><thead><tr><th>Event</th><th>Users</th><th>Sessions</th><th>Views</th><th>Clicks</th></tr></thead><tbody>${eventRows}</tbody></table></div></article>` : ""}
+    ${pageRowsDetailed ? `<article class="minimal-panel website-panel website-table-panel"><div class="minimal-panel-head"><h3>Every page inside each section</h3><span>${pageDetails.size} pages · highest views first</span></div><div class="website-table-wrap"><table class="website-table"><thead><tr><th>Page / section</th><th>Users</th><th>Sessions</th><th>Views</th><th>Clicks</th><th>Events</th></tr></thead><tbody>${pageRowsDetailed}</tbody></table></div></article>` : ""}
     ${clickWinner ? `<article class="minimal-panel website-panel"><div class="minimal-panel-head"><h3>Where did people click?</h3><span>Pages with tracked click events</span></div><div class="website-bars">${clickSections.filter((item) => metricValue(item, "clicks") > 0).slice(0, 8).map((item) => `<div class="website-row"><div class="website-title"><a href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><small>${formatNumber(metricValue(item, "clicks"))} clicks · ${formatNumber(metricValue(item, "views"))} views</small></div><div class="website-track"><i>${metricBar(metricValue(item, "clicks"), maxClicks, "clicks-fill")}</i></div><strong>${formatNumber(metricValue(item, "clicks"))}</strong></div>`).join("")}</div></article>` : `<article class="minimal-panel website-panel website-missing-page-data"><p class="eyebrow">Clicks</p><strong>No click events were recorded in this period.</strong><span>GA4 must receive the event name <b>click</b> for this comparison to populate.</span></article>`}
     `;
   document.querySelectorAll("[data-website-range]").forEach((button) => button.addEventListener("click", () => {
