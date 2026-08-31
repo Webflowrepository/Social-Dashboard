@@ -929,6 +929,35 @@ h2 {
   padding: 26px;
 }
 
+/* Header navigation opens one focused working area instead of relying on hidden anchors. */
+.nav-focus .analysis-controls,
+.nav-focus .channel-switcher,
+.nav-focus .brief-shell,
+.nav-focus #overview-grid,
+.nav-focus .question-board,
+.nav-focus .board:not(#content-intelligence):not(#learnings):not(#data-health),
+.nav-focus #content-record,
+.nav-focus #data-health,
+.nav-focus #content-intelligence,
+.nav-focus #learnings,
+.nav-focus #channels {
+  display: none;
+}
+
+.nav-focus.nav-channels #channels,
+.nav-focus.nav-content-intelligence #content-intelligence,
+.nav-focus.nav-learnings #learnings,
+.nav-focus.nav-data-health #data-health {
+  display: block;
+}
+
+.nav-focus #channels,
+.nav-focus #content-intelligence,
+.nav-focus #learnings,
+.nav-focus #data-health {
+  margin-top: 34px;
+}
+
 .brief-shell {
   margin-top: 26px;
 }

@@ -51,13 +51,14 @@ const state = {
   data: null,
   range: "all",
   channel: "all",
-  youtubeSort: "views"
+  youtubeSort: "views",
+  navTarget: null
 };
 
 function moveTechnicalDetails() {
   const target = document.querySelector("#technical-details");
   if (!target || target.dataset.ready) return;
-  ["#overview-grid", ".question-board", "#top-content", "#channels", "#content-intelligence", "#learnings", "#content-record", "#data-health"].forEach((selector) => {
+  ["#overview-grid", ".question-board", "#top-content"].forEach((selector) => {
     const node = document.querySelector(selector);
     const section = selector === "#top-content" ? node?.closest(".board") : node;
     if (section) target.append(section);
@@ -291,8 +292,12 @@ function renderControls() {
   document.querySelectorAll("[data-channel]").forEach((button) => {
     button.classList.toggle("active", button.dataset.channel === state.channel);
   });
-  document.body.classList.toggle("channel-focus", state.channel !== "all");
-  document.body.classList.toggle("channel-start", state.channel === "all");
+  document.body.classList.toggle("channel-focus", state.channel !== "all" && !state.navTarget);
+  document.body.classList.toggle("channel-start", state.channel === "all" && (!state.navTarget || state.navTarget === "choose"));
+  document.body.classList.toggle("nav-focus", Boolean(state.navTarget && state.navTarget !== "choose"));
+  ["channels", "content-intelligence", "learnings", "data-health"].forEach((target) => {
+    document.body.classList.toggle(`nav-${target}`, state.navTarget === target);
+  });
 }
 
 function relativeLabel(item, cohort) {
@@ -1211,15 +1216,31 @@ document.querySelectorAll("[data-range]").forEach((button) => {
 });
 
 document.querySelector("#global-channel-filter").addEventListener("change", (event) => {
+  state.navTarget = null;
   state.channel = event.target.value;
   render();
 });
 
 document.querySelectorAll("[data-channel]").forEach((button) => {
   button.addEventListener("click", () => {
+    state.navTarget = null;
     state.channel = button.dataset.channel;
     render();
     document.querySelector("#channels")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+});
+
+document.querySelectorAll(".site-nav a").forEach((link) => {
+  link.addEventListener("click", (event) => {
+    const target = link.getAttribute("href")?.slice(1);
+    if (!target) return;
+    event.preventDefault();
+    state.navTarget = target === "channel-picker" ? "choose" : target;
+    state.channel = "all";
+    render();
+    requestAnimationFrame(() => {
+      document.getElementById(target)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   });
 });
 
