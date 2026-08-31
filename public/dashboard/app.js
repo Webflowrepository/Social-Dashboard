@@ -443,11 +443,16 @@ function renderMinimalSocialReport(items, channelId) {
   const totalComments = sumMetric(items, "comments");
   const totalShares = sumMetric(items, "shares");
   const totalEngagement = sumMetric(items, primaryMetric);
+  const channelRecord = channelById()[channelId] || {};
+  const profilePostCount = state.range === "all" ? Number(channelRecord.metrics?.posts || 0) : 0;
+  const coverageNote = profilePostCount > items.length
+    ? `<p class="data-coverage-note">${channelNames[channelId]} shows ${formatNumber(profilePostCount)} published posts on the profile. Detailed metrics are available for ${formatNumber(items.length)} imported posts so far.</p>`
+    : "";
 
   document.querySelector("#brief-shell").innerHTML = `
     <div class="minimal-head">
-      <div><p class="eyebrow">${channelNames[channelId]} · ${rangeWindow(state.range).label}</p><h2>${channelId === "youtube" ? "Videos ranked by performance" : "Posts and engagement"}</h2></div>
-      <span class="record-count">${items.length} posts</span>
+      <div><p class="eyebrow">${channelNames[channelId]} · ${rangeWindow(state.range).label}</p><h2>${channelId === "youtube" ? "Videos ranked by performance" : "Posts and engagement"}</h2>${coverageNote}</div>
+      <span class="record-count">${profilePostCount > items.length ? `${formatNumber(profilePostCount)} published · ${formatNumber(items.length)} measured` : `${items.length} posts`}</span>
     </div>
     ${channelId === "youtube" ? `<div class="youtube-sort-controls" role="group" aria-label="Sort YouTube videos"><span>Rank by:</span>${Object.entries(youtubeSortLabels).map(([metric, label]) => `<button class="youtube-sort-button ${state.youtubeSort === metric ? "active" : ""}" data-youtube-sort="${metric}" type="button">${label}</button>`).join("")}</div>` : ""}
     <div class="minimal-metrics">

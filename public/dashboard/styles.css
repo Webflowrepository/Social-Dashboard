@@ -1529,6 +1529,14 @@ h2 {
   text-decoration: none;
 }
 
+.data-coverage-note {
+  max-width: 720px;
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
 .website-table td .website-section-label {
   display: block;
   margin-bottom: 4px;
