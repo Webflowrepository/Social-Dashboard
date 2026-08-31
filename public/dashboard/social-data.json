@@ -1,5 +1,5 @@
 {
-  "lastSyncAt": "2026-08-31T18:32:05.367Z",
+  "lastSyncAt": "2026-08-31T20:03:55.887Z",
   "mode": "api-ready",
   "brand": {
     "name": "GILD",
@@ -54,7 +54,7 @@
       "handle": "@GILDhq",
       "url": "https://www.youtube.com/@GILDhq",
       "channelId": "UCC0lbied2G_PVm_WVK-xhrw",
-      "status": "profile_linked",
+      "status": "connected",
       "trend": {
         "subscribers": 0,
         "views": 0
@@ -71,20 +71,20 @@
       "handle": "GILD Podcast",
       "url": "https://creators.spotify.com/pod/show/0TSnQszN4VY8tyOgIYPsQy/episodes",
       "showId": "0TSnQszN4VY8tyOgIYPsQy",
-      "status": "profile_linked"
+      "status": "connected"
     },
     {
       "id": "luma",
       "name": "Luma",
       "metrics": {
         "events": 30,
-        "registrations": 1095,
+        "registrations": 1096,
         "attendees": 438,
         "going": 709
       },
       "handle": "GILD Events",
       "url": "https://lu.ma/gild",
-      "status": "profile_linked"
+      "status": "connected"
     },
     {
       "id": "newsletter",
@@ -96,128 +96,28 @@
         "clickRate": 2.95,
         "sent": 433787
       },
-      "handle": "Beehiiv",
+      "handle": "GILD",
       "url": "https://www.beehiiv.com/",
-      "status": "profile_linked",
+      "status": "connected",
       "publicationId": "pub_133849f3-7359-4235-ae8a-ad324fae93ef"
     },
     {
       "id": "website",
       "name": "Website",
       "metrics": {
-        "users": 2755,
-        "sessions": 3512,
-        "pageViews": 4874,
-        "events": 13445,
+        "users": 2758,
+        "sessions": 3515,
+        "pageViews": 4875,
+        "events": 13449,
         "errors": 4294,
         "clicks": 76
       },
       "handle": "gildhq.com",
       "url": "https://gildhq.com/",
-      "status": "profile_linked"
+      "status": "connected"
     }
   ],
   "recentPosts": [
-    {
-      "id": "spotify:profile-signal:2026-08",
-      "platform": "spotify",
-      "format": "profile_signal",
-      "title": "Spotify profile signal",
-      "imageUrl": "",
-      "publishedAt": "2026-08-31T18:30:04.182Z",
-      "month": "2026-08",
-      "url": "https://creators.spotify.com/pod/show/0TSnQszN4VY8tyOgIYPsQy/episodes",
-      "section": null,
-      "metric": "24 proxy score",
-      "metrics": {
-        "followers": 0,
-        "subscribers": 0,
-        "users": 0,
-        "posts": 0,
-        "videos": 0,
-        "episodes": 3,
-        "views": 0,
-        "sessions": 0
-      },
-      "score": 24,
-      "signal": "profile_proxy",
-      "nextUse": "Review manually."
-    },
-    {
-      "id": "luma:profile-signal:2026-08",
-      "platform": "luma",
-      "format": "profile_signal",
-      "title": "Luma profile signal",
-      "imageUrl": "",
-      "publishedAt": "2026-08-31T18:30:04.182Z",
-      "month": "2026-08",
-      "url": "https://lu.ma/gild",
-      "section": null,
-      "metric": "1 proxy score",
-      "metrics": {
-        "followers": 0,
-        "subscribers": 0,
-        "users": 0,
-        "posts": 0,
-        "videos": 0,
-        "episodes": 0,
-        "views": 0,
-        "sessions": 0
-      },
-      "score": 1,
-      "signal": "profile_proxy",
-      "nextUse": "Review manually."
-    },
-    {
-      "id": "newsletter:profile-signal:2026-08",
-      "platform": "newsletter",
-      "format": "profile_signal",
-      "title": "Newsletter profile signal",
-      "imageUrl": "",
-      "publishedAt": "2026-08-31T18:30:04.182Z",
-      "month": "2026-08",
-      "url": "https://www.beehiiv.com/",
-      "section": null,
-      "metric": "18631 proxy score",
-      "metrics": {
-        "followers": 0,
-        "subscribers": 18111,
-        "users": 0,
-        "posts": 65,
-        "videos": 0,
-        "episodes": 0,
-        "views": 0,
-        "sessions": 0
-      },
-      "score": 18631,
-      "signal": "profile_proxy",
-      "nextUse": "Connect Beehiiv stats, then promote high-open topics through LinkedIn and Instagram."
-    },
-    {
-      "id": "website:profile-signal:2026-08",
-      "platform": "website",
-      "format": "profile_signal",
-      "title": "Website profile signal",
-      "imageUrl": "",
-      "publishedAt": "2026-08-31T18:30:04.182Z",
-      "month": "2026-08",
-      "url": "https://gildhq.com/",
-      "section": null,
-      "metric": "3142 proxy score",
-      "metrics": {
-        "followers": 0,
-        "subscribers": 0,
-        "users": 2752,
-        "posts": 0,
-        "videos": 0,
-        "episodes": 0,
-        "views": 4869,
-        "sessions": 3507
-      },
-      "score": 3142,
-      "signal": "profile_proxy",
-      "nextUse": "Connect GA4, then use traffic spikes to choose content themes for the editorial calendar."
-    },
     {
       "id": "instagram:import:https://www.instagram.com/p/DaDt2a7HJOL/",
       "platform": "instagram",
@@ -325,6 +225,114 @@
       "score": 124,
       "signal": "manual_import",
       "nextUse": "Use winning Instagram creative to decide reels, clips and social proof."
+    },
+    {
+      "id": "instagram:import:https://www.instagram.com/p/DZd-I_qjXNv/",
+      "platform": "instagram",
+      "format": "social_post_or_reel",
+      "title": "25 seats. Dallas. June 16.⁠\n⁠\nGILD AI Forum is back for engineering leaders building with AI in the real world. Off the record, peer-led, and curated for candid conversation.⁠\n⁠\nPresented by @tecla.io. Applications close this week. Request your invite at the link in bio.⁠\n⁠\n#GILD #AILeadership #AIEngineering #DallasTech",
+      "imageUrl": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-15/722562754_17889263412560543_6569721334582000221_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=bCj2HXg21HEQ7kNvwFSmztg&_nc_oc=Adrb1_gUu-xeiKm2gVm2si309Gl-_PLHKv_yf8SiFomJrzbxNYqKMkJslMrDm1mNQpU&_nc_zt=23&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=rYALMpV0qKCSHDb1fUBgjw&_nc_tpa=Q5bMBQFtRiAtMalaUFLZ4_BeHQyFL09er3SOG4CzrWUU6Yyv3FFSj9p_nfduFBNWvswXptyI6KBbv6e5&oh=00_AQBY4Hj8DrRrFtAEs8R93c6pug6YjKGsrItwqUc4JbYR6w&oe=6A4999F7",
+      "publishedAt": "2026-06-11T21:00:59.000Z",
+      "month": "2026-06",
+      "url": "https://www.instagram.com/p/DZd-I_qjXNv/",
+      "section": null,
+      "metric": "65 imported score",
+      "metrics": {
+        "views": 45,
+        "reach": 19,
+        "impressions": 0,
+        "likes": 3,
+        "comments": 0,
+        "shares": 0,
+        "saves": 0,
+        "clicks": 0,
+        "engagementRate": 16,
+        "skipRate": 0
+      },
+      "score": 65,
+      "signal": "manual_import",
+      "nextUse": "Use winning Instagram creative to decide reels, clips and social proof."
+    },
+    {
+      "id": "instagram:import:https://www.instagram.com/p/DZbLotSkTf0/",
+      "platform": "instagram",
+      "format": "social_post_or_reel",
+      "title": "Everyone's talking about AI. Very few people get to talk through it with someone who actually gets it.⁠\n⁠\nIn the AI era, human connection matters more, not less. GILD is a trusted space for senior AI and engineering leaders to meet the people behind the work: the ones building what comes next.⁠\n⁠\nCurated dinners. Introductions. Private community. Network intelligence.⁠\nRequest access at the link in bio.⁠\n⁠\n#AILeaders #EngineeringLeaders #AICommunity #TechLeadership #GILD",
+      "imageUrl": "https://scontent-iad6-1.cdninstagram.com/v/t51.82787-15/718980075_17889095310560543_4899194211295830139_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=W5aSVg5znT4Q7kNvwEsWMny&_nc_oc=AdqY3AZcYQR5O6jimrC0JGbPJM9Ss_0ZIG0nCfS_Zf8rsbaToN0ECB8IXVjwvw2Q74A&_nc_zt=23&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=0iOKbYXSSIgobTVZJyMMgA&_nc_tpa=Q5bMBQF3fr6v571aGiUmJoKlYvCdzWvhWLtTKGHd4l4v4uRgNSpGBpK0adu6wScLipMCsK_jVhnQ4wpQ&oh=00_AQCz3OBIU7Sx3oCnKfo8Q0N3fVU2HcLEq16NnPcM6f39Zw&oe=6A499DDA",
+      "publishedAt": "2026-06-10T19:00:46.000Z",
+      "month": "2026-06",
+      "url": "https://www.instagram.com/p/DZbLotSkTf0/",
+      "section": null,
+      "metric": "97 imported score",
+      "metrics": {
+        "views": 65,
+        "reach": 24,
+        "impressions": 0,
+        "likes": 6,
+        "comments": 0,
+        "shares": 0,
+        "saves": 0,
+        "clicks": 0,
+        "engagementRate": 25,
+        "skipRate": 0
+      },
+      "score": 97,
+      "signal": "manual_import",
+      "nextUse": "Use winning Instagram creative to decide reels, clips and social proof."
+    },
+    {
+      "id": "instagram:import:https://www.instagram.com/reel/DZGjfucEai_/",
+      "platform": "instagram",
+      "format": "social_post_or_reel",
+      "title": "What does AI adoption actually look like inside a company?⁠\n⁠\nTomorrow on the GILD Podcast, Gino Ferrand sits down with Raphael Varieras, SVP of AI & Data at Zello, to talk about shipping AI at scale, from internal adoption to customer-facing products and security risks.⁠\n⁠\nIn this clip, Raphael shares why AI security needs to be part of the conversation early.⁠\n⁠\nEpisode 7 drops tomorrow.⁠\n⁠\n#GILDPodcast #AI #TechLeadership #AISecurity",
+      "imageUrl": "https://scontent-iad6-1.cdninstagram.com/v/t51.82787-15/713623746_17887756500560543_8874742577692654098_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=l5nPQ8zRhBMQ7kNvwHX0sE-&_nc_oc=Ado-IQ9j8wOvocKDmEtnNwHAv-nh8jec6aKrguu4HYoEiQdpqX87cdAje0dW6199N58&_nc_zt=23&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=DKFyvvELn49Afb49Df7B5g&_nc_tpa=Q5bMBQGuS0kbXhY3yXRj25251Da6dcoF_BkRzVjeiOAMPLiUoDLPCBA76iVTXvfX5vxBRJhDXjxCSZug&oh=00_AQAAn3ulkHtnzZ5aFp2FfmZKvJ8anaty3QcH_2jEKgP8tw&oe=6A499A06",
+      "publishedAt": "2026-06-02T18:48:07.000Z",
+      "month": "2026-06",
+      "url": "https://www.instagram.com/reel/DZGjfucEai_/",
+      "section": null,
+      "metric": "235 imported score",
+      "metrics": {
+        "views": 146,
+        "reach": 123,
+        "impressions": 0,
+        "likes": 5,
+        "comments": 0,
+        "shares": 0,
+        "saves": 0,
+        "clicks": 0,
+        "engagementRate": 4.1,
+        "skipRate": 69
+      },
+      "score": 235,
+      "signal": "manual_import",
+      "nextUse": "Use winning Instagram creative to decide reels, clips and social proof."
+    },
+    {
+      "id": "instagram:import:https://www.instagram.com/reel/DZD78dQDMI5/",
+      "platform": "instagram",
+      "format": "social_post_or_reel",
+      "title": "Austin. Last week.⁠\n⁠\nA small room of CTOs and senior technical leaders. One honest conversation about where AI is actually taking technical leadership right now.⁠\n⁠\nGrateful for the openness in that room. And to our partners at @tecla.io for making it possible.⁠\n⁠\nMore to come.⁠\n⁠\n#GILD #AIStrategy #AustinTech",
+      "imageUrl": "https://scontent-iad6-1.cdninstagram.com/v/t51.71878-15/706488752_973472785319980_60767162827619032_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=ZyMnceknzk0Q7kNvwGY15Sb&_nc_oc=AdqAKGZQ1UZuooFqjY7dMlmhpKf8lgsHOfDFS7ZN_WAr109Tmrv7cLjQj-DlzNyzUt8&_nc_zt=23&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=gZ9GTx7lf8u7h3Y4Y0Z7TA&_nc_tpa=Q5bMBQGZie0Mzdvtu_xDJoMZPYArHt_CBXWrZ9RWY4E4I30B96BAhsQfBOXBayR0mMk7YLAoB9717mBr&oh=00_AQDBaRVh2w8_yhxjkoISS4k3LQxzYwX62VUHlRonpyDLig&oe=6A49BF82",
+      "publishedAt": "2026-06-01T18:24:04.000Z",
+      "month": "2026-06",
+      "url": "https://www.instagram.com/reel/DZD78dQDMI5/",
+      "section": null,
+      "metric": "239 imported score",
+      "metrics": {
+        "views": 151,
+        "reach": 123,
+        "impressions": 0,
+        "likes": 2,
+        "comments": 1,
+        "shares": 0,
+        "saves": 0,
+        "clicks": 0,
+        "engagementRate": 2.4,
+        "skipRate": 91
+      },
+      "score": 239,
+      "signal": "manual_import",
+      "nextUse": "Use winning Instagram creative to decide reels, clips and social proof."
     }
   ],
   "audienceHistory": [
@@ -346,11 +354,11 @@
     },
     {
       "label": "S-5",
-      "linkedin": 1020,
+      "linkedin": 1019,
       "instagram": 80,
       "youtube": 26,
-      "newsletter": 16962,
-      "website": 3158
+      "newsletter": 18138,
+      "website": 2872
     },
     {
       "label": "S-4",
@@ -370,14 +378,6 @@
     },
     {
       "label": "S-2",
-      "linkedin": 1019,
-      "instagram": 80,
-      "youtube": 26,
-      "newsletter": 18138,
-      "website": 2872
-    },
-    {
-      "label": "S-1",
       "linkedin": 1023,
       "instagram": 81,
       "youtube": 26,
@@ -385,12 +385,20 @@
       "website": 2752
     },
     {
-      "label": "Now",
+      "label": "S-1",
       "linkedin": 1023,
       "instagram": 81,
       "youtube": 26,
       "newsletter": 18111,
       "website": 2755
+    },
+    {
+      "label": "Now",
+      "linkedin": 1023,
+      "instagram": 81,
+      "youtube": 26,
+      "newsletter": 18111,
+      "website": 2758
     }
   ],
   "contentPipeline": [
@@ -426,131 +434,31 @@
     },
     "youtube": {
       "url": "https://www.youtube.com/@GILDhq",
-      "sync": "public_rss",
-      "note": "YouTube OAuth/API is active; public RSS is fallback."
+      "sync": "api",
+      "note": "YouTube Data API is active. Enable YouTube Analytics API to add watch time, shares and deeper video analytics."
     },
     "newsletter": {
       "url": "https://www.beehiiv.com/",
-      "sync": "profile_linked",
+      "sync": "api",
       "note": "Beehiiv API is active."
     },
     "spotify": {
       "url": "https://creators.spotify.com/pod/show/0TSnQszN4VY8tyOgIYPsQy/episodes",
-      "sync": "profile_linked",
-      "note": "Spotify public show and episode data is active; private listener metrics are not available through this API."
+      "sync": "public_catalog",
+      "note": "Spotify API unavailable (https://api.spotify.com/v1/shows/0TSnQszN4VY8tyOgIYPsQy?market=US returned 403: Active premium subscription required for the owner of the app. When the subscription status changes, it can take a few hours before requests are allowed again.); showing the public GILD podcast catalog instead."
     },
     "luma": {
       "url": "https://lu.ma/gild",
-      "sync": "profile_linked",
+      "sync": "api",
       "note": "Luma events, registrations and attendance are active."
     },
     "website": {
       "url": "https://gildhq.com/",
-      "sync": "profile_linked",
-      "note": "Overall website traffic is active; page-level analytics is still needed."
+      "sync": "ga4_api",
+      "note": "Google Analytics page-level data is active."
     }
   },
   "contentItems": [
-    {
-      "id": "spotify:profile-signal:2026-08",
-      "platform": "spotify",
-      "format": "profile_signal",
-      "title": "Spotify profile signal",
-      "imageUrl": "",
-      "publishedAt": "2026-08-31T18:30:04.182Z",
-      "month": "2026-08",
-      "url": "https://creators.spotify.com/pod/show/0TSnQszN4VY8tyOgIYPsQy/episodes",
-      "section": null,
-      "metric": "24 proxy score",
-      "metrics": {
-        "followers": 0,
-        "subscribers": 0,
-        "users": 0,
-        "posts": 0,
-        "videos": 0,
-        "episodes": 3,
-        "views": 0,
-        "sessions": 0
-      },
-      "score": 24,
-      "signal": "profile_proxy",
-      "nextUse": "Review manually."
-    },
-    {
-      "id": "luma:profile-signal:2026-08",
-      "platform": "luma",
-      "format": "profile_signal",
-      "title": "Luma profile signal",
-      "imageUrl": "",
-      "publishedAt": "2026-08-31T18:30:04.182Z",
-      "month": "2026-08",
-      "url": "https://lu.ma/gild",
-      "section": null,
-      "metric": "1 proxy score",
-      "metrics": {
-        "followers": 0,
-        "subscribers": 0,
-        "users": 0,
-        "posts": 0,
-        "videos": 0,
-        "episodes": 0,
-        "views": 0,
-        "sessions": 0
-      },
-      "score": 1,
-      "signal": "profile_proxy",
-      "nextUse": "Review manually."
-    },
-    {
-      "id": "newsletter:profile-signal:2026-08",
-      "platform": "newsletter",
-      "format": "profile_signal",
-      "title": "Newsletter profile signal",
-      "imageUrl": "",
-      "publishedAt": "2026-08-31T18:30:04.182Z",
-      "month": "2026-08",
-      "url": "https://www.beehiiv.com/",
-      "section": null,
-      "metric": "18631 proxy score",
-      "metrics": {
-        "followers": 0,
-        "subscribers": 18111,
-        "users": 0,
-        "posts": 65,
-        "videos": 0,
-        "episodes": 0,
-        "views": 0,
-        "sessions": 0
-      },
-      "score": 18631,
-      "signal": "profile_proxy",
-      "nextUse": "Connect Beehiiv stats, then promote high-open topics through LinkedIn and Instagram."
-    },
-    {
-      "id": "website:profile-signal:2026-08",
-      "platform": "website",
-      "format": "profile_signal",
-      "title": "Website profile signal",
-      "imageUrl": "",
-      "publishedAt": "2026-08-31T18:30:04.182Z",
-      "month": "2026-08",
-      "url": "https://gildhq.com/",
-      "section": null,
-      "metric": "3142 proxy score",
-      "metrics": {
-        "followers": 0,
-        "subscribers": 0,
-        "users": 2752,
-        "posts": 0,
-        "videos": 0,
-        "episodes": 0,
-        "views": 4869,
-        "sessions": 3507
-      },
-      "score": 3142,
-      "signal": "profile_proxy",
-      "nextUse": "Connect GA4, then use traffic spikes to choose content themes for the editorial calendar."
-    },
     {
       "id": "instagram:import:https://www.instagram.com/p/DaDt2a7HJOL/",
       "platform": "instagram",
@@ -3965,10 +3873,14 @@
       "section": null,
       "metric": "52 views",
       "metrics": {
-        "views": 52
+        "views": 52,
+        "likes": 0,
+        "comments": 0,
+        "shares": 0,
+        "watchMinutes": 0
       },
       "score": 52,
-      "signal": "public_rss",
+      "signal": "youtube_oauth_api",
       "nextUse": "Clip for LinkedIn + Instagram; full episode stays YouTube."
     },
     {
@@ -3981,12 +3893,16 @@
       "month": "2026-06",
       "url": "https://www.youtube.com/watch?v=SAjqSeSKrJg",
       "section": null,
-      "metric": "139 views",
+      "metric": "140 views",
       "metrics": {
-        "views": 139
+        "views": 140,
+        "likes": 2,
+        "comments": 0,
+        "shares": 0,
+        "watchMinutes": 0
       },
-      "score": 139,
-      "signal": "public_rss",
+      "score": 146,
+      "signal": "youtube_oauth_api",
       "nextUse": "Clip for LinkedIn + Instagram; full episode stays YouTube."
     },
     {
@@ -4001,10 +3917,14 @@
       "section": null,
       "metric": "34 views",
       "metrics": {
-        "views": 34
+        "views": 34,
+        "likes": 0,
+        "comments": 0,
+        "shares": 0,
+        "watchMinutes": 0
       },
       "score": 34,
-      "signal": "public_rss",
+      "signal": "youtube_oauth_api",
       "nextUse": "Clip for LinkedIn + Instagram; full episode stays YouTube."
     },
     {
@@ -4019,10 +3939,14 @@
       "section": null,
       "metric": "116 views",
       "metrics": {
-        "views": 116
+        "views": 116,
+        "likes": 3,
+        "comments": 1,
+        "shares": 0,
+        "watchMinutes": 0
       },
-      "score": 116,
-      "signal": "public_rss",
+      "score": 131,
+      "signal": "youtube_oauth_api",
       "nextUse": "Clip for LinkedIn + Instagram; full episode stays YouTube."
     },
     {
@@ -4037,10 +3961,14 @@
       "section": null,
       "metric": "49 views",
       "metrics": {
-        "views": 49
+        "views": 49,
+        "likes": 1,
+        "comments": 0,
+        "shares": 0,
+        "watchMinutes": 0
       },
-      "score": 49,
-      "signal": "public_rss",
+      "score": 52,
+      "signal": "youtube_oauth_api",
       "nextUse": "Clip for LinkedIn + Instagram; full episode stays YouTube."
     },
     {
@@ -4077,10 +4005,14 @@
       "section": null,
       "metric": "91 views",
       "metrics": {
-        "views": 91
+        "views": 91,
+        "likes": 6,
+        "comments": 0,
+        "shares": 0,
+        "watchMinutes": 0
       },
-      "score": 91,
-      "signal": "public_rss",
+      "score": 109,
+      "signal": "youtube_oauth_api",
       "nextUse": "Clip for LinkedIn + Instagram; full episode stays YouTube."
     },
     {
@@ -4095,10 +4027,14 @@
       "section": null,
       "metric": "112 views",
       "metrics": {
-        "views": 112
+        "views": 112,
+        "likes": 4,
+        "comments": 0,
+        "shares": 0,
+        "watchMinutes": 0
       },
-      "score": 112,
-      "signal": "public_rss",
+      "score": 124,
+      "signal": "youtube_oauth_api",
       "nextUse": "Clip for LinkedIn + Instagram; full episode stays YouTube."
     },
     {
@@ -4199,15 +4135,15 @@
       "month": "2026-08",
       "url": "https://gild-austin.beehiiv.com/p/what-do-ai-leaders-share-when-the-conversation-is-private",
       "section": null,
-      "metric": "6194 opens",
+      "metric": "6196 opens",
       "metrics": {
-        "opens": 6194,
+        "opens": 6196,
         "clicks": 128,
         "views": 26,
-        "openRate": 42.16,
+        "openRate": 42.17,
         "clickRate": 2.07
       },
-      "score": 6591,
+      "score": 6593,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -4265,15 +4201,15 @@
       "month": "2026-08",
       "url": "https://gild-austin.beehiiv.com/p/join-the-conversation-at-the-next-gild-ai-forums",
       "section": null,
-      "metric": "3407 opens",
+      "metric": "3408 opens",
       "metrics": {
-        "opens": 3407,
+        "opens": 3408,
         "clicks": 69,
         "views": 13,
         "openRate": 24.72,
-        "clickRate": 2.03
+        "clickRate": 2.02
       },
-      "score": 3621,
+      "score": 3622,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -4309,15 +4245,15 @@
       "month": "2026-07",
       "url": "https://gild-austin.beehiiv.com/p/which-gild-ai-forum-is-closest-to-you",
       "section": null,
-      "metric": "6268 opens",
+      "metric": "6269 opens",
       "metrics": {
-        "opens": 6268,
+        "opens": 6269,
         "clicks": 149,
         "views": 34,
-        "openRate": 44.06,
+        "openRate": 44.07,
         "clickRate": 2.38
       },
-      "score": 6732,
+      "score": 6733,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -4327,7 +4263,7 @@
       "format": "podcast_episode",
       "title": "Why AI Products Get Crushed | Anand Arivukkarasu (AI Product Strategy Advisor)",
       "imageUrl": "https://img.youtube.com/vi/-yN46krtHv0/maxresdefault.jpg",
-      "publishedAt": "2026-07-08T03:00:00.000Z",
+      "publishedAt": "2026-07-08T00:00:00.000Z",
       "month": "2026-07",
       "url": "https://gildhq.com/podcast/why-ai-products-get-crushed-anand-arivukkarasu-ai-product-strategy-advisor",
       "section": null,
@@ -4346,7 +4282,7 @@
       "format": "podcast_episode",
       "title": "AI Is Breaking Cybersecurity, And Most Companies Aren’t Ready | Yasmin Abdi  (CEO, NoHack)",
       "imageUrl": "https://img.youtube.com/vi/sCswyg_iSRM/maxresdefault.jpg",
-      "publishedAt": "2026-04-08T03:00:00.000Z",
+      "publishedAt": "2026-04-08T00:00:00.000Z",
       "month": "2026-04",
       "url": "https://gildhq.com/podcast/ai-is-breaking-cybersecurity-and-most-companies-aren-t-ready-yasmin-abdi-ceo-nohack",
       "section": null,
@@ -4365,7 +4301,7 @@
       "format": "podcast_episode",
       "title": "Why In-Person Networking is About to Explode (Again) | Thom Singer (CEO, Austin Technology Council)",
       "imageUrl": "https://img.youtube.com/vi/XWjV9m4ZKwA/maxresdefault.jpg",
-      "publishedAt": "2026-05-06T03:00:00.000Z",
+      "publishedAt": "2026-05-06T00:00:00.000Z",
       "month": "2026-05",
       "url": "https://gildhq.com/podcast/why-in-person-networking-is-about-to-explode-again-thom-singer-ceo-austin-technology-council",
       "section": null,
@@ -4517,7 +4453,7 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 35,
+        "registrations": 36,
         "going": 25,
         "attendees": 0
       },
@@ -12305,6 +12241,56 @@
         "clicks": 0
       },
       "score": 5.6,
+      "signal": "ga4_api",
+      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
+    },
+    {
+      "id": "website:https://gildhq.com/GILD27",
+      "platform": "website",
+      "format": "website_section",
+      "title": "Austin GILD AI Forum: AI and Engineering Leaders Dinner · Luma",
+      "imageUrl": "",
+      "publishedAt": "2026-08-31T12:00:00.000Z",
+      "month": "2026-08",
+      "url": "https://gildhq.com/GILD27",
+      "section": {
+        "key": "events",
+        "label": "Events"
+      },
+      "metric": "2 page views",
+      "metrics": {
+        "views": 2,
+        "users": 2,
+        "sessions": 2,
+        "events": 8,
+        "clicks": 2
+      },
+      "score": 3.1999999999999997,
+      "signal": "ga4_api",
+      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
+    },
+    {
+      "id": "website:https://gildhq.com/gild",
+      "platform": "website",
+      "format": "website_section",
+      "title": "GILD · Events Calendar",
+      "imageUrl": "",
+      "publishedAt": "2026-08-31T12:00:00.000Z",
+      "month": "2026-08",
+      "url": "https://gildhq.com/gild",
+      "section": {
+        "key": "home",
+        "label": "Home"
+      },
+      "metric": "2 page views",
+      "metrics": {
+        "views": 2,
+        "users": 2,
+        "sessions": 2,
+        "events": 4,
+        "clicks": 1
+      },
+      "score": 3.1999999999999997,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
@@ -22609,31 +22595,6 @@
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
     {
-      "id": "website:https://gildhq.com/GILD27",
-      "platform": "website",
-      "format": "website_section",
-      "title": "Austin GILD AI Forum: AI and Engineering Leaders Dinner · Luma",
-      "imageUrl": "",
-      "publishedAt": "2026-08-31T12:00:00.000Z",
-      "month": "2026-08",
-      "url": "https://gildhq.com/GILD27",
-      "section": {
-        "key": "events",
-        "label": "Events"
-      },
-      "metric": "1 page views",
-      "metrics": {
-        "views": 1,
-        "users": 1,
-        "sessions": 1,
-        "events": 6,
-        "clicks": 2
-      },
-      "score": 1.5999999999999999,
-      "signal": "ga4_api",
-      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
-    },
-    {
       "id": "website:https://gildhq.com/Gild19",
       "platform": "website",
       "format": "website_section",
@@ -22659,27 +22620,27 @@
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
     {
-      "id": "website:https://gildhq.com/gild",
+      "id": "website:https://gildhq.com/Gild5",
       "platform": "website",
       "format": "website_section",
-      "title": "GILD · Events Calendar",
+      "title": "Gild Mixer: AI and The Future of Engineering · Luma",
       "imageUrl": "",
       "publishedAt": "2026-08-31T12:00:00.000Z",
       "month": "2026-08",
-      "url": "https://gildhq.com/gild",
+      "url": "https://gildhq.com/Gild5",
       "section": {
-        "key": "home",
-        "label": "Home"
+        "key": "other",
+        "label": "Other public pages"
       },
-      "metric": "2 page views",
+      "metric": "0 page views",
       "metrics": {
-        "views": 2,
+        "views": 0,
         "users": 1,
         "sessions": 1,
-        "events": 3,
-        "clicks": 1
+        "events": 1,
+        "clicks": 0
       },
-      "score": 2.6,
+      "score": 0.6000000000000001,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
