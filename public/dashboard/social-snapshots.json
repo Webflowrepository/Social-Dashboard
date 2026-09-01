@@ -1890,5 +1890,26 @@
       "newsletter": 66,
       "website": 0
     }
+  },
+  {
+    "at": "2026-09-01T17:26:05.338Z",
+    "metrics": {
+      "linkedin": 1026,
+      "instagram": 81,
+      "youtube": 26,
+      "spotify": 0,
+      "luma": 0,
+      "newsletter": 18062,
+      "website": 2711
+    },
+    "content": {
+      "linkedin": 0,
+      "instagram": 53,
+      "youtube": 8,
+      "spotify": 3,
+      "luma": 0,
+      "newsletter": 66,
+      "website": 0
+    }
   }
 ]

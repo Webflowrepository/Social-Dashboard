@@ -1,5 +1,5 @@
 {
-  "lastSyncAt": "2026-09-01T11:41:44.783Z",
+  "lastSyncAt": "2026-09-01T17:26:05.338Z",
   "mode": "api-ready",
   "brand": {
     "name": "GILD",
@@ -11,7 +11,7 @@
       "id": "linkedin",
       "name": "LinkedIn",
       "metrics": {
-        "followers": 1025,
+        "followers": 1026,
         "posts": 0,
         "engagementRate": 0,
         "reach": 0
@@ -48,7 +48,7 @@
       "metrics": {
         "subscribers": 26,
         "videos": 8,
-        "views": 856,
+        "views": 859,
         "engagementRate": 0
       },
       "handle": "@GILDhq",
@@ -78,7 +78,7 @@
       "name": "Luma",
       "metrics": {
         "events": 30,
-        "registrations": 1095,
+        "registrations": 1100,
         "attendees": 438,
         "going": 715
       },
@@ -90,11 +90,11 @@
       "id": "newsletter",
       "name": "Newsletter",
       "metrics": {
-        "subscribers": 18111,
+        "subscribers": 18062,
         "posts": 66,
-        "openRate": 32.94,
-        "clickRate": 2.95,
-        "sent": 433787
+        "openRate": 32.48,
+        "clickRate": 2.94,
+        "sent": 448701
       },
       "handle": "GILD",
       "url": "https://www.beehiiv.com/",
@@ -105,12 +105,12 @@
       "id": "website",
       "name": "Website",
       "metrics": {
-        "users": 2695,
-        "sessions": 3445,
-        "pageViews": 4796,
-        "events": 13209,
+        "users": 2711,
+        "sessions": 3463,
+        "pageViews": 4822,
+        "events": 13293,
         "errors": 4294,
-        "clicks": 74
+        "clicks": 75
       },
       "handle": "gildhq.com",
       "url": "https://gildhq.com/",
@@ -124,7 +124,7 @@
       "format": "social_post_or_reel",
       "title": "Everyone in Austin is talking about AI tools. Almost no one is talking about the harder part.⁠\n⁠\nThe next advantage won't come from tools. It'll come from real conversations with people making the same hard calls: what to automate, what to protect, and where human judgment still wins.⁠\n⁠\nThat's the room we're building.⁠\n⁠\nJuly 14, GILD brings senior AI and engineering leaders together in Austin for a practical, off-the-record dinner.⁠\n⁠\nRequest an invite: link in bio.⁠\n⁠\n#GILD #AILeadership #EngineeringLeadership #AustinTech #AICommunity #TechLeaders",
       "imageUrl": "https://scontent-iad6-1.cdninstagram.com/v/t51.82787-15/730628554_17891693547560543_8350260337357005812_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=w9cguflBHGsQ7kNvwG0Tdt-&_nc_oc=AdrWh5WYBWmAupw9jEJsdaenrn0hlWrp87icDdfI08rw33geRTMVBmlwubXYvmySZ6M&_nc_zt=23&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=MPjXYMh-zw3HDAOMjImUAg&_nc_tpa=Q5bMBQHwVcEv2BsZo0FBb7sCFp7QW8-9zM4TMbdLzvT3sda994-zmYKbCUh17kemkU-sedxIpNNsHiPA&oh=00_AQAWdNJXEAV_0TjCgTATus9qQJItYMe1KMtx_3nRKXalLA&oe=6A49925A",
-      "publishedAt": "2026-06-26T12:49:22.000Z",
+      "publishedAt": "2026-06-26T15:49:22.000Z",
       "month": "2026-06",
       "url": "https://www.instagram.com/p/DaDt2a7HJOL/",
       "section": null,
@@ -151,7 +151,7 @@
       "format": "social_post_or_reel",
       "title": "More GILD gatherings are coming soon.⁠\n⁠\nThree cities. One network. Senior AI and engineering leaders worth being around.⁠\n⁠\nCandid conversations on building, adopting, and leading with AI.⁠\n⁠\nTrusted peers matter more when everything moves this fast.⁠\n⁠\nRequest an invite through the link in bio.⁠\n⁠\n#AILeadership #EngineeringLeadership #AIFuture #GILD",
       "imageUrl": "https://scontent-iad6-1.cdninstagram.com/v/t51.82787-15/730083412_17891555898560543_4806824097040125768_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=kSj12GD-8hsQ7kNvwH7knM-&_nc_oc=AdpdA2Elbme5gsB-H4IbZJ1mGWGM3V2UUKVOSvkth_BAZqtOQzzyjvXVkn9MYp4p9H8&_nc_zt=23&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=1O9psaZydWV1s_KgKvATkQ&_nc_tpa=Q5bMBQGV-wOjvcyQ20qGPJg3uyjeqPX2DlppYvGent6ceQmR6Qb8eCogj8tkDwX2eEav1mxaxumMDEXv&oh=00_AQAQ0kujvZztiV69kCHeUTLr2cV8jbzfzECBFOlXndR-ow&oe=6A49B141",
-      "publishedAt": "2026-06-25T18:15:29.000Z",
+      "publishedAt": "2026-06-25T21:15:29.000Z",
       "month": "2026-06",
       "url": "https://www.instagram.com/p/DaBuYG6iYc-/",
       "section": null,
@@ -178,7 +178,7 @@
       "format": "social_post_or_reel",
       "title": "Tuesday night in Dallas, the room didn't need prompting.⁠\n⁠\nSenior AI and engineering leaders, present and open, trading what they're seeing as AI reshapes their teams. And in between, the real thing took shape: trust between peers navigating the same change.⁠\n⁠\nThank you to Anand Arivukkarasu for setting the tone with the \"Intelligence Lens,\" and to our partner @tecla.io for making the night happen.⁠\n⁠\nDallas, we're just getting started.⁠\n⁠\n#GILD #AILeadership #EngineeringLeadership #AICommunity",
       "imageUrl": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-15/724091899_17890370187560543_8049074106250164940_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=LRkglcIY78oQ7kNvwGHRkbl&_nc_oc=Adq5EL_nZ8z4C3Msp5CI67VWEJLytW9NcjjT1elh-SoqATDzUbrnFLzaAyCzy9L9oyI&_nc_zt=23&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=kEHUXlvn8UlEQUGiVXs_3A&_nc_tpa=Q5bMBQFCA5MhI05UvSbKQ9I8ufm1IrD3YSR08CBO9aKKpo8Mq7BIPNX4A0uAw2qgVkuqHZOQRSls1WOZ&oh=00_AQC5vmm0cs1Si5lYIzo4xNgm2IG_oBECiUcZhLnwesIP1Q&oe=6A499F69",
-      "publishedAt": "2026-06-18T18:48:05.000Z",
+      "publishedAt": "2026-06-18T21:48:05.000Z",
       "month": "2026-06",
       "url": "https://www.instagram.com/reel/DZvwOnxAtGP/",
       "section": null,
@@ -205,7 +205,7 @@
       "format": "social_post_or_reel",
       "title": "More GILD gatherings are coming this month and beyond.⁠\n⁠\nDesigned for AI leaders and senior engineering leaders, our forums create space for sharper conversations about what it actually takes to build, deploy, and scale AI inside companies.⁠\n⁠\nBrowse the upcoming GILD calendar to see what’s ahead, and request details when a gathering feels relevant to your work.⁠\n⁠\nLink in bio.⁠\n⁠\n#AILeadership #EngineeringLeadership #EnterpriseAI #GILDCommunity",
       "imageUrl": "https://scontent-iad6-1.cdninstagram.com/v/t51.71878-15/723238494_1263368078970615_6717929043055451245_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=WU6FJ18o57kQ7kNvwGfZvBW&_nc_oc=Adrq5Rx3dbYLmsvMyOUkqRhEv00Jdlrjx9bCJNYafeNMB3kknz28mXi2Yvu89SRuTSM&_nc_zt=23&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=tqjDXCG-F1dnEEpPK3cjCg&_nc_tpa=Q5bMBQEeZNZCTjMH4xzHjTJ743nNw1uHbPo4XqiWLmfMp_a1sQX9Eq4ViSbVY7jHw6FInjbI9sARjiYw&oh=00_AQAHTvXb6M6LGuh1eWUyOKlWXrmYDx3TryQ7HyuS3XACSQ&oe=6A49A4D7",
-      "publishedAt": "2026-06-12T12:48:08.000Z",
+      "publishedAt": "2026-06-12T15:48:08.000Z",
       "month": "2026-06",
       "url": "https://www.instagram.com/reel/DZfqP3bAgJ6/",
       "section": null,
@@ -232,7 +232,7 @@
       "format": "social_post_or_reel",
       "title": "25 seats. Dallas. June 16.⁠\n⁠\nGILD AI Forum is back for engineering leaders building with AI in the real world. Off the record, peer-led, and curated for candid conversation.⁠\n⁠\nPresented by @tecla.io. Applications close this week. Request your invite at the link in bio.⁠\n⁠\n#GILD #AILeadership #AIEngineering #DallasTech",
       "imageUrl": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-15/722562754_17889263412560543_6569721334582000221_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=bCj2HXg21HEQ7kNvwFSmztg&_nc_oc=Adrb1_gUu-xeiKm2gVm2si309Gl-_PLHKv_yf8SiFomJrzbxNYqKMkJslMrDm1mNQpU&_nc_zt=23&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=rYALMpV0qKCSHDb1fUBgjw&_nc_tpa=Q5bMBQFtRiAtMalaUFLZ4_BeHQyFL09er3SOG4CzrWUU6Yyv3FFSj9p_nfduFBNWvswXptyI6KBbv6e5&oh=00_AQBY4Hj8DrRrFtAEs8R93c6pug6YjKGsrItwqUc4JbYR6w&oe=6A4999F7",
-      "publishedAt": "2026-06-11T21:00:59.000Z",
+      "publishedAt": "2026-06-12T00:00:59.000Z",
       "month": "2026-06",
       "url": "https://www.instagram.com/p/DZd-I_qjXNv/",
       "section": null,
@@ -259,7 +259,7 @@
       "format": "social_post_or_reel",
       "title": "Everyone's talking about AI. Very few people get to talk through it with someone who actually gets it.⁠\n⁠\nIn the AI era, human connection matters more, not less. GILD is a trusted space for senior AI and engineering leaders to meet the people behind the work: the ones building what comes next.⁠\n⁠\nCurated dinners. Introductions. Private community. Network intelligence.⁠\nRequest access at the link in bio.⁠\n⁠\n#AILeaders #EngineeringLeaders #AICommunity #TechLeadership #GILD",
       "imageUrl": "https://scontent-iad6-1.cdninstagram.com/v/t51.82787-15/718980075_17889095310560543_4899194211295830139_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=W5aSVg5znT4Q7kNvwEsWMny&_nc_oc=AdqY3AZcYQR5O6jimrC0JGbPJM9Ss_0ZIG0nCfS_Zf8rsbaToN0ECB8IXVjwvw2Q74A&_nc_zt=23&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=0iOKbYXSSIgobTVZJyMMgA&_nc_tpa=Q5bMBQF3fr6v571aGiUmJoKlYvCdzWvhWLtTKGHd4l4v4uRgNSpGBpK0adu6wScLipMCsK_jVhnQ4wpQ&oh=00_AQCz3OBIU7Sx3oCnKfo8Q0N3fVU2HcLEq16NnPcM6f39Zw&oe=6A499DDA",
-      "publishedAt": "2026-06-10T19:00:46.000Z",
+      "publishedAt": "2026-06-10T22:00:46.000Z",
       "month": "2026-06",
       "url": "https://www.instagram.com/p/DZbLotSkTf0/",
       "section": null,
@@ -286,7 +286,7 @@
       "format": "social_post_or_reel",
       "title": "What does AI adoption actually look like inside a company?⁠\n⁠\nTomorrow on the GILD Podcast, Gino Ferrand sits down with Raphael Varieras, SVP of AI & Data at Zello, to talk about shipping AI at scale, from internal adoption to customer-facing products and security risks.⁠\n⁠\nIn this clip, Raphael shares why AI security needs to be part of the conversation early.⁠\n⁠\nEpisode 7 drops tomorrow.⁠\n⁠\n#GILDPodcast #AI #TechLeadership #AISecurity",
       "imageUrl": "https://scontent-iad6-1.cdninstagram.com/v/t51.82787-15/713623746_17887756500560543_8874742577692654098_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=l5nPQ8zRhBMQ7kNvwHX0sE-&_nc_oc=Ado-IQ9j8wOvocKDmEtnNwHAv-nh8jec6aKrguu4HYoEiQdpqX87cdAje0dW6199N58&_nc_zt=23&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=DKFyvvELn49Afb49Df7B5g&_nc_tpa=Q5bMBQGuS0kbXhY3yXRj25251Da6dcoF_BkRzVjeiOAMPLiUoDLPCBA76iVTXvfX5vxBRJhDXjxCSZug&oh=00_AQAAn3ulkHtnzZ5aFp2FfmZKvJ8anaty3QcH_2jEKgP8tw&oe=6A499A06",
-      "publishedAt": "2026-06-02T18:48:07.000Z",
+      "publishedAt": "2026-06-02T21:48:07.000Z",
       "month": "2026-06",
       "url": "https://www.instagram.com/reel/DZGjfucEai_/",
       "section": null,
@@ -313,7 +313,7 @@
       "format": "social_post_or_reel",
       "title": "Austin. Last week.⁠\n⁠\nA small room of CTOs and senior technical leaders. One honest conversation about where AI is actually taking technical leadership right now.⁠\n⁠\nGrateful for the openness in that room. And to our partners at @tecla.io for making it possible.⁠\n⁠\nMore to come.⁠\n⁠\n#GILD #AIStrategy #AustinTech",
       "imageUrl": "https://scontent-iad6-1.cdninstagram.com/v/t51.71878-15/706488752_973472785319980_60767162827619032_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=ZyMnceknzk0Q7kNvwGY15Sb&_nc_oc=AdqAKGZQ1UZuooFqjY7dMlmhpKf8lgsHOfDFS7ZN_WAr109Tmrv7cLjQj-DlzNyzUt8&_nc_zt=23&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=gZ9GTx7lf8u7h3Y4Y0Z7TA&_nc_tpa=Q5bMBQGZie0Mzdvtu_xDJoMZPYArHt_CBXWrZ9RWY4E4I30B96BAhsQfBOXBayR0mMk7YLAoB9717mBr&oh=00_AQDBaRVh2w8_yhxjkoISS4k3LQxzYwX62VUHlRonpyDLig&oe=6A49BF82",
-      "publishedAt": "2026-06-01T18:24:04.000Z",
+      "publishedAt": "2026-06-01T21:24:04.000Z",
       "month": "2026-06",
       "url": "https://www.instagram.com/reel/DZD78dQDMI5/",
       "section": null,
@@ -338,11 +338,11 @@
   "audienceHistory": [
     {
       "label": "S-7",
-      "linkedin": 1020,
+      "linkedin": 1019,
       "instagram": 80,
       "youtube": 26,
-      "newsletter": 16962,
-      "website": 3158
+      "newsletter": 18138,
+      "website": 2872
     },
     {
       "label": "S-6",
@@ -362,14 +362,6 @@
     },
     {
       "label": "S-4",
-      "linkedin": 1019,
-      "instagram": 80,
-      "youtube": 26,
-      "newsletter": 18138,
-      "website": 2872
-    },
-    {
-      "label": "S-3",
       "linkedin": 1023,
       "instagram": 81,
       "youtube": 26,
@@ -377,7 +369,7 @@
       "website": 2752
     },
     {
-      "label": "S-2",
+      "label": "S-3",
       "linkedin": 1023,
       "instagram": 81,
       "youtube": 26,
@@ -385,7 +377,7 @@
       "website": 2755
     },
     {
-      "label": "S-1",
+      "label": "S-2",
       "linkedin": 1023,
       "instagram": 81,
       "youtube": 26,
@@ -393,12 +385,20 @@
       "website": 2758
     },
     {
-      "label": "Now",
+      "label": "S-1",
       "linkedin": 1025,
       "instagram": 81,
       "youtube": 26,
       "newsletter": 18111,
       "website": 2695
+    },
+    {
+      "label": "Now",
+      "linkedin": 1026,
+      "instagram": 81,
+      "youtube": 26,
+      "newsletter": 18062,
+      "website": 2711
     }
   ],
   "contentPipeline": [
@@ -465,7 +465,7 @@
       "format": "social_post_or_reel",
       "title": "Everyone in Austin is talking about AI tools. Almost no one is talking about the harder part.⁠\n⁠\nThe next advantage won't come from tools. It'll come from real conversations with people making the same hard calls: what to automate, what to protect, and where human judgment still wins.⁠\n⁠\nThat's the room we're building.⁠\n⁠\nJuly 14, GILD brings senior AI and engineering leaders together in Austin for a practical, off-the-record dinner.⁠\n⁠\nRequest an invite: link in bio.⁠\n⁠\n#GILD #AILeadership #EngineeringLeadership #AustinTech #AICommunity #TechLeaders",
       "imageUrl": "https://scontent-iad6-1.cdninstagram.com/v/t51.82787-15/730628554_17891693547560543_8350260337357005812_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=w9cguflBHGsQ7kNvwG0Tdt-&_nc_oc=AdrWh5WYBWmAupw9jEJsdaenrn0hlWrp87icDdfI08rw33geRTMVBmlwubXYvmySZ6M&_nc_zt=23&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=MPjXYMh-zw3HDAOMjImUAg&_nc_tpa=Q5bMBQHwVcEv2BsZo0FBb7sCFp7QW8-9zM4TMbdLzvT3sda994-zmYKbCUh17kemkU-sedxIpNNsHiPA&oh=00_AQAWdNJXEAV_0TjCgTATus9qQJItYMe1KMtx_3nRKXalLA&oe=6A49925A",
-      "publishedAt": "2026-06-26T12:49:22.000Z",
+      "publishedAt": "2026-06-26T15:49:22.000Z",
       "month": "2026-06",
       "url": "https://www.instagram.com/p/DaDt2a7HJOL/",
       "section": null,
@@ -492,7 +492,7 @@
       "format": "social_post_or_reel",
       "title": "More GILD gatherings are coming soon.⁠\n⁠\nThree cities. One network. Senior AI and engineering leaders worth being around.⁠\n⁠\nCandid conversations on building, adopting, and leading with AI.⁠\n⁠\nTrusted peers matter more when everything moves this fast.⁠\n⁠\nRequest an invite through the link in bio.⁠\n⁠\n#AILeadership #EngineeringLeadership #AIFuture #GILD",
       "imageUrl": "https://scontent-iad6-1.cdninstagram.com/v/t51.82787-15/730083412_17891555898560543_4806824097040125768_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=kSj12GD-8hsQ7kNvwH7knM-&_nc_oc=AdpdA2Elbme5gsB-H4IbZJ1mGWGM3V2UUKVOSvkth_BAZqtOQzzyjvXVkn9MYp4p9H8&_nc_zt=23&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=1O9psaZydWV1s_KgKvATkQ&_nc_tpa=Q5bMBQGV-wOjvcyQ20qGPJg3uyjeqPX2DlppYvGent6ceQmR6Qb8eCogj8tkDwX2eEav1mxaxumMDEXv&oh=00_AQAQ0kujvZztiV69kCHeUTLr2cV8jbzfzECBFOlXndR-ow&oe=6A49B141",
-      "publishedAt": "2026-06-25T18:15:29.000Z",
+      "publishedAt": "2026-06-25T21:15:29.000Z",
       "month": "2026-06",
       "url": "https://www.instagram.com/p/DaBuYG6iYc-/",
       "section": null,
@@ -519,7 +519,7 @@
       "format": "social_post_or_reel",
       "title": "Tuesday night in Dallas, the room didn't need prompting.⁠\n⁠\nSenior AI and engineering leaders, present and open, trading what they're seeing as AI reshapes their teams. And in between, the real thing took shape: trust between peers navigating the same change.⁠\n⁠\nThank you to Anand Arivukkarasu for setting the tone with the \"Intelligence Lens,\" and to our partner @tecla.io for making the night happen.⁠\n⁠\nDallas, we're just getting started.⁠\n⁠\n#GILD #AILeadership #EngineeringLeadership #AICommunity",
       "imageUrl": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-15/724091899_17890370187560543_8049074106250164940_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=LRkglcIY78oQ7kNvwGHRkbl&_nc_oc=Adq5EL_nZ8z4C3Msp5CI67VWEJLytW9NcjjT1elh-SoqATDzUbrnFLzaAyCzy9L9oyI&_nc_zt=23&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=kEHUXlvn8UlEQUGiVXs_3A&_nc_tpa=Q5bMBQFCA5MhI05UvSbKQ9I8ufm1IrD3YSR08CBO9aKKpo8Mq7BIPNX4A0uAw2qgVkuqHZOQRSls1WOZ&oh=00_AQC5vmm0cs1Si5lYIzo4xNgm2IG_oBECiUcZhLnwesIP1Q&oe=6A499F69",
-      "publishedAt": "2026-06-18T18:48:05.000Z",
+      "publishedAt": "2026-06-18T21:48:05.000Z",
       "month": "2026-06",
       "url": "https://www.instagram.com/reel/DZvwOnxAtGP/",
       "section": null,
@@ -546,7 +546,7 @@
       "format": "social_post_or_reel",
       "title": "More GILD gatherings are coming this month and beyond.⁠\n⁠\nDesigned for AI leaders and senior engineering leaders, our forums create space for sharper conversations about what it actually takes to build, deploy, and scale AI inside companies.⁠\n⁠\nBrowse the upcoming GILD calendar to see what’s ahead, and request details when a gathering feels relevant to your work.⁠\n⁠\nLink in bio.⁠\n⁠\n#AILeadership #EngineeringLeadership #EnterpriseAI #GILDCommunity",
       "imageUrl": "https://scontent-iad6-1.cdninstagram.com/v/t51.71878-15/723238494_1263368078970615_6717929043055451245_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=WU6FJ18o57kQ7kNvwGfZvBW&_nc_oc=Adrq5Rx3dbYLmsvMyOUkqRhEv00Jdlrjx9bCJNYafeNMB3kknz28mXi2Yvu89SRuTSM&_nc_zt=23&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=tqjDXCG-F1dnEEpPK3cjCg&_nc_tpa=Q5bMBQEeZNZCTjMH4xzHjTJ743nNw1uHbPo4XqiWLmfMp_a1sQX9Eq4ViSbVY7jHw6FInjbI9sARjiYw&oh=00_AQAHTvXb6M6LGuh1eWUyOKlWXrmYDx3TryQ7HyuS3XACSQ&oe=6A49A4D7",
-      "publishedAt": "2026-06-12T12:48:08.000Z",
+      "publishedAt": "2026-06-12T15:48:08.000Z",
       "month": "2026-06",
       "url": "https://www.instagram.com/reel/DZfqP3bAgJ6/",
       "section": null,
@@ -573,7 +573,7 @@
       "format": "social_post_or_reel",
       "title": "25 seats. Dallas. June 16.⁠\n⁠\nGILD AI Forum is back for engineering leaders building with AI in the real world. Off the record, peer-led, and curated for candid conversation.⁠\n⁠\nPresented by @tecla.io. Applications close this week. Request your invite at the link in bio.⁠\n⁠\n#GILD #AILeadership #AIEngineering #DallasTech",
       "imageUrl": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-15/722562754_17889263412560543_6569721334582000221_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=bCj2HXg21HEQ7kNvwFSmztg&_nc_oc=Adrb1_gUu-xeiKm2gVm2si309Gl-_PLHKv_yf8SiFomJrzbxNYqKMkJslMrDm1mNQpU&_nc_zt=23&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=rYALMpV0qKCSHDb1fUBgjw&_nc_tpa=Q5bMBQFtRiAtMalaUFLZ4_BeHQyFL09er3SOG4CzrWUU6Yyv3FFSj9p_nfduFBNWvswXptyI6KBbv6e5&oh=00_AQBY4Hj8DrRrFtAEs8R93c6pug6YjKGsrItwqUc4JbYR6w&oe=6A4999F7",
-      "publishedAt": "2026-06-11T21:00:59.000Z",
+      "publishedAt": "2026-06-12T00:00:59.000Z",
       "month": "2026-06",
       "url": "https://www.instagram.com/p/DZd-I_qjXNv/",
       "section": null,
@@ -600,7 +600,7 @@
       "format": "social_post_or_reel",
       "title": "Everyone's talking about AI. Very few people get to talk through it with someone who actually gets it.⁠\n⁠\nIn the AI era, human connection matters more, not less. GILD is a trusted space for senior AI and engineering leaders to meet the people behind the work: the ones building what comes next.⁠\n⁠\nCurated dinners. Introductions. Private community. Network intelligence.⁠\nRequest access at the link in bio.⁠\n⁠\n#AILeaders #EngineeringLeaders #AICommunity #TechLeadership #GILD",
       "imageUrl": "https://scontent-iad6-1.cdninstagram.com/v/t51.82787-15/718980075_17889095310560543_4899194211295830139_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=W5aSVg5znT4Q7kNvwEsWMny&_nc_oc=AdqY3AZcYQR5O6jimrC0JGbPJM9Ss_0ZIG0nCfS_Zf8rsbaToN0ECB8IXVjwvw2Q74A&_nc_zt=23&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=0iOKbYXSSIgobTVZJyMMgA&_nc_tpa=Q5bMBQF3fr6v571aGiUmJoKlYvCdzWvhWLtTKGHd4l4v4uRgNSpGBpK0adu6wScLipMCsK_jVhnQ4wpQ&oh=00_AQCz3OBIU7Sx3oCnKfo8Q0N3fVU2HcLEq16NnPcM6f39Zw&oe=6A499DDA",
-      "publishedAt": "2026-06-10T19:00:46.000Z",
+      "publishedAt": "2026-06-10T22:00:46.000Z",
       "month": "2026-06",
       "url": "https://www.instagram.com/p/DZbLotSkTf0/",
       "section": null,
@@ -627,7 +627,7 @@
       "format": "social_post_or_reel",
       "title": "What does AI adoption actually look like inside a company?⁠\n⁠\nTomorrow on the GILD Podcast, Gino Ferrand sits down with Raphael Varieras, SVP of AI & Data at Zello, to talk about shipping AI at scale, from internal adoption to customer-facing products and security risks.⁠\n⁠\nIn this clip, Raphael shares why AI security needs to be part of the conversation early.⁠\n⁠\nEpisode 7 drops tomorrow.⁠\n⁠\n#GILDPodcast #AI #TechLeadership #AISecurity",
       "imageUrl": "https://scontent-iad6-1.cdninstagram.com/v/t51.82787-15/713623746_17887756500560543_8874742577692654098_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=l5nPQ8zRhBMQ7kNvwHX0sE-&_nc_oc=Ado-IQ9j8wOvocKDmEtnNwHAv-nh8jec6aKrguu4HYoEiQdpqX87cdAje0dW6199N58&_nc_zt=23&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=DKFyvvELn49Afb49Df7B5g&_nc_tpa=Q5bMBQGuS0kbXhY3yXRj25251Da6dcoF_BkRzVjeiOAMPLiUoDLPCBA76iVTXvfX5vxBRJhDXjxCSZug&oh=00_AQAAn3ulkHtnzZ5aFp2FfmZKvJ8anaty3QcH_2jEKgP8tw&oe=6A499A06",
-      "publishedAt": "2026-06-02T18:48:07.000Z",
+      "publishedAt": "2026-06-02T21:48:07.000Z",
       "month": "2026-06",
       "url": "https://www.instagram.com/reel/DZGjfucEai_/",
       "section": null,
@@ -654,7 +654,7 @@
       "format": "social_post_or_reel",
       "title": "Austin. Last week.⁠\n⁠\nA small room of CTOs and senior technical leaders. One honest conversation about where AI is actually taking technical leadership right now.⁠\n⁠\nGrateful for the openness in that room. And to our partners at @tecla.io for making it possible.⁠\n⁠\nMore to come.⁠\n⁠\n#GILD #AIStrategy #AustinTech",
       "imageUrl": "https://scontent-iad6-1.cdninstagram.com/v/t51.71878-15/706488752_973472785319980_60767162827619032_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=ZyMnceknzk0Q7kNvwGY15Sb&_nc_oc=AdqAKGZQ1UZuooFqjY7dMlmhpKf8lgsHOfDFS7ZN_WAr109Tmrv7cLjQj-DlzNyzUt8&_nc_zt=23&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=gZ9GTx7lf8u7h3Y4Y0Z7TA&_nc_tpa=Q5bMBQGZie0Mzdvtu_xDJoMZPYArHt_CBXWrZ9RWY4E4I30B96BAhsQfBOXBayR0mMk7YLAoB9717mBr&oh=00_AQDBaRVh2w8_yhxjkoISS4k3LQxzYwX62VUHlRonpyDLig&oe=6A49BF82",
-      "publishedAt": "2026-06-01T18:24:04.000Z",
+      "publishedAt": "2026-06-01T21:24:04.000Z",
       "month": "2026-06",
       "url": "https://www.instagram.com/reel/DZD78dQDMI5/",
       "section": null,
@@ -681,7 +681,7 @@
       "format": "social_post_or_reel",
       "title": "The best part of Austin wasn’t the agenda. It was what people were willing to say once they realized who else was in the room.⁠\n⁠\nWe’re doing it again on August 11.⁠\n⁠\nThank you to Tecla for helping make these gatherings possible.⁠\n⁠\nRequest an invite through the link in bio.⁠\n⁠\n#GILDAIForum #AILeadership #EngineeringLeadership #AustinTech #TechLeaders",
       "imageUrl": "https://scontent-iad6-1.cdninstagram.com/v/t51.82787-15/759373134_17897545455560543_6571683548968018871_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=8_lgAIHba7wQ7kNvwEM65b4&_nc_oc=AdpzK34wUDHm542jD7Vtew_qGt5vIwUVTi8CMMsdwClFRPbYD928umY_fu8M6zqRbzM&_nc_zt=23&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AEQ6tj4EAAAA&_nc_gid=JdfKC8hntSZwnSOLqCOBvg&_nc_tpa=Q5bMBQG5BWPZmTUJD2fCVz7l-aP4tzTKJIglatXO4_aG2qL_kAX49CeDdJztKmfzbFRmqASWoyZzYJ5e&oh=00_AQHGpiQmUj-sacYMpsArXvKUcc4YY-ZyyjNxScyHj22nrw&oe=6A727AF9",
-      "publishedAt": "2026-07-27T13:33:12.000Z",
+      "publishedAt": "2026-07-27T16:33:12.000Z",
       "month": "2026-07",
       "url": "https://www.instagram.com/reel/DbTnKxvIJuw/",
       "section": null,
@@ -708,7 +708,7 @@
       "format": "social_post_or_reel",
       "title": "Miami, what a first night.⁠\n⁠\nOur first GILD AI Forum in the city brought together an incredible group of senior AI and engineering leaders for real conversation, new connections, and the start of something exciting.⁠\n⁠\nThank you to everyone who joined us, and to @tecla.io for partnering with us to bring it to life.⁠\n⁠\n#GILD #MiamiTech #AILeadership #EngineeringLeaders #CommunityBuilding",
       "imageUrl": "https://scontent-iad3-2.cdninstagram.com/v/t51.82787-15/751348715_17897017599560543_3508525918107381322_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=103&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=G3WcBguJ2coQ7kNvwETzFP_&_nc_oc=Adpo7U112WR4b9Ys8aUgCpSMspygu6RQ18KhkLWuu5PiLxDZvSl5jMj9boCYufjGzmE&_nc_zt=23&_nc_ht=scontent-iad3-2.cdninstagram.com&edm=AEQ6tj4EAAAA&_nc_gid=nWNCX4ThG7I1xqz_zDlG2w&_nc_tpa=Q5bMBQEx4CMBDHP3DH5M1oGHT4Iq9bA7HA6NoNVLi5YOGxPAO09LQI9KH8sDi7t-aRV_trRrfE_1DAQf&oh=00_AQGxWubWr5QXik03jEvc7NjtYEICuEAauitEMCCBBzGOiQ&oe=6A726EFC",
-      "publishedAt": "2026-07-24T16:51:06.000Z",
+      "publishedAt": "2026-07-24T19:51:06.000Z",
       "month": "2026-07",
       "url": "https://www.instagram.com/reel/DbMPbsKj9g4/",
       "section": null,
@@ -735,7 +735,7 @@
       "format": "social_post_or_reel",
       "title": "Miami, what a first night.⁠\n⁠\nOur first GILD AI Forum in the city brought together an incredible group of senior AI and engineering leaders for real conversation, new connections, and the start of something exciting.⁠\n⁠\nThank you to everyone who joined us, and to @tecla.io for partnering with us to bring it to life.⁠\n⁠\n#GILD #MiamiTech #AILeadership #EngineeringLeaders #CommunityBuilding",
       "imageUrl": "https://scontent-iad6-1.cdninstagram.com/v/t51.82787-15/753540852_17897011665560543_3514534994729257655_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=JVRFCSkcLDEQ7kNvwHZtpD_&_nc_oc=AdrsukNoOJEvFU5if9PZVIJWFfko_NZSQnhkZTpQBgp8t7-9X_WGyFkfWQF109Bm1as&_nc_zt=23&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AEQ6tj4EAAAA&_nc_gid=7tEE7In-zYi_fi6RtANp5w&_nc_tpa=Q5bMBQG_fW39XPSnZ9LMq3vFjHXtiONmAorEezNdtTV5OErIAy9Ta3RZhd_v6hq5nCvNewhi-OJWDQNC&oh=00_AQADdlur-kaWW2ETGQSvfz3nYzP36AG74x-_XDY7u1xW5g&oe=6A69A1E6",
-      "publishedAt": "2026-07-24T15:48:09.000Z",
+      "publishedAt": "2026-07-24T18:48:09.000Z",
       "month": "2026-07",
       "url": "https://www.instagram.com/reel/DbMIUL5Fxrk/",
       "section": null,
@@ -762,7 +762,7 @@
       "format": "social_post_or_reel",
       "title": "Inside companies, AI adoption is a moving target.⁠\n⁠\nIn this clip, Raphael Varieras, SVP of AI & Data at Zello, shares how his team guides internal teams through what is possible now, what may be possible soon, and how to build around the parts of work that are still uniquely human.⁠\n⁠\nEpisode 7 of the GILD Podcast is out now. Link in bio.⁠",
       "imageUrl": "https://scontent-iad6-1.cdninstagram.com/v/t51.82787-15/716986536_17888210868560543_8314390265242065649_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=1Rh3o9BxA8cQ7kNvwHgaW5d&_nc_oc=AdroIuWJfkk2KU5KFDQjyxGhs9s2ecCg1-v41x2vSCuVHLVYsO6WoebGWOmyeawKBxw&_nc_zt=23&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=HNYCXzxJ3566KMcsVGB9hQ&_nc_tpa=Q5bMBQE0NfQo_OkN09jeZe0EP3u4-PX_A_uoj-YdPACMdaVtX2tjRj2rQ1L-8gFNVU1BNSGf6iBL5NF0&oh=00_AQAI4d6VePsUvxWdWmR9dU0jMo1fQd2D5dCQ3jL5xFMzMQ&oe=6A499ADF",
-      "publishedAt": "2026-06-05T12:18:03.000Z",
+      "publishedAt": "2026-06-05T15:18:03.000Z",
       "month": "2026-06",
       "url": "https://www.instagram.com/reel/DZNlPl1jJdF/",
       "section": null,
@@ -789,7 +789,7 @@
       "format": "social_post_or_reel",
       "title": "AI adoption is not just about what can be automated.⁠\n⁠\nIt is about knowing where automation actually belongs.⁠\n⁠\nIn this clip, Gino Ferrand uses hiring to explore where AI creates leverage, and where trust, judgment, and human connection still matter most.⁠\n⁠\nEpisode 7 of the GILD Podcast with Raphael Varieras is out now.⁠\n⁠\nLink in bio.⁠\n⁠\n#GILDPodcast #AILeadership #EnterpriseAI #FutureOfWork #AIInBusiness",
       "imageUrl": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-15/716858742_17888092359560543_5680509490195350947_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=pkpI7Mk5ZD8Q7kNvwEcI9h8&_nc_oc=AdqEOnN1EqT10S9A4Sy0s2vDHoI6nyjrOdoAFXNLLfJTe82C6U0hEGfg2YONZjd9z2w&_nc_zt=23&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=ANQ71j8EAAAA&_nc_gid=_9NbsghtyRYc-FGCgkWaTA&_nc_tpa=Q5bMBQHsZjmWv9TGXZB93txJ6KLPGX01fesKJBHH_yLG8MOl5oj9W22o_9Q7UMMRQOMf20OUsFeYGHvW&oh=00_AQC8fUq5H-GMfWjJUPwtKDbsKuil54Psjbeb3w3OfTazbw&oe=6A49AB43",
-      "publishedAt": "2026-06-04T21:03:11.000Z",
+      "publishedAt": "2026-06-05T00:03:11.000Z",
       "month": "2026-06",
       "url": "https://www.instagram.com/reel/DZL8iwWDL1M/",
       "section": null,
@@ -811,29 +811,137 @@
       "nextUse": "Use winning Instagram creative to decide reels, clips and social proof."
     },
     {
+      "id": "linkedin:import:https://www.linkedin.com/feed/update/urn:li:activity:7499133946220302336",
+      "platform": "linkedin",
+      "format": "company_post",
+      "title": "We’re back in Dallas on September 22, and we’re excited to keep building this community with both familiar faces and new voices in the room.\r\n\r\nA strong tech hub is not defined only by the companies it attracts. It is also defined by how quickly experience moves between its leaders: what one team learns putting AI into production, what another learns scaling it, and what someone else discovers when the obvious approach fails.\r\n\r\nThat is what we want to keep developing in Dallas. Returning leaders create continuity and trust. New people introduce different experiences, sharper questions, and perspectives the group has not heard before. The value comes from having both.\r\n\r\nIf you’re a CTO, VP of Engineering, Head of AI, or senior technical leader in the Dallas area, request a seat.\r\n\r\nJoin the conversation: https://luma.com/GILD28\r\n\r\n#DallasTech #AILeadership #EngineeringLeadership #ProductionAI #GILD",
+      "imageUrl": "",
+      "publishedAt": "2026-08-28T03:00:00.000Z",
+      "month": "2026-08",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7499133946220302336",
+      "section": null,
+      "metric": "267 imported score",
+      "metrics": {
+        "views": 0,
+        "reach": 0,
+        "impressions": 144,
+        "likes": 5,
+        "comments": 0,
+        "shares": 0,
+        "saves": 0,
+        "clicks": 36,
+        "engagementRate": 0.284722208976746,
+        "skipRate": 0
+      },
+      "score": 267,
+      "signal": "manual_import",
+      "nextUse": "Use winning LinkedIn posts to shape newsletter and event POV."
+    },
+    {
+      "id": "linkedin:import:https://www.linkedin.com/feed/update/urn:li:activity:7498771674247647232",
+      "platform": "linkedin",
+      "format": "company_post",
+      "title": "Phishing has always exploited something technology can’t patch: human trust. AI is making that attack much harder to recognize.\r\n\r\nIn this GILD Podcast conversation, Yasmin Abdi, cybersecurity expert and Founder and CEO of NoHack, explains why phishing remains the number one cybersecurity attack and how AI is making an already effective tactic even more convincing.\r\n\r\nAs GILD approaches its first anniversary, we’re revisiting conversations that have only become more relevant. This one certainly has. The next generation of phishing won’t look suspicious, and that’s precisely the problem.\r\n\r\nListen to the full conversation and subscribe to the GILD Podcast here: https://lnkd.in/g24YN7cG\r\n\r\n#Cybersecurity #ArtificialIntelligence #Phishing #AISecurity #GILDPodcast\r\n",
+      "imageUrl": "",
+      "publishedAt": "2026-08-27T03:00:00.000Z",
+      "month": "2026-08",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7498771674247647232",
+      "section": null,
+      "metric": "34 imported score",
+      "metrics": {
+        "views": 17,
+        "reach": 0,
+        "impressions": 44,
+        "likes": 0,
+        "comments": 0,
+        "shares": 0,
+        "saves": 0,
+        "clicks": 1,
+        "engagementRate": 0.0227272734045982,
+        "skipRate": 0
+      },
+      "score": 34,
+      "signal": "manual_import",
+      "nextUse": "Use winning LinkedIn posts to shape newsletter and event POV."
+    },
+    {
+      "id": "linkedin:import:https://www.linkedin.com/feed/update/urn:li:activity:7498413501208477697",
+      "platform": "linkedin",
+      "format": "company_post",
+      "title": "A few more moments from our last Austin GILD AI Forum.\r\n\r\nEvery time we bring this community together, it reinforces something we’ve been thinking about a lot lately: AI has made content, code, and analysis cheap to produce. It hasn’t made trust any easier to build.\r\n\r\nThe more abundant information gets, the more valuable small, trusted rooms become.\r\n\r\nThat’s the bet behind GILD. Less noise. More signal from people who are actually doing the work.\r\n\r\nWe’re bringing the Austin community together again on September 10.\r\n\r\nJoin the conversation: https://luma.com/GILD27\r\n\r\n#AI #AustinTech #EngineeringLeadership #ProductLeadership #GILD",
+      "imageUrl": "",
+      "publishedAt": "2026-08-26T03:00:00.000Z",
+      "month": "2026-08",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7498413501208477697",
+      "section": null,
+      "metric": "87 imported score",
+      "metrics": {
+        "views": 0,
+        "reach": 0,
+        "impressions": 46,
+        "likes": 1,
+        "comments": 0,
+        "shares": 0,
+        "saves": 0,
+        "clicks": 12,
+        "engagementRate": 0.282608687877655,
+        "skipRate": 0
+      },
+      "score": 87,
+      "signal": "manual_import",
+      "nextUse": "Use winning LinkedIn posts to shape newsletter and event POV."
+    },
+    {
+      "id": "linkedin:import:https://www.linkedin.com/feed/update/urn:li:activity:7496660358896582656",
+      "platform": "linkedin",
+      "format": "company_post",
+      "title": "GILD Miami this past Monday was a good reminder that the quality of a room has less to do with how many people are in it and more to do with how willing they are to engage with each other.\r\n\r\nThe conversation started with Alexandria de Aranzeta, JD (Data & AI Governance Policy, Boeing), who challenged the room to think about AI progress beyond sheer activity. More code, more experiments, and faster development do not necessarily translate into more value. The real question is where an organization sits on the path from experimentation to repeatable, scaled execution, and whether teams are measuring the things that actually matter.\r\n\r\nThat framing opened up a much broader conversation across the room, but what stood out most was how people participated. There was very little posturing and a lot of specificity. Leaders shared what they are trying, where things are getting stuck, and what they are still figuring out. Conversations kept carrying over between groups, introductions happened naturally, and people stayed engaged well beyond the initial discussion.\r\n\r\nMiami is becoming a particularly interesting GILD community for us because of that mix. Different industries, company stages, and perspectives, but a shared willingness to compare notes openly and get into the substance of the work.\r\n\r\nGrateful to everyone who joined us: Gino Ferrand, Dianne Erwin, Stephanie Perez, Nicolas RAFFIN, Raúl Rivera, Rohit Chhabra, Arpit Gupta, Ren Shan, Zain Yaqub, Pablo Bertuzzi, Elijah B., Javier Perez Arranz, Isaac Rodriguez, Vladimir Babarykin, Matt Kuritz, Juan Fernandez, Jean-Jacques Simeoni, Julian Torres Gomez, Gerri Sternfeld, Leandro Schlottchauer, Rayhaan Rasheed, Nadav Wilf, Gaby Contreras, Evan Solomon\r\n\r\nAnd a special thank you to Alexandria for setting the conversation in motion.\r\n\r\nGILD is supported by Tecla Labs. Tecla Labs builds and runs AI systems for sales and marketing that generate qualified leads, create pipeline, and grow revenue. Learn more at www.teclalabs.com\r\n\r\nThe momentum in Miami is real. Next room: October 6.",
+      "imageUrl": "",
+      "publishedAt": "2026-08-21T03:00:00.000Z",
+      "month": "2026-08",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7496660358896582656",
+      "section": null,
+      "metric": "2443 imported score",
+      "metrics": {
+        "views": 0,
+        "reach": 0,
+        "impressions": 886,
+        "likes": 23,
+        "comments": 2,
+        "shares": 3,
+        "saves": 0,
+        "clicks": 351,
+        "engagementRate": 0.427765250205994,
+        "skipRate": 0
+      },
+      "score": 2443,
+      "signal": "manual_import",
+      "nextUse": "Use winning LinkedIn posts to shape newsletter and event POV."
+    },
+    {
       "id": "linkedin:import:https://www.linkedin.com/feed/update/urn:li:activity:7495513285912600578",
       "platform": "linkedin",
       "format": "company_post",
-      "title": "GILD Austin Event: a room of engineering leaders working through something most teams feel but haven't named the comprehension gap.\n\nAI has decoupled how fast we ship from how well we understand what we shipped. Pre-AI, understanding was baked into the build process slow, but built in. Now delivery has outpaced comprehension, and the cost that used to hide inside the build cycle is sitting out in the open.\n\nOur conversation starter, Ivan Pointer (Senior Director of Engineering, NetRise), walked the room through a live case study a two-phase RBAC rewrite where phase one shipped clean, and phase two stalled entirely: thousands of lines of spec churn, dozens of commits, most of them reverts. Not because the team got worse. Because the agents and the humans were now contending with a system too large to hold in their heads.\n\nThe best ideas in the room were ownership structures: engineers accountable for what they ship, constraint limits on how much a single PR can touch, weekly sessions where the team has to explain their own code out loud.\n\nThe room brought together leaders from companies including Oracle, Dell Technologies, Global Payments, Sonar, SmartAsset, Atlassian, and others across AI, software, cybersecurity, and enterprise technology.\n\nThe open question on the table: how do you keep development deterministic when \"done\" becomes a vibe instead of a test case.\n\nGILD is supported by Tecla Labs. Tecla Labs builds and runs AI systems for sales and marketing that generate qualified leads, create pipeline, and grow revenue. Learn more at www.teclalabs.com\n\nThis is the kind of conversation GILD exists for.\n\nGino Ferrand, Dianne Erwin, Aracely Gonzalez, Femke M., Derrick Mar, Erin (Hall) Kouri, Gil Cooper, Michael Olenick, Prakash R., Sriram Narasimhan, Tim Child, William Baxter, Andrew Lee, Srikanth Tadimalla, Durgesh Sukhtankar, Saurabh J., Nate Craddock, Kevin H., ANUSHA GANESHAN, Saurabh Agrawal, Diana Muturia, Robert Catalano, Ruben Gallegos, Aníbal Abarca Gil, Kevin Horner, Greg Jennings, Anastassia Olenick, Jamie Smith, Colin Tompkins",
+      "title": "GILD Austin Event: a room of engineering leaders working through something most teams feel but haven't named the comprehension gap.\r\n\r\nAI has decoupled how fast we ship from how well we understand what we shipped. Pre-AI, understanding was baked into the build process slow, but built in. Now delivery has outpaced comprehension, and the cost that used to hide inside the build cycle is sitting out in the open.\r\n\r\nOur conversation starter, Ivan Pointer (Senior Director of Engineering, NetRise), walked the room through a live case study a two-phase RBAC rewrite where phase one shipped clean, and phase two stalled entirely: thousands of lines of spec churn, dozens of commits, most of them reverts. Not because the team got worse. Because the agents and the humans were now contending with a system too large to hold in their heads.\r\n\r\nThe best ideas in the room were ownership structures: engineers accountable for what they ship, constraint limits on how much a single PR can touch, weekly sessions where the team has to explain their own code out loud.\r\n\r\nThe room brought together leaders from companies including Oracle, Dell Technologies, Global Payments, Sonar, SmartAsset, Atlassian, and others across AI, software, cybersecurity, and enterprise technology.\r\n\r\nThe open question on the table: how do you keep development deterministic when \"done\" becomes a vibe instead of a test case.\r\n\r\nGILD is supported by Tecla Labs. Tecla Labs builds and runs AI systems for sales and marketing that generate qualified leads, create pipeline, and grow revenue. Learn more at www.teclalabs.com\r\n\r\nThis is the kind of conversation GILD exists for.\r\n\r\nGino Ferrand, Dianne Erwin, Aracely Gonzalez, Femke M., Derrick Mar, Erin (Hall) Kouri, Gil Cooper, Michael Olenick, Prakash R., Sriram Narasimhan, Tim Child, William Baxter, Andrew Lee, Srikanth Tadimalla, Durgesh Sukhtankar, Saurabh J., Nate Craddock, Kevin H., ANUSHA GANESHAN, Saurabh Agrawal, Diana Muturia, Robert Catalano, Ruben Gallegos, Aníbal Abarca Gil, Kevin Horner, Greg Jennings, Anastassia Olenick, Jamie Smith, Colin Tompkins",
       "imageUrl": "",
-      "publishedAt": "2026-08-18T00:00:00.000Z",
+      "publishedAt": "2026-08-18T03:00:00.000Z",
       "month": "2026-08",
       "url": "https://www.linkedin.com/feed/update/urn:li:activity:7495513285912600578",
       "section": null,
-      "metric": "711 imported score",
+      "metric": "846 imported score",
       "metrics": {
-        "views": 256,
+        "views": 315,
         "reach": 0,
-        "impressions": 501,
+        "impressions": 589,
         "likes": 12,
         "comments": 1,
         "shares": 4,
         "saves": 0,
-        "clicks": 41,
+        "clicks": 50,
         "engagementRate": 0.11576846241950989,
         "skipRate": 0
       },
-      "score": 711,
+      "score": 846,
       "signal": "manual_import",
       "nextUse": "Use winning LinkedIn posts to shape newsletter and event POV."
     },
@@ -841,17 +949,17 @@
       "id": "linkedin:import:https://www.linkedin.com/feed/update/urn:li:activity:7494176857714540545",
       "platform": "linkedin",
       "format": "company_post",
-      "title": "Miami, round two. \n\nOn August 17, GILD returns to Miami for our second GILD AI Forum, bringing together senior AI and engineering leaders for an evening of candid conversation and peer exchange. \n\nThis time our Conversation Starter is Alexandria de Aranzeta, JD, AI and Data Governance Global Policy Lead at Boeing. Her career spans government, startups, policy, and emerging tech, exactly the kind of multidisciplinary perspective this room needs right now. \n\nAnother strong voice joining the room at GILD AI Forum Miami. \n\n#AILeadership \n#AIGovernance \n#EnterpriseAI \n#MiamiTech \n#GILD",
+      "title": "Miami, round two. \r\n\r\nOn August 17, GILD returns to Miami for our second GILD AI Forum, bringing together senior AI and engineering leaders for an evening of candid conversation and peer exchange. \r\n\r\nThis time our Conversation Starter is Alexandria de Aranzeta, JD, AI and Data Governance Global Policy Lead at Boeing. Her career spans government, startups, policy, and emerging tech, exactly the kind of multidisciplinary perspective this room needs right now. \r\n\r\nAnother strong voice joining the room at GILD AI Forum Miami. \r\n\r\n#AILeadership \r\n#AIGovernance \r\n#EnterpriseAI \r\n#MiamiTech \r\n#GILD",
       "imageUrl": "",
-      "publishedAt": "2026-08-14T00:00:00.000Z",
+      "publishedAt": "2026-08-14T03:00:00.000Z",
       "month": "2026-08",
       "url": "https://www.linkedin.com/feed/update/urn:li:activity:7494176857714540545",
       "section": null,
-      "metric": "130 imported score",
+      "metric": "143 imported score",
       "metrics": {
         "views": 0,
         "reach": 0,
-        "impressions": 236,
+        "impressions": 286,
         "likes": 5,
         "comments": 0,
         "shares": 2,
@@ -860,7 +968,7 @@
         "engagementRate": 0.055084746330976486,
         "skipRate": 0
       },
-      "score": 130,
+      "score": 143,
       "signal": "manual_import",
       "nextUse": "Use winning LinkedIn posts to shape newsletter and event POV."
     },
@@ -868,26 +976,26 @@
       "id": "linkedin:import:https://www.linkedin.com/feed/update/urn:li:activity:7493682583327637506",
       "platform": "linkedin",
       "format": "company_post",
-      "title": "When intelligence becomes abundant, perspective becomes scarce.\n\nThe hardest questions in AI are still being figured out in real time, by people building, deploying, and leading through them.\n\nThat’s the room GILD creates.\n\nSenior AI and engineering leaders comparing notes, challenging assumptions, and sharing what they’re learning before it becomes a playbook.\n\nBecause sometimes the most valuable thing in the room isn’t an answer.\n\nIt’s the person who changes the question.\n\nThat’s GILD.\n\n#AILeadership #EngineeringLeadership #ArtificialIntelligence #TechCommunity #GILD",
+      "title": "When intelligence becomes abundant, perspective becomes scarce.\r\n\r\nThe hardest questions in AI are still being figured out in real time, by people building, deploying, and leading through them.\r\n\r\nThat’s the room GILD creates.\r\n\r\nSenior AI and engineering leaders comparing notes, challenging assumptions, and sharing what they’re learning before it becomes a playbook.\r\n\r\nBecause sometimes the most valuable thing in the room isn’t an answer.\r\n\r\nIt’s the person who changes the question.\r\n\r\nThat’s GILD.\r\n\r\n#AILeadership #EngineeringLeadership #ArtificialIntelligence #TechCommunity #GILD",
       "imageUrl": "",
-      "publishedAt": "2026-08-13T00:00:00.000Z",
+      "publishedAt": "2026-08-13T03:00:00.000Z",
       "month": "2026-08",
       "url": "https://www.linkedin.com/feed/update/urn:li:activity:7493682583327637506",
       "section": null,
-      "metric": "90 imported score",
+      "metric": "119 imported score",
       "metrics": {
         "views": 0,
         "reach": 0,
-        "impressions": 83,
+        "impressions": 105,
         "likes": 1,
         "comments": 0,
         "shares": 0,
         "saves": 0,
-        "clicks": 11,
-        "engagementRate": 0.14457830786705017,
+        "clicks": 15,
+        "engagementRate": 0.152380958199501,
         "skipRate": 0
       },
-      "score": 90,
+      "score": 119,
       "signal": "manual_import",
       "nextUse": "Use winning LinkedIn posts to shape newsletter and event POV."
     },
@@ -895,17 +1003,17 @@
       "id": "linkedin:import:https://www.linkedin.com/feed/update/urn:li:activity:7492984220370227200",
       "platform": "linkedin",
       "format": "company_post",
-      "title": "AI adoption doesn’t stall because teams lack tools. It stalls when understanding can’t keep pace with what the technology can do.\n\nTonight in Austin, Ivan Pointer, Senior Director of Engineering at NetRise, will dig into the AI comprehension gap and what engineering leaders can do to close it.\n\nLooking forward to a strong conversation.\n\n#AILeadership #EngineeringLeadership #ArtificialIntelligence #TechLeadership #GILD",
+      "title": "AI adoption doesn’t stall because teams lack tools. It stalls when understanding can’t keep pace with what the technology can do.\r\n\r\nTonight in Austin, Ivan Pointer, Senior Director of Engineering at NetRise, will dig into the AI comprehension gap and what engineering leaders can do to close it.\r\n\r\nLooking forward to a strong conversation.\r\n\r\n#AILeadership #EngineeringLeadership #ArtificialIntelligence #TechLeadership #GILD",
       "imageUrl": "",
-      "publishedAt": "2026-08-11T00:00:00.000Z",
+      "publishedAt": "2026-08-11T03:00:00.000Z",
       "month": "2026-08",
       "url": "https://www.linkedin.com/feed/update/urn:li:activity:7492984220370227200",
       "section": null,
-      "metric": "147 imported score",
+      "metric": "152 imported score",
       "metrics": {
         "views": 0,
         "reach": 0,
-        "impressions": 224,
+        "impressions": 245,
         "likes": 9,
         "comments": 0,
         "shares": 1,
@@ -914,7 +1022,7 @@
         "engagementRate": 0.0848214253783226,
         "skipRate": 0
       },
-      "score": 147,
+      "score": 152,
       "signal": "manual_import",
       "nextUse": "Use winning LinkedIn posts to shape newsletter and event POV."
     },
@@ -922,17 +1030,17 @@
       "id": "linkedin:import:https://www.linkedin.com/feed/update/urn:li:activity:7491528133125283840",
       "platform": "linkedin",
       "format": "company_post",
-      "title": "A system can be up, fast, and still be wrong. Observability is what catches that.\n\nNew on the blog: what AI observability actually needs to track, and why it's becoming a leadership decision, not just a tooling one. \n\nhttps://lnkd.in/dVpink_B\n\n#AIObservability #AIOps #EnterpriseAI #AILeadership #EngineeringLeadership ",
+      "title": "A system can be up, fast, and still be wrong. Observability is what catches that.\r\n\r\nNew on the blog: what AI observability actually needs to track, and why it's becoming a leadership decision, not just a tooling one. \r\n\r\nhttps://lnkd.in/dVpink_B\r\n\r\n#AIObservability #AIOps #EnterpriseAI #AILeadership #EngineeringLeadership ",
       "imageUrl": "",
-      "publishedAt": "2026-08-07T00:00:00.000Z",
+      "publishedAt": "2026-08-07T03:00:00.000Z",
       "month": "2026-08",
       "url": "https://www.linkedin.com/feed/update/urn:li:activity:7491528133125283840",
       "section": null,
-      "metric": "47 imported score",
+      "metric": "50 imported score",
       "metrics": {
         "views": 0,
         "reach": 0,
-        "impressions": 84,
+        "impressions": 97,
         "likes": 2,
         "comments": 1,
         "shares": 0,
@@ -941,7 +1049,7 @@
         "engagementRate": 0.0595238097012043,
         "skipRate": 0
       },
-      "score": 47,
+      "score": 50,
       "signal": "manual_import",
       "nextUse": "Use winning LinkedIn posts to shape newsletter and event POV."
     },
@@ -949,26 +1057,26 @@
       "id": "linkedin:import:https://www.linkedin.com/feed/update/urn:li:activity:7491156431988170752",
       "platform": "linkedin",
       "format": "company_post",
-      "title": "The Austin GILD AI Forum returns on August 11.\n\nA curated room for senior AI and engineering leaders to compare notes on what is working, where teams are getting stuck, and the tradeoffs shaping how AI gets built and deployed.\n\nThank you to Tecla Labs for partnering with us and helping make these rooms possible.\n\nMost companies are still running AI pilots. Tecla Labs builds and runs data-powered AI systems designed to turn sales and marketing work into qualified leads, pipeline, and revenue.\n\nLearn more: www.teclalabs.com\n",
+      "title": "The Austin GILD AI Forum returns on August 11.\r\n\r\nA curated room for senior AI and engineering leaders to compare notes on what is working, where teams are getting stuck, and the tradeoffs shaping how AI gets built and deployed.\r\n\r\nThank you to Tecla Labs for partnering with us and helping make these rooms possible.\r\n\r\nMost companies are still running AI pilots. Tecla Labs builds and runs data-powered AI systems designed to turn sales and marketing work into qualified leads, pipeline, and revenue.\r\n\r\nLearn more: www.teclalabs.com\r\n",
       "imageUrl": "",
-      "publishedAt": "2026-08-06T00:00:00.000Z",
+      "publishedAt": "2026-08-06T03:00:00.000Z",
       "month": "2026-08",
       "url": "https://www.linkedin.com/feed/update/urn:li:activity:7491156431988170752",
       "section": null,
-      "metric": "45 imported score",
+      "metric": "100 imported score",
       "metrics": {
         "views": 0,
         "reach": 0,
-        "impressions": 107,
+        "impressions": 135,
         "likes": 2,
         "comments": 0,
         "shares": 0,
         "saves": 0,
-        "clicks": 2,
-        "engagementRate": 0.037383176386356354,
+        "clicks": 10,
+        "engagementRate": 0.0888888910412788,
         "skipRate": 0
       },
-      "score": 45,
+      "score": 100,
       "signal": "manual_import",
       "nextUse": "Use winning LinkedIn posts to shape newsletter and event POV."
     },
@@ -976,17 +1084,17 @@
       "id": "linkedin:import:https://www.linkedin.com/feed/update/urn:li:activity:7490791825432297472",
       "platform": "linkedin",
       "format": "company_post",
-      "title": "AI monitoring tells you a system is running. It doesn't tell you whether to trust what it's doing.\n\nThat's the distinction engineering leaders keep running into as AI moves from pilot to production. Monitoring answers \"did the call succeed.\" Observability answers \"was the output good enough to trust.\"\n\nToken cost. Output quality. Prompt and context traces. Drift. Human feedback loops. That's the operating view technical leaders now need in one place, not scattered across five dashboards.\n\nFull breakdown on the blog: https://lnkd.in/dVpink_B\n\n#AIObservability #AIEngineering #ProductionAI #MLOps #EngineeringLeadership",
+      "title": "AI monitoring tells you a system is running. It doesn't tell you whether to trust what it's doing.\r\n\r\nThat's the distinction engineering leaders keep running into as AI moves from pilot to production. Monitoring answers \"did the call succeed.\" Observability answers \"was the output good enough to trust.\"\r\n\r\nToken cost. Output quality. Prompt and context traces. Drift. Human feedback loops. That's the operating view technical leaders now need in one place, not scattered across five dashboards.\r\n\r\nFull breakdown on the blog: https://lnkd.in/dVpink_B\r\n\r\n#AIObservability #AIEngineering #ProductionAI #MLOps #EngineeringLeadership",
       "imageUrl": "",
-      "publishedAt": "2026-08-05T00:00:00.000Z",
+      "publishedAt": "2026-08-05T03:00:00.000Z",
       "month": "2026-08",
       "url": "https://www.linkedin.com/feed/update/urn:li:activity:7490791825432297472",
       "section": null,
-      "metric": "33 imported score",
+      "metric": "35 imported score",
       "metrics": {
         "views": 0,
         "reach": 0,
-        "impressions": 73,
+        "impressions": 81,
         "likes": 3,
         "comments": 0,
         "shares": 0,
@@ -995,7 +1103,7 @@
         "engagementRate": 0.054794520139694214,
         "skipRate": 0
       },
-      "score": 33,
+      "score": 35,
       "signal": "manual_import",
       "nextUse": "Use winning LinkedIn posts to shape newsletter and event POV."
     },
@@ -3981,15 +4089,15 @@
       "month": "2026-04",
       "url": "https://www.youtube.com/watch?v=sCswyg_iSRM",
       "section": null,
-      "metric": "270 views",
+      "metric": "272 views",
       "metrics": {
-        "views": 270,
+        "views": 272,
         "likes": 12,
         "comments": 0,
         "shares": 0,
         "watchMinutes": 0
       },
-      "score": 306,
+      "score": 308,
       "signal": "youtube_oauth_api",
       "nextUse": "Clip for LinkedIn + Instagram; full episode stays YouTube."
     },
@@ -4091,15 +4199,15 @@
       "month": "2026-09",
       "url": "https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations",
       "section": null,
-      "metric": "0 opens",
+      "metric": "2982 opens",
       "metrics": {
-        "opens": 0,
-        "clicks": 0,
-        "views": 1,
-        "openRate": 0,
-        "clickRate": 0
+        "opens": 2982,
+        "clicks": 79,
+        "views": 7,
+        "openRate": 20.56,
+        "clickRate": 2.65
       },
-      "score": 1,
+      "score": 3223,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -4135,15 +4243,15 @@
       "month": "2026-08",
       "url": "https://gild-austin.beehiiv.com/p/what-do-ai-leaders-share-when-the-conversation-is-private",
       "section": null,
-      "metric": "6200 opens",
+      "metric": "6205 opens",
       "metrics": {
-        "opens": 6200,
-        "clicks": 128,
+        "opens": 6205,
+        "clicks": 129,
         "views": 26,
-        "openRate": 42.2,
-        "clickRate": 2.06
+        "openRate": 42.23,
+        "clickRate": 2.08
       },
-      "score": 6597,
+      "score": 6605,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -4157,15 +4265,15 @@
       "month": "2026-08",
       "url": "https://gild-austin.beehiiv.com/p/can-ai-ship-faster-than-teams-can-understand-it-what-s-next-at-gild",
       "section": null,
-      "metric": "4916 opens",
+      "metric": "4917 opens",
       "metrics": {
-        "opens": 4916,
+        "opens": 4917,
         "clicks": 99,
         "views": 19,
-        "openRate": 35.87,
+        "openRate": 35.88,
         "clickRate": 2.01
       },
-      "score": 5223,
+      "score": 5224,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -4179,15 +4287,15 @@
       "month": "2026-08",
       "url": "https://gild-austin.beehiiv.com/p/the-austin-forum-is-tonight-miami-is-next",
       "section": null,
-      "metric": "5676 opens",
+      "metric": "5677 opens",
       "metrics": {
-        "opens": 5676,
+        "opens": 5677,
         "clicks": 98,
         "views": 5,
-        "openRate": 41.32,
+        "openRate": 41.33,
         "clickRate": 1.73
       },
-      "score": 5973,
+      "score": 5974,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -4263,7 +4371,7 @@
       "format": "podcast_episode",
       "title": "Why AI Products Get Crushed | Anand Arivukkarasu (AI Product Strategy Advisor)",
       "imageUrl": "https://img.youtube.com/vi/-yN46krtHv0/maxresdefault.jpg",
-      "publishedAt": "2026-07-08T00:00:00.000Z",
+      "publishedAt": "2026-07-08T03:00:00.000Z",
       "month": "2026-07",
       "url": "https://gildhq.com/podcast/why-ai-products-get-crushed-anand-arivukkarasu-ai-product-strategy-advisor",
       "section": null,
@@ -4282,7 +4390,7 @@
       "format": "podcast_episode",
       "title": "AI Is Breaking Cybersecurity, And Most Companies Aren’t Ready | Yasmin Abdi  (CEO, NoHack)",
       "imageUrl": "https://img.youtube.com/vi/sCswyg_iSRM/maxresdefault.jpg",
-      "publishedAt": "2026-04-08T00:00:00.000Z",
+      "publishedAt": "2026-04-08T03:00:00.000Z",
       "month": "2026-04",
       "url": "https://gildhq.com/podcast/ai-is-breaking-cybersecurity-and-most-companies-aren-t-ready-yasmin-abdi-ceo-nohack",
       "section": null,
@@ -4301,7 +4409,7 @@
       "format": "podcast_episode",
       "title": "Why In-Person Networking is About to Explode (Again) | Thom Singer (CEO, Austin Technology Council)",
       "imageUrl": "https://img.youtube.com/vi/XWjV9m4ZKwA/maxresdefault.jpg",
-      "publishedAt": "2026-05-06T00:00:00.000Z",
+      "publishedAt": "2026-05-06T03:00:00.000Z",
       "month": "2026-05",
       "url": "https://gildhq.com/podcast/why-in-person-networking-is-about-to-explode-again-thom-singer-ceo-austin-technology-council",
       "section": null,
@@ -4411,7 +4519,7 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 7,
+        "registrations": 8,
         "going": 0,
         "attendees": 0
       },
@@ -4432,7 +4540,7 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 45,
+        "registrations": 46,
         "going": 24,
         "attendees": 0
       },
@@ -4453,7 +4561,7 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 35,
+        "registrations": 38,
         "going": 27,
         "attendees": 0
       },
@@ -6520,6 +6628,31 @@
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
     {
+      "id": "website:https://gildhq.com/GILD27",
+      "platform": "website",
+      "format": "website_section",
+      "title": "Austin GILD AI Forum: AI and Engineering Leaders Dinner · Luma",
+      "imageUrl": "",
+      "publishedAt": "2026-09-01T12:00:00.000Z",
+      "month": "2026-09",
+      "url": "https://gildhq.com/GILD27",
+      "section": {
+        "key": "events",
+        "label": "Events"
+      },
+      "metric": "11 page views",
+      "metrics": {
+        "views": 11,
+        "users": 8,
+        "sessions": 10,
+        "events": 36,
+        "clicks": 0
+      },
+      "score": 16.2,
+      "signal": "ga4_api",
+      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
+    },
+    {
       "id": "website:https://gildhq.com/podcast",
       "platform": "website",
       "format": "website_section",
@@ -7607,15 +7740,15 @@
         "key": "events",
         "label": "Events"
       },
-      "metric": "3 page views",
+      "metric": "7 page views",
       "metrics": {
-        "views": 3,
+        "views": 7,
         "users": 5,
-        "sessions": 5,
-        "events": 16,
+        "sessions": 7,
+        "events": 28,
         "clicks": 2
       },
-      "score": 6,
+      "score": 10.4,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
@@ -9482,15 +9615,15 @@
         "key": "home",
         "label": "Home"
       },
-      "metric": "13 page views",
+      "metric": "15 page views",
       "metrics": {
-        "views": 13,
+        "views": 15,
         "users": 3,
         "sessions": 5,
-        "events": 23,
+        "events": 25,
         "clicks": 1
       },
-      "score": 15.2,
+      "score": 17.2,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
@@ -12032,15 +12165,15 @@
         "key": "events",
         "label": "Events"
       },
-      "metric": "2 page views",
+      "metric": "3 page views",
       "metrics": {
-        "views": 2,
+        "views": 3,
         "users": 2,
         "sessions": 3,
-        "events": 8,
+        "events": 10,
         "clicks": 0
       },
-      "score": 3.4,
+      "score": 4.4,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
@@ -12062,10 +12195,35 @@
         "views": 3,
         "users": 2,
         "sessions": 2,
-        "events": 3,
+        "events": 5,
         "clicks": 0
       },
       "score": 4.2,
+      "signal": "ga4_api",
+      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
+    },
+    {
+      "id": "website:https://gildhq.com/GILD30",
+      "platform": "website",
+      "format": "website_section",
+      "title": "Austin GILD AI Forum: AI and Engineering Leaders Dinner · Luma",
+      "imageUrl": "",
+      "publishedAt": "2026-09-01T12:00:00.000Z",
+      "month": "2026-09",
+      "url": "https://gildhq.com/GILD30",
+      "section": {
+        "key": "events",
+        "label": "Events"
+      },
+      "metric": "0 page views",
+      "metrics": {
+        "views": 0,
+        "users": 2,
+        "sessions": 2,
+        "events": 2,
+        "clicks": 0
+      },
+      "score": 1.2000000000000002,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
@@ -22420,6 +22578,31 @@
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
     {
+      "id": "website:https://gildhq.com/Gild17",
+      "platform": "website",
+      "format": "website_section",
+      "title": "Speed as an AI Advantage · Luma",
+      "imageUrl": "",
+      "publishedAt": "2026-08-31T12:00:00.000Z",
+      "month": "2026-08",
+      "url": "https://gildhq.com/Gild17",
+      "section": {
+        "key": "other",
+        "label": "Other public pages"
+      },
+      "metric": "0 page views",
+      "metrics": {
+        "views": 0,
+        "users": 1,
+        "sessions": 1,
+        "events": 2,
+        "clicks": 0
+      },
+      "score": 0.6000000000000001,
+      "signal": "ga4_api",
+      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
+    },
+    {
       "id": "website:https://gildhq.com/Gild19",
       "platform": "website",
       "format": "website_section",
@@ -22457,15 +22640,90 @@
         "key": "other",
         "label": "Other public pages"
       },
+      "metric": "3 page views",
+      "metrics": {
+        "views": 3,
+        "users": 1,
+        "sessions": 2,
+        "events": 8,
+        "clicks": 0
+      },
+      "score": 3.8,
+      "signal": "ga4_api",
+      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
+    },
+    {
+      "id": "website:https://gildhq.com/GILD24",
+      "platform": "website",
+      "format": "website_section",
+      "title": "Austin GILD AI Forum x Tecla: AI and Engineering Leaders Dinner · Luma",
+      "imageUrl": "",
+      "publishedAt": "2026-09-01T12:00:00.000Z",
+      "month": "2026-09",
+      "url": "https://gildhq.com/GILD24",
+      "section": {
+        "key": "events",
+        "label": "Events"
+      },
       "metric": "2 page views",
       "metrics": {
         "views": 2,
         "users": 1,
-        "sessions": 2,
-        "events": 6,
+        "sessions": 1,
+        "events": 4,
         "clicks": 0
       },
-      "score": 2.8,
+      "score": 2.6,
+      "signal": "ga4_api",
+      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
+    },
+    {
+      "id": "website:https://gildhq.com/GILD28",
+      "platform": "website",
+      "format": "website_section",
+      "title": "Dallas GILD AI Forum: AI and Engineering Leaders Dinner - Grapevine · Luma",
+      "imageUrl": "",
+      "publishedAt": "2026-09-01T12:00:00.000Z",
+      "month": "2026-09",
+      "url": "https://gildhq.com/GILD28",
+      "section": {
+        "key": "events",
+        "label": "Events"
+      },
+      "metric": "3 page views",
+      "metrics": {
+        "views": 3,
+        "users": 1,
+        "sessions": 1,
+        "events": 10,
+        "clicks": 1
+      },
+      "score": 3.6,
+      "signal": "ga4_api",
+      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
+    },
+    {
+      "id": "website:https://gildhq.com/GILD29",
+      "platform": "website",
+      "format": "website_section",
+      "title": "Miami GILD AI Forum: AI and Engineering Leaders Dinner - Coral Gables · Luma",
+      "imageUrl": "",
+      "publishedAt": "2026-09-01T12:00:00.000Z",
+      "month": "2026-09",
+      "url": "https://gildhq.com/GILD29",
+      "section": {
+        "key": "events",
+        "label": "Events"
+      },
+      "metric": "2 page views",
+      "metrics": {
+        "views": 2,
+        "users": 1,
+        "sessions": 1,
+        "events": 9,
+        "clicks": 0
+      },
+      "score": 2.6,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
@@ -22491,6 +22749,56 @@
         "clicks": 0
       },
       "score": 1.5999999999999999,
+      "signal": "ga4_api",
+      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
+    },
+    {
+      "id": "website:https://gildhq.com/Gild19",
+      "platform": "website",
+      "format": "website_section",
+      "title": "Austin GILD AI Forum x Tecla: AI and Engineering Leaders Dinner · Luma",
+      "imageUrl": "",
+      "publishedAt": "2026-09-01T12:00:00.000Z",
+      "month": "2026-09",
+      "url": "https://gildhq.com/Gild19",
+      "section": {
+        "key": "events",
+        "label": "Events"
+      },
+      "metric": "1 page views",
+      "metrics": {
+        "views": 1,
+        "users": 1,
+        "sessions": 1,
+        "events": 3,
+        "clicks": 0
+      },
+      "score": 1.5999999999999999,
+      "signal": "ga4_api",
+      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
+    },
+    {
+      "id": "website:https://gildhq.com/home",
+      "platform": "website",
+      "format": "website_section",
+      "title": "Events · Luma",
+      "imageUrl": "",
+      "publishedAt": "2026-09-01T12:00:00.000Z",
+      "month": "2026-09",
+      "url": "https://gildhq.com/home",
+      "section": {
+        "key": "home",
+        "label": "Home"
+      },
+      "metric": "0 page views",
+      "metrics": {
+        "views": 0,
+        "users": 1,
+        "sessions": 1,
+        "events": 2,
+        "clicks": 0
+      },
+      "score": 0.6000000000000001,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
@@ -23128,56 +23436,6 @@
       "publishedAt": "2026-08-30T12:00:00.000Z",
       "month": "2026-08",
       "url": "https://gildhq.com/Gild25",
-      "section": {
-        "key": "events",
-        "label": "Events"
-      },
-      "metric": "1 page views",
-      "metrics": {
-        "views": 1,
-        "users": 0,
-        "sessions": 1,
-        "events": 2,
-        "clicks": 0
-      },
-      "score": 1.2,
-      "signal": "ga4_api",
-      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
-    },
-    {
-      "id": "website:https://gildhq.com/Gild17",
-      "platform": "website",
-      "format": "website_section",
-      "title": "Speed as an AI Advantage · Luma",
-      "imageUrl": "",
-      "publishedAt": "2026-08-31T12:00:00.000Z",
-      "month": "2026-08",
-      "url": "https://gildhq.com/Gild17",
-      "section": {
-        "key": "other",
-        "label": "Other public pages"
-      },
-      "metric": "0 page views",
-      "metrics": {
-        "views": 0,
-        "users": 0,
-        "sessions": 1,
-        "events": 2,
-        "clicks": 0
-      },
-      "score": 0.2,
-      "signal": "ga4_api",
-      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
-    },
-    {
-      "id": "website:https://gildhq.com/GILD27",
-      "platform": "website",
-      "format": "website_section",
-      "title": "Austin GILD AI Forum: AI and Engineering Leaders Dinner · Luma",
-      "imageUrl": "",
-      "publishedAt": "2026-09-01T12:00:00.000Z",
-      "month": "2026-09",
-      "url": "https://gildhq.com/GILD27",
       "section": {
         "key": "events",
         "label": "Events"
