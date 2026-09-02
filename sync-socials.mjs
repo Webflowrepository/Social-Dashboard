@@ -1222,6 +1222,50 @@ function normalizeContentItem(item) {
   };
 }
 
+function mergeContentItems(items) {
+  const merged = new Map();
+  for (const item of items) {
+    const key = item.url || item.id;
+    const existing = merged.get(key);
+    if (!existing) {
+      merged.set(key, item);
+      continue;
+    }
+    for (const [metric, value] of Object.entries(item.metrics || {})) {
+      const current = Number(existing.metrics?.[metric] || 0);
+      const incoming = Number(value || 0);
+      existing.metrics[metric] = Math.max(current, incoming);
+    }
+    if ((item.score || 0) > (existing.score || 0)) existing.score = item.score;
+    if (!existing.imageUrl && item.imageUrl) existing.imageUrl = item.imageUrl;
+    if (!existing.title || existing.title.endsWith(" post")) existing.title = item.title;
+    if (existing.signal === "profile_proxy" && item.signal !== "profile_proxy") existing.signal = item.signal;
+  }
+  return [...merged.values()];
+}
+
+function deriveChannelMetrics(channels, items) {
+  return channels.map((channel) => {
+    const channelItems = items.filter((item) => item.platform === channel.id && item.signal !== "profile_proxy");
+    const metrics = { ...channel.metrics };
+    if (["linkedin", "instagram"].includes(channel.id)) {
+      metrics.measuredPosts = channelItems.length;
+      metrics.publishedPosts = Math.max(Number(metrics.publishedPosts || 0), Number(metrics.posts || 0), channelItems.length);
+      metrics.posts = channelItems.length;
+      const reach = channelItems.reduce((sum, item) => sum + Number(item.metrics?.reach || item.metrics?.impressions || 0), 0);
+      const engagement = channelItems.reduce((sum, item) => sum + Number(item.metrics?.likes || 0) + Number(item.metrics?.comments || 0) + Number(item.metrics?.shares || 0) + Number(item.metrics?.saves || 0), 0);
+      if (reach > 0) metrics.reach = reach;
+      if (reach > 0) metrics.engagementRate = Number(((engagement / reach) * 100).toFixed(2));
+    }
+    if (channel.id === "youtube") metrics.measuredVideos = channelItems.length;
+    if (channel.id === "newsletter") metrics.measuredIssues = channelItems.length;
+    if (channel.id === "spotify") metrics.measuredEpisodes = channelItems.length;
+    if (channel.id === "luma") metrics.measuredEvents = channelItems.length;
+    if (channel.id === "website") metrics.measuredPages = new Set(channelItems.map((item) => item.section?.key || item.url)).size;
+    return { ...channel, metrics };
+  });
+}
+
 function profileScore(channel) {
   const metrics = channel.metrics || {};
   const audience = Number(metrics.followers || metrics.subscribers || metrics.users || 0);
@@ -1320,7 +1364,7 @@ async function main() {
     })()
   };
 
-  const syncedItems = [
+  const syncedItems = mergeContentItems([
     ...(apiData.instagram?.entries || []),
     ...(apiData.linkedin?.entries || []),
     ...importedItems,
@@ -1329,10 +1373,10 @@ async function main() {
     ...(apiData.spotify?.entries || []),
     ...(apiData.luma?.entries || []),
     ...(apiData.website?.entries || [])
-  ].map(normalizeContentItem);
+  ].map(normalizeContentItem));
 
   const currentById = Object.fromEntries((current.channels || []).map((channel) => [channel.id, channel]));
-  const channels = baseChannels.map((baseChannel) => {
+  let channels = baseChannels.map((baseChannel) => {
     const channel = { ...baseChannel, ...(currentById[baseChannel.id] || {}) };
     const publicProfile = publicProfiles[channel.id] || {};
     const metrics = { ...channel.metrics, ...(apiData[channel.id]?.metrics || {}) };
@@ -1367,6 +1411,8 @@ async function main() {
           : statusFor(channel.id)
     };
   });
+
+  channels = deriveChannelMetrics(channels, syncedItems);
 
   const now = new Date().toISOString();
   const platformsWithRealItems = new Set(syncedItems.map((item) => item.platform));

@@ -1,24 +1,18 @@
 {
   "channel": "luma",
-  "period": "August 2026",
-  "generatedAt": "2026-09-01T17:50:23.398Z",
+  "period": "2026-08",
+  "generatedAt": "2026-09-02T18:25:10.245Z",
   "sourceStatus": {
     "url": "https://lu.ma/gild",
     "sync": "api",
     "note": "Luma events, registrations and attendance are active."
   },
   "channelSummary": {
-    "id": "luma",
-    "name": "Luma",
-    "metrics": {
-      "events": 30,
-      "registrations": 1100,
-      "attendees": 438,
-      "going": 715
-    },
-    "handle": "GILD Events",
-    "url": "https://lu.ma/gild",
-    "status": "connected"
+    "events": 30,
+    "registrations": 1103,
+    "attendees": 438,
+    "going": 724,
+    "measuredEvents": 30
   },
   "contentItems": [
     {
@@ -64,4 +58,4 @@
       "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
     }
   ]
-}\n
+}

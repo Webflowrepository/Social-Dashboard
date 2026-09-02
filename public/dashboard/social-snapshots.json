@@ -1953,5 +1953,26 @@
       "newsletter": 66,
       "website": 0
     }
+  },
+  {
+    "at": "2026-09-02T18:25:10.245Z",
+    "metrics": {
+      "linkedin": 1029,
+      "instagram": 82,
+      "youtube": 26,
+      "spotify": 0,
+      "luma": 0,
+      "newsletter": 18058,
+      "website": 2611
+    },
+    "content": {
+      "linkedin": 117,
+      "instagram": 20,
+      "youtube": 8,
+      "spotify": 3,
+      "luma": 0,
+      "newsletter": 66,
+      "website": 0
+    }
   }
 ]

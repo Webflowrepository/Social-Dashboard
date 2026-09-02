@@ -10,6 +10,7 @@
     "astro": "astro",
     "auth:youtube": "node ./authorize-youtube.mjs",
     "sync:social": "node ./sync-socials.mjs",
+    "exports:build": "node ./build-channel-exports.mjs",
     "sync:install": "powershell -ExecutionPolicy Bypass -File ./install-hourly-sync.ps1"
   },
   "dependencies": {

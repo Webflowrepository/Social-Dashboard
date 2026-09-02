@@ -1,29 +1,23 @@
 {
   "channel": "instagram",
-  "period": "August 2026",
-  "generatedAt": "2026-09-01T17:50:23.398Z",
+  "period": "2026-08",
+  "generatedAt": "2026-09-02T18:25:10.245Z",
   "sourceStatus": {
     "url": "https://www.instagram.com/gild.hq/",
     "sync": "profile_linked",
     "note": "Instagram needs Graph API token for durable metrics."
   },
   "channelSummary": {
-    "id": "instagram",
-    "name": "Instagram",
-    "metrics": {
-      "followers": 81,
-      "posts": 53,
-      "following": 153,
-      "engagementRate": 0,
-      "reach": 0
-    },
-    "handle": "@gild.hq",
-    "url": "https://www.instagram.com/gild.hq/",
-    "status": "profile_linked",
-    "trend": {
-      "followers": 0,
-      "engagementRate": 0
-    }
+    "followers": 82,
+    "posts": 7,
+    "following": 153,
+    "engagementRate": 8.58,
+    "reach": 373,
+    "measuredPosts": 7,
+    "publishedPosts": 54,
+    "likes": 31,
+    "comments": 0,
+    "shares": 1
   },
   "contentItems": [
     {
@@ -216,4 +210,4 @@
       "nextUse": "Use winning Instagram creative to decide reels, clips and social proof."
     }
   ]
-}\n
+}

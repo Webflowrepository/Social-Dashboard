@@ -77,11 +77,14 @@ jobs:
       - name: Sync all connected channels
         run: npm run sync:social
 
+      - name: Build channel exports
+        run: npm run exports:build
+
       - name: Publish refreshed data
         run: |
           git config user.name "gild-sync[bot]"
           git config user.email "gild-sync[bot]@users.noreply.github.com"
-          git add public/dashboard/social-data.json public/dashboard/social-snapshots.json
+          git add public/dashboard/social-data.json public/dashboard/social-snapshots.json public/dashboard/exports
           if git diff --cached --quiet; then
             echo "No data changes detected."
             exit 0

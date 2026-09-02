@@ -1,28 +1,22 @@
 {
   "channel": "linkedin",
-  "period": "August 2026",
-  "generatedAt": "2026-09-01T17:50:23.398Z",
+  "period": "2026-08",
+  "generatedAt": "2026-09-02T18:25:10.245Z",
   "sourceStatus": {
     "url": "https://www.linkedin.com/company/joingild/?viewAsMember=true",
     "sync": "profile_linked",
     "note": "LinkedIn needs OAuth for posts and analytics."
   },
   "channelSummary": {
-    "id": "linkedin",
-    "name": "LinkedIn",
-    "metrics": {
-      "followers": 1026,
-      "posts": 0,
-      "engagementRate": 0,
-      "reach": 0
-    },
-    "handle": "joingild",
-    "url": "https://www.linkedin.com/company/joingild/?viewAsMember=true",
-    "status": "profile_linked",
-    "trend": {
-      "followers": 0,
-      "engagementRate": 0
-    }
+    "followers": 1029,
+    "posts": 11,
+    "engagementRate": 2.9,
+    "reach": 2658,
+    "measuredPosts": 11,
+    "publishedPosts": 117,
+    "likes": 63,
+    "comments": 4,
+    "shares": 10
   },
   "contentItems": [
     {
@@ -323,4 +317,4 @@
       "nextUse": "Use winning LinkedIn posts to shape newsletter and event POV."
     }
   ]
-}\n
+}
