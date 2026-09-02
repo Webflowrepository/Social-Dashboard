@@ -1,0 +1,181 @@
+{
+  "channel": "newsletter",
+  "period": "August 2026",
+  "generatedAt": "2026-09-01T17:50:23.398Z",
+  "sourceStatus": {
+    "url": "https://www.beehiiv.com/",
+    "sync": "api",
+    "note": "Beehiiv API is active."
+  },
+  "channelSummary": {
+    "id": "newsletter",
+    "name": "Newsletter",
+    "metrics": {
+      "subscribers": 18062,
+      "posts": 66,
+      "openRate": 32.49,
+      "clickRate": 2.94,
+      "sent": 448701
+    },
+    "handle": "GILD",
+    "url": "https://www.beehiiv.com/",
+    "status": "connected",
+    "publicationId": "pub_133849f3-7359-4235-ae8a-ad324fae93ef"
+  },
+  "contentItems": [
+    {
+      "id": "newsletter:https://gild-austin.beehiiv.com/p/can-ai-ship-faster-than-teams-can-understand-it-what-s-next-at-gild-1",
+      "platform": "newsletter",
+      "format": "newsletter_post",
+      "title": "Can AI Ship Faster Than Teams Can Understand It? What’s Next at GILD (1)",
+      "imageUrl": "",
+      "publishedAt": "2026-08-21T13:17:45.000Z",
+      "month": "2026-08",
+      "url": "https://gild-austin.beehiiv.com/p/can-ai-ship-faster-than-teams-can-understand-it-what-s-next-at-gild-1",
+      "section": null,
+      "metric": "0 opens",
+      "metrics": {
+        "opens": 0,
+        "clicks": 0,
+        "views": 0,
+        "openRate": 0,
+        "clickRate": 0
+      },
+      "score": 1,
+      "signal": "beehiiv_api",
+      "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
+    },
+    {
+      "id": "newsletter:https://gild-austin.beehiiv.com/p/join-the-conversation-at-the-next-gild-ai-forums-1",
+      "platform": "newsletter",
+      "format": "newsletter_post",
+      "title": "Join the Conversation at the Next GILD AI Forums (1)",
+      "imageUrl": "",
+      "publishedAt": "2026-08-03T21:51:15.000Z",
+      "month": "2026-08",
+      "url": "https://gild-austin.beehiiv.com/p/join-the-conversation-at-the-next-gild-ai-forums-1",
+      "section": null,
+      "metric": "0 opens",
+      "metrics": {
+        "opens": 0,
+        "clicks": 0,
+        "views": 0,
+        "openRate": 0,
+        "clickRate": 0
+      },
+      "score": 1,
+      "signal": "beehiiv_api",
+      "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
+    },
+    {
+      "id": "newsletter:https://gild-austin.beehiiv.com/p/where-do-500-gild-members-talk-between-dinners",
+      "platform": "newsletter",
+      "format": "newsletter_post",
+      "title": "Where do 500+ GILD members talk between dinners?",
+      "imageUrl": "",
+      "publishedAt": "2026-08-27T13:00:00.000Z",
+      "month": "2026-08",
+      "url": "https://gild-austin.beehiiv.com/p/where-do-500-gild-members-talk-between-dinners",
+      "section": null,
+      "metric": "92 opens",
+      "metrics": {
+        "opens": 92,
+        "clicks": 25,
+        "views": 0,
+        "openRate": 39.66,
+        "clickRate": 27.17
+      },
+      "score": 167,
+      "signal": "beehiiv_api",
+      "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
+    },
+    {
+      "id": "newsletter:https://gild-austin.beehiiv.com/p/what-do-ai-leaders-share-when-the-conversation-is-private",
+      "platform": "newsletter",
+      "format": "newsletter_post",
+      "title": "What Do AI Leaders Share When the Conversation Is Private?",
+      "imageUrl": "",
+      "publishedAt": "2026-08-25T13:00:00.000Z",
+      "month": "2026-08",
+      "url": "https://gild-austin.beehiiv.com/p/what-do-ai-leaders-share-when-the-conversation-is-private",
+      "section": null,
+      "metric": "6205 opens",
+      "metrics": {
+        "opens": 6205,
+        "clicks": 129,
+        "views": 26,
+        "openRate": 42.23,
+        "clickRate": 2.08
+      },
+      "score": 6605,
+      "signal": "beehiiv_api",
+      "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
+    },
+    {
+      "id": "newsletter:https://gild-austin.beehiiv.com/p/can-ai-ship-faster-than-teams-can-understand-it-what-s-next-at-gild",
+      "platform": "newsletter",
+      "format": "newsletter_post",
+      "title": "Can AI Ship Faster Than Teams Can Understand It? What’s Next at GILD",
+      "imageUrl": "",
+      "publishedAt": "2026-08-19T13:00:00.000Z",
+      "month": "2026-08",
+      "url": "https://gild-austin.beehiiv.com/p/can-ai-ship-faster-than-teams-can-understand-it-what-s-next-at-gild",
+      "section": null,
+      "metric": "4917 opens",
+      "metrics": {
+        "opens": 4917,
+        "clicks": 99,
+        "views": 19,
+        "openRate": 35.88,
+        "clickRate": 2.01
+      },
+      "score": 5224,
+      "signal": "beehiiv_api",
+      "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
+    },
+    {
+      "id": "newsletter:https://gild-austin.beehiiv.com/p/the-austin-forum-is-tonight-miami-is-next",
+      "platform": "newsletter",
+      "format": "newsletter_post",
+      "title": "The Austin Forum Is Tonight. Miami Is Next.",
+      "imageUrl": "",
+      "publishedAt": "2026-08-11T13:00:00.000Z",
+      "month": "2026-08",
+      "url": "https://gild-austin.beehiiv.com/p/the-austin-forum-is-tonight-miami-is-next",
+      "section": null,
+      "metric": "5677 opens",
+      "metrics": {
+        "opens": 5677,
+        "clicks": 98,
+        "views": 5,
+        "openRate": 41.33,
+        "clickRate": 1.73
+      },
+      "score": 5974,
+      "signal": "beehiiv_api",
+      "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
+    },
+    {
+      "id": "newsletter:https://gild-austin.beehiiv.com/p/join-the-conversation-at-the-next-gild-ai-forums",
+      "platform": "newsletter",
+      "format": "newsletter_post",
+      "title": "Join the Conversation at the Next GILD AI Forums",
+      "imageUrl": "",
+      "publishedAt": "2026-08-04T13:00:00.000Z",
+      "month": "2026-08",
+      "url": "https://gild-austin.beehiiv.com/p/join-the-conversation-at-the-next-gild-ai-forums",
+      "section": null,
+      "metric": "3408 opens",
+      "metrics": {
+        "opens": 3408,
+        "clicks": 69,
+        "views": 13,
+        "openRate": 24.72,
+        "clickRate": 2.02
+      },
+      "score": 3622,
+      "signal": "beehiiv_api",
+      "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
+    }
+  ]
+}\n

@@ -1,0 +1,29 @@
+{
+  "channel": "youtube",
+  "period": "August 2026",
+  "generatedAt": "2026-09-01T17:50:23.398Z",
+  "sourceStatus": {
+    "url": "https://www.youtube.com/@GILDhq",
+    "sync": "api",
+    "note": "YouTube Data API is active. Enable YouTube Analytics API to add watch time, shares and deeper video analytics."
+  },
+  "channelSummary": {
+    "id": "youtube",
+    "name": "YouTube",
+    "metrics": {
+      "subscribers": 26,
+      "videos": 8,
+      "views": 859,
+      "engagementRate": 0
+    },
+    "handle": "@GILDhq",
+    "url": "https://www.youtube.com/@GILDhq",
+    "channelId": "UCC0lbied2G_PVm_WVK-xhrw",
+    "status": "connected",
+    "trend": {
+      "subscribers": 0,
+      "views": 0
+    }
+  },
+  "contentItems": []
+}\n
