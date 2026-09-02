@@ -1,5 +1,5 @@
 {
-  "lastSyncAt": "2026-09-02T18:25:10.245Z",
+  "lastSyncAt": "2026-09-02T18:31:26.090Z",
   "mode": "api-ready",
   "brand": {
     "name": "GILD",
@@ -20,7 +20,7 @@
       },
       "handle": "joingild",
       "url": "https://www.linkedin.com/company/joingild/?viewAsMember=true",
-      "status": "profile_linked",
+      "status": "imported",
       "trend": {
         "followers": 0,
         "engagementRate": 0
@@ -40,7 +40,7 @@
       },
       "handle": "@gild.hq",
       "url": "https://www.instagram.com/gild.hq/",
-      "status": "profile_linked",
+      "status": "imported",
       "trend": {
         "followers": 0,
         "engagementRate": 0
@@ -351,7 +351,7 @@
       "instagram": 81,
       "youtube": 26,
       "newsletter": 18111,
-      "website": 2752
+      "website": 2755
     },
     {
       "label": "S-6",
@@ -359,23 +359,23 @@
       "instagram": 81,
       "youtube": 26,
       "newsletter": 18111,
-      "website": 2755
-    },
-    {
-      "label": "S-5",
-      "linkedin": 1023,
-      "instagram": 81,
-      "youtube": 26,
-      "newsletter": 18111,
       "website": 2758
     },
     {
-      "label": "S-4",
+      "label": "S-5",
       "linkedin": 1025,
       "instagram": 81,
       "youtube": 26,
       "newsletter": 18111,
       "website": 2695
+    },
+    {
+      "label": "S-4",
+      "linkedin": 1026,
+      "instagram": 81,
+      "youtube": 26,
+      "newsletter": 18062,
+      "website": 2711
     },
     {
       "label": "S-3",
@@ -390,16 +390,16 @@
       "linkedin": 1026,
       "instagram": 81,
       "youtube": 26,
-      "newsletter": 18062,
-      "website": 2711
+      "newsletter": 18058,
+      "website": 2604
     },
     {
       "label": "S-1",
-      "linkedin": 1026,
-      "instagram": 81,
+      "linkedin": 1029,
+      "instagram": 82,
       "youtube": 26,
       "newsletter": 18058,
-      "website": 2604
+      "website": 2611
     },
     {
       "label": "Now",
@@ -433,13 +433,13 @@
   "sourceStatus": {
     "linkedin": {
       "url": "https://www.linkedin.com/company/joingild/?viewAsMember=true",
-      "sync": "profile_linked",
-      "note": "LinkedIn needs OAuth for posts and analytics."
+      "sync": "csv_import",
+      "note": "Post analytics are measured from imported LinkedIn exports; Page visitor analytics still requires approved OAuth access."
     },
     "instagram": {
       "url": "https://www.instagram.com/gild.hq/",
-      "sync": "profile_linked",
-      "note": "Instagram needs Graph API token for durable metrics."
+      "sync": "csv_import",
+      "note": "Post and Reel analytics are measured from imported Instagram exports; durable automatic sync requires Meta Graph API access."
     },
     "youtube": {
       "url": "https://www.youtube.com/@GILDhq",

@@ -1,11 +1,11 @@
 {
   "channel": "linkedin",
   "period": "2026-08",
-  "generatedAt": "2026-09-02T18:25:10.245Z",
+  "generatedAt": "2026-09-02T18:31:26.090Z",
   "sourceStatus": {
     "url": "https://www.linkedin.com/company/joingild/?viewAsMember=true",
-    "sync": "profile_linked",
-    "note": "LinkedIn needs OAuth for posts and analytics."
+    "sync": "csv_import",
+    "note": "Post analytics are measured from imported LinkedIn exports; Page visitor analytics still requires approved OAuth access."
   },
   "channelSummary": {
     "followers": 1029,

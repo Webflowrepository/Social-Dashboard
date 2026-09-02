@@ -1374,6 +1374,7 @@ async function main() {
     ...(apiData.luma?.entries || []),
     ...(apiData.website?.entries || [])
   ].map(normalizeContentItem));
+  const importedPlatforms = new Set(importedItems.map((item) => item.platform));
 
   const currentById = Object.fromEntries((current.channels || []).map((channel) => [channel.id, channel]));
   let channels = baseChannels.map((baseChannel) => {
@@ -1406,6 +1407,8 @@ async function main() {
         channel.handle,
       status: apiData[channel.id]?.metrics
         ? "connected"
+        : importedPlatforms.has(channel.id)
+          ? "imported"
         : channel.id === "luma" && apiData[channel.id]?.error
           ? "profile_linked"
           : statusFor(channel.id)
@@ -1431,13 +1434,17 @@ async function main() {
     sourceStatus: {
       linkedin: {
         url: publicProfiles.linkedin.url,
-        sync: apiData.linkedin?.entries ? "api" : "profile_linked",
-        note: apiData.linkedin?.error || "LinkedIn needs OAuth for posts and analytics."
+        sync: apiData.linkedin?.entries ? "api" : importedPlatforms.has("linkedin") ? "csv_import" : "profile_linked",
+        note: apiData.linkedin?.error || (importedPlatforms.has("linkedin")
+          ? "Post analytics are measured from imported LinkedIn exports; Page visitor analytics still requires approved OAuth access."
+          : "LinkedIn needs OAuth for posts, analytics and Page visitor data.")
       },
       instagram: {
         url: publicProfiles.instagram.url,
-        sync: apiData.instagram?.metrics ? "api" : "profile_linked",
-        note: apiData.instagram?.error || "Instagram needs Graph API token for durable metrics."
+        sync: apiData.instagram?.metrics ? "api" : importedPlatforms.has("instagram") ? "csv_import" : "profile_linked",
+        note: apiData.instagram?.error || (importedPlatforms.has("instagram")
+          ? "Post and Reel analytics are measured from imported Instagram exports; durable automatic sync requires Meta Graph API access."
+          : "Instagram needs Graph API token for durable metrics.")
       },
       youtube: {
         url: publicProfiles.youtube.url,

@@ -2668,6 +2668,11 @@ select {
   color: var(--teal-light);
 }
 
+.pill.measured {
+  background: rgba(220, 170, 90, 0.16);
+  color: #e5bd78;
+}
+
 .pill.linked {
   background: rgba(120, 174, 232, 0.14);
   color: var(--linkedin);

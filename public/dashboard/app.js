@@ -941,7 +941,7 @@ function channelSummary(channelId, items) {
     const value = metric === "openRate" || metric === "clickRate" ? averageMetric(items, metric) : sumMetric(items, metric);
     return `<div><span>${metricLabels[metric] || metric}</span><strong>${metric === "openRate" || metric === "clickRate" ? formatPercent(value) : formatNumber(value)}</strong></div>`;
   }).join("") + `<div><span>Published</span><strong>${formatNumber(items.length)}</strong></div>` +
-    `<div><span>Status</span><strong>${channel.status === "connected" ? "OK" : "Partial"}</strong></div>`;
+    `<div><span>Status</span><strong>${channel.status === "connected" ? "API" : channel.status === "imported" ? "CSV measured" : "Partial"}</strong></div>`;
 }
 
 function renderChannelSections() {
@@ -1203,12 +1203,13 @@ function renderDataHealth() {
     .map((channel) => {
       const source = state.data.sourceStatus?.[channel.id] || {};
       const connected = channel.status === "connected";
+      const measured = channel.status === "imported";
       return `<article class="queue-row">
         <div>
           <strong>${channel.name}</strong>
           <span class="queue-meta">${source.sync || channel.status} · ${missingFor(channel)}</span>
         </div>
-        <span class="pill ${connected ? "connected" : "linked"}">${connected ? "connected" : "partial"}</span>
+        <span class="pill ${connected ? "connected" : measured ? "measured" : "linked"}">${connected ? "connected" : measured ? "CSV measured" : "partial"}</span>
       </article>`;
     })
     .join("");
