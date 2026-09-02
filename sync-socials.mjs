@@ -603,6 +603,7 @@ async function getBeehiivApiData(apiKey, publicationId) {
   if (!publication) throw new Error("Beehiiv API key did not return publications.");
 
   const posts = { data: [], total_results: 0 };
+  const seenPostIds = new Set();
   let page = 1;
   for (let request = 0; request < 20; request += 1) {
     const postsUrl = new URL(`https://api.beehiiv.com/v2/publications/${publication.id}/posts`);
@@ -612,11 +613,18 @@ async function getBeehiivApiData(apiKey, publicationId) {
     postsUrl.searchParams.set("order_by", "publish_date");
     postsUrl.searchParams.set("direction", "desc");
     const batch = await fetchJson(postsUrl, { headers });
-    posts.data.push(...(batch.data || []));
+    const batchItems = batch.data || [];
+    const newItems = batchItems.filter((item) => {
+      const id = item.id || item.web_url || item.url || JSON.stringify(item);
+      if (seenPostIds.has(id)) return false;
+      seenPostIds.add(id);
+      return true;
+    });
+    posts.data.push(...newItems);
     posts.total_results = Number(batch.total_results || posts.data.length);
+    if (posts.data.length >= posts.total_results || !batchItems.length || !newItems.length) break;
     const nextPage = batch.pagination?.next_page;
-    if (!nextPage || posts.data.length >= posts.total_results || !(batch.data || []).length) break;
-    page = Number(nextPage);
+    page = Number(nextPage) || page + 1;
   }
   const stats = publication.stats || {};
 
