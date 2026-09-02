@@ -209,6 +209,12 @@ function primaryMetricFor(channelId) {
   return "engagement";
 }
 
+function interactionLabel(channelId) {
+  if (channelId === "linkedin") return "Reactions + comments + reposts + clicks";
+  if (channelId === "instagram") return "Likes + comments + shares + saves";
+  return "Recorded interactions";
+}
+
 function decisionScore(item, cohort) {
   const metric = primaryMetricFor(item.platform);
   const value = metricValue(item, metric);
@@ -464,7 +470,7 @@ function renderMinimalSocialReport(items, channelId) {
       <div><span>Likes</span><strong>${formatNumber(totalLikes)}</strong></div>
       <div><span>Comments</span><strong>${formatNumber(totalComments)}</strong></div>
       <div><span>Shares</span><strong>${formatNumber(totalShares)}</strong></div>
-      <div><span>${channelId === "youtube" ? "Total views" : "Total engagement"}</span><strong>${formatNumber(totalEngagement)}</strong></div>
+      <div><span>${channelId === "youtube" ? "Total views" : "Total interactions"}</span><strong>${formatNumber(totalEngagement)}</strong></div>
     </div>
     <article class="minimal-panel top-posts-panel">
       <div class="minimal-panel-head"><h3>${channelId === "youtube" ? "Top videos" : "Top posts"}</h3><span>${channelId === "youtube" ? `Highest ${sortLabel.toLowerCase()} first` : "Highest engagement first"}</span></div>
@@ -478,7 +484,7 @@ function renderMinimalSocialReport(items, channelId) {
     </article>
     <div class="minimal-visual-grid">
       <article class="minimal-panel engagement-panel">
-        <div class="minimal-panel-head"><h3>${channelId === "youtube" ? `Videos by ${sortLabel.toLowerCase()}` : "Posts with most engagement"}</h3><span>${channelId === "youtube" ? "Compare views, response and watch time" : "Likes + comments + shares"}</span></div>
+      <div class="minimal-panel-head"><h3>${channelId === "youtube" ? `Videos by ${sortLabel.toLowerCase()}` : "Posts with most interactions"}</h3><span>${channelId === "youtube" ? "Compare views, response and watch time" : interactionLabel(channelId)}</span></div>
         ${ranked.length ? `<div class="engagement-bars">${ranked.map((item, index) => `<div class="engagement-row">
           <div class="engagement-title"><b>${index + 1}</b><a href="${item.url || "#"}" target="_blank" rel="noreferrer" title="${shortTitle(item)}">${shortTitle(item)}</a><small>${formatDate(item.publishedAt)}</small></div>
           <div class="engagement-track">${metricBar(metricValue(item, sortMetric), maxEngagement, "engagement-fill")}</div>
