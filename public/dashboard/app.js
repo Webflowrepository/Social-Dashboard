@@ -172,7 +172,7 @@ function previousItems() {
 function metricValue(item, metric) {
   const metrics = item.metrics || {};
   if (metric === "engagement") {
-    return Number(metrics.likes || 0) + Number(metrics.comments || 0) + Number(metrics.shares || 0) + Number(metrics.saves || 0) + Number(metrics.clicks || 0);
+    return Number(metrics.likes || 0) + Number(metrics.comments || 0) + Number(metrics.shares || 0) + Number(metrics.saves || 0);
   }
   if (metric === "score") return Number(item.score || 0);
   return Number(metrics[metric] || 0);
@@ -210,9 +210,20 @@ function primaryMetricFor(channelId) {
 }
 
 function interactionLabel(channelId) {
-  if (channelId === "linkedin") return "Reactions + comments + reposts + clicks";
+  if (channelId === "linkedin") return "Reactions + comments + reposts";
   if (channelId === "instagram") return "Likes + comments + shares + saves";
   return "Recorded interactions";
+}
+
+function interactionBreakdown(item, channelId) {
+  const metrics = item.metrics || {};
+  const fields = channelId === "linkedin"
+    ? [["likes", "reactions"], ["comments", "comments"], ["shares", "reposts"], ["clicks", "clicks"]]
+    : [["likes", "likes"], ["comments", "comments"], ["shares", "shares"], ["saves", "saves"]];
+  return fields
+    .filter(([key]) => Number(metrics[key] || 0) > 0)
+    .map(([key, label]) => `${formatNumber(metrics[key])} ${label}`)
+    .join(" · ");
 }
 
 function decisionScore(item, cohort) {
@@ -478,15 +489,15 @@ function renderMinimalSocialReport(items, channelId) {
         <div class="post-card-top"><span class="post-rank">#${index + 1}</span><span>${formatDate(item.publishedAt)}</span></div>
         <a class="post-preview" href="${item.url || "#"}" target="_blank" rel="noreferrer">${postPreview(item)}</a>
         <a class="post-card-title" href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a>
-        <div class="post-card-metrics">${channelId === "youtube" ? `<span><b>${formatNumber(metricValue(item, "views"))}</b> views</span><span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatNumber(metricValue(item, "comments"))}</b> comments</span><span><b>${formatNumber(metricValue(item, "watchMinutes"))}</b> watch min</span>` : channelId === "instagram" ? `<span><b>${formatNumber(metricValue(item, "views"))}</b> views</span><span><b>${formatNumber(metricValue(item, "reach"))}</b> reach</span><span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatPercent(metricValue(item, "engagementRate"))}</b> engagement</span>` : `<span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatNumber(metricValue(item, "comments"))}</b> comments</span><span><b>${formatNumber(metricValue(item, "shares"))}</b> shares</span>`}</div>
+        <div class="post-card-metrics">${channelId === "youtube" ? `<span><b>${formatNumber(metricValue(item, "views"))}</b> views</span><span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatNumber(metricValue(item, "comments"))}</b> comments</span><span><b>${formatNumber(metricValue(item, "watchMinutes"))}</b> watch min</span>` : channelId === "instagram" ? `<span><b>${formatNumber(metricValue(item, "views"))}</b> views</span><span><b>${formatNumber(metricValue(item, "reach"))}</b> reach</span><span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatPercent(metricValue(item, "engagementRate"))}</b> engagement</span>` : `<span><b>${formatNumber(metricValue(item, "likes"))}</b> reactions</span><span><b>${formatNumber(metricValue(item, "comments"))}</b> comments</span><span><b>${formatNumber(metricValue(item, "shares"))}</b> reposts</span><span><b>${formatNumber(metricValue(item, "clicks"))}</b> clicks</span>`}</div>
         <div class="post-card-score"><span>${sortLabel}</span><strong>${formatNumber(metricValue(item, sortMetric))}</strong><i>${metricBar(metricValue(item, sortMetric), maxEngagement, "engagement-fill")}</i></div>
       </article>`).join("")}</div>` : `<p class="minimal-empty">No comparable posts in this period.</p>`}
     </article>
     <div class="minimal-visual-grid">
       <article class="minimal-panel engagement-panel">
-      <div class="minimal-panel-head"><h3>${channelId === "youtube" ? `Videos by ${sortLabel.toLowerCase()}` : "Posts with most interactions"}</h3><span>${channelId === "youtube" ? "Compare views, response and watch time" : interactionLabel(channelId)}</span></div>
+        <div class="minimal-panel-head"><h3>${channelId === "youtube" ? `Videos by ${sortLabel.toLowerCase()}` : "Posts with most engagement"}</h3><span>${channelId === "youtube" ? "Compare views, response and watch time" : interactionLabel(channelId)}${channelId === "linkedin" ? " · clicks shown separately" : ""}</span></div>
         ${ranked.length ? `<div class="engagement-bars">${ranked.map((item, index) => `<div class="engagement-row">
-          <div class="engagement-title"><b>${index + 1}</b><a href="${item.url || "#"}" target="_blank" rel="noreferrer" title="${shortTitle(item)}">${shortTitle(item)}</a><small>${formatDate(item.publishedAt)}</small></div>
+          <div class="engagement-title"><b>${index + 1}</b><a href="${item.url || "#"}" target="_blank" rel="noreferrer" title="${shortTitle(item)}">${shortTitle(item)}</a><small>${formatDate(item.publishedAt)}${channelId === "youtube" ? "" : ` · ${interactionBreakdown(item, channelId)}`}</small></div>
           <div class="engagement-track">${metricBar(metricValue(item, sortMetric), maxEngagement, "engagement-fill")}</div>
           <strong>${formatNumber(metricValue(item, sortMetric))}</strong>
         </div>`).join("")}</div>` : `<p class="minimal-empty">No comparable posts in this period.</p>`}
