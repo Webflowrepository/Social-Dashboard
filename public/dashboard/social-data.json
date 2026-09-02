@@ -1,5 +1,5 @@
 {
-  "lastSyncAt": "2026-09-02T18:34:01.821Z",
+  "lastSyncAt": "2026-09-02T18:37:50.819Z",
   "mode": "api-ready",
   "brand": {
     "name": "GILD",
@@ -347,19 +347,19 @@
   "audienceHistory": [
     {
       "label": "S-7",
-      "linkedin": 1023,
-      "instagram": 81,
-      "youtube": 26,
-      "newsletter": 18111,
-      "website": 2758
-    },
-    {
-      "label": "S-6",
       "linkedin": 1025,
       "instagram": 81,
       "youtube": 26,
       "newsletter": 18111,
       "website": 2695
+    },
+    {
+      "label": "S-6",
+      "linkedin": 1026,
+      "instagram": 81,
+      "youtube": 26,
+      "newsletter": 18062,
+      "website": 2711
     },
     {
       "label": "S-5",
@@ -374,16 +374,16 @@
       "linkedin": 1026,
       "instagram": 81,
       "youtube": 26,
-      "newsletter": 18062,
-      "website": 2711
+      "newsletter": 18058,
+      "website": 2604
     },
     {
       "label": "S-3",
-      "linkedin": 1026,
-      "instagram": 81,
+      "linkedin": 1029,
+      "instagram": 82,
       "youtube": 26,
       "newsletter": 18058,
-      "website": 2604
+      "website": 2611
     },
     {
       "label": "S-2",
@@ -399,7 +399,7 @@
       "instagram": 82,
       "youtube": 26,
       "newsletter": 18058,
-      "website": 2611
+      "website": 1632
     },
     {
       "label": "Now",
@@ -4397,15 +4397,15 @@
       "month": "2026-09",
       "url": "https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations",
       "section": null,
-      "metric": "3631 opens",
+      "metric": "3632 opens",
       "metrics": {
-        "opens": 3631,
+        "opens": 3632,
         "clicks": 88,
         "views": 7,
-        "openRate": 25.03,
+        "openRate": 25.04,
         "clickRate": 2.42
       },
-      "score": 3899,
+      "score": 3900,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },

@@ -1,0 +1,61 @@
+{
+  "channel": "luma",
+  "period": "2026-09",
+  "generatedAt": "2026-09-02T18:37:50.819Z",
+  "sourceStatus": {
+    "url": "https://lu.ma/gild",
+    "sync": "api",
+    "note": "Luma events, registrations and attendance are active."
+  },
+  "channelSummary": {
+    "events": 30,
+    "registrations": 1103,
+    "attendees": 438,
+    "going": 724,
+    "measuredEvents": 30
+  },
+  "contentItems": [
+    {
+      "id": "luma:evt-vAG1ZtYk12hddKm",
+      "platform": "luma",
+      "format": "event",
+      "title": "Dallas GILD AI Forum: AI and Engineering Leaders Dinner - Grapevine",
+      "imageUrl": "https://images.lumacdn.com/uploads/5e/c92cdef5-7c60-42e1-8e89-05ea0bed5b5c.png",
+      "publishedAt": "2026-09-22T23:00:00.000Z",
+      "month": "2026-09",
+      "url": "https://luma.com/GILD28",
+      "section": null,
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 46,
+        "going": 26,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    },
+    {
+      "id": "luma:evt-BTNhYAHKPoxsao5",
+      "platform": "luma",
+      "format": "event",
+      "title": "Austin GILD AI Forum: AI and Engineering Leaders Dinner",
+      "imageUrl": "https://images.lumacdn.com/uploads/y8/ac85ce6e-b316-483e-8c1a-5b944c51f344.png",
+      "publishedAt": "2026-09-10T23:00:00.000Z",
+      "month": "2026-09",
+      "url": "https://luma.com/GILD27",
+      "section": null,
+      "metric": "registrations and attendance",
+      "metrics": {
+        "events": 1,
+        "registrations": 40,
+        "going": 31,
+        "attendees": 0
+      },
+      "score": null,
+      "signal": "luma_api",
+      "nextUse": "Compare registrations and attendance to decide which event themes and formats to repeat."
+    }
+  ]
+}

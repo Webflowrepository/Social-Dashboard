@@ -1,0 +1,20 @@
+{
+  "channel": "website",
+  "period": "2026-09",
+  "generatedAt": "2026-09-02T18:37:50.819Z",
+  "sourceStatus": {
+    "url": "https://gildhq.com/",
+    "sync": "ga4_api",
+    "note": "Google Analytics page-level data is active."
+  },
+  "channelSummary": {
+    "users": 0,
+    "sessions": 0,
+    "pageViews": 0,
+    "events": 0,
+    "errors": 4294,
+    "clicks": 0,
+    "measuredPages": 0
+  },
+  "contentItems": []
+}

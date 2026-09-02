@@ -1,0 +1,18 @@
+{
+  "channel": "youtube",
+  "period": "2026-09",
+  "generatedAt": "2026-09-02T18:37:50.819Z",
+  "sourceStatus": {
+    "url": "https://www.youtube.com/@GILDhq",
+    "sync": "api",
+    "note": "YouTube Data API is active. Enable YouTube Analytics API to add watch time, shares and deeper video analytics."
+  },
+  "channelSummary": {
+    "subscribers": 26,
+    "videos": 8,
+    "views": 867,
+    "engagementRate": 0,
+    "measuredVideos": 8
+  },
+  "contentItems": []
+}

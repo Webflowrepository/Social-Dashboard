@@ -1,0 +1,23 @@
+{
+  "channel": "instagram",
+  "period": "2026-09",
+  "generatedAt": "2026-09-02T18:37:50.819Z",
+  "sourceStatus": {
+    "url": "https://www.instagram.com/gild.hq/",
+    "sync": "csv_import",
+    "note": "Post and Reel analytics are measured from imported Instagram exports; durable automatic sync requires Meta Graph API access."
+  },
+  "channelSummary": {
+    "followers": 82,
+    "posts": 0,
+    "following": 153,
+    "engagementRate": 0,
+    "reach": 0,
+    "measuredPosts": 0,
+    "publishedPosts": 54,
+    "likes": 0,
+    "comments": 0,
+    "shares": 0
+  },
+  "contentItems": []
+}

@@ -1,0 +1,17 @@
+{
+  "channel": "spotify",
+  "period": "2026-09",
+  "generatedAt": "2026-09-02T18:37:50.819Z",
+  "sourceStatus": {
+    "url": "https://creators.spotify.com/pod/show/0TSnQszN4VY8tyOgIYPsQy/episodes",
+    "sync": "public_catalog",
+    "note": "Spotify API unavailable (https://api.spotify.com/v1/shows/0TSnQszN4VY8tyOgIYPsQy?market=US returned 403: Active premium subscription required for the owner of the app. When the subscription status changes, it can take a few hours before requests are allowed again.); showing the public GILD podcast catalog instead."
+  },
+  "channelSummary": {
+    "episodes": 3,
+    "listeners": 0,
+    "plays": 0,
+    "measuredEpisodes": 3
+  },
+  "contentItems": []
+}
