@@ -452,7 +452,7 @@ async function getYouTubeOAuthData(channelId, clientId, clientSecret, refreshTok
   searchUrl.searchParams.set("channelId", channelId);
   searchUrl.searchParams.set("order", "date");
   searchUrl.searchParams.set("type", "video");
-  searchUrl.searchParams.set("maxResults", "10");
+  searchUrl.searchParams.set("maxResults", "50");
 
   const [channelData, searchData, analyticsResult] = await Promise.all([
     fetchJson(channelUrl, { headers: bearerHeaders(accessToken) }),
@@ -602,12 +602,22 @@ async function getBeehiivApiData(apiKey, publicationId) {
     (publications.data || [])[0];
   if (!publication) throw new Error("Beehiiv API key did not return publications.");
 
-  const postsUrl = new URL(`https://api.beehiiv.com/v2/publications/${publication.id}/posts`);
-  postsUrl.searchParams.append("expand[]", "stats");
-  postsUrl.searchParams.set("limit", "10");
-  postsUrl.searchParams.set("order_by", "publish_date");
-  postsUrl.searchParams.set("direction", "desc");
-  const posts = await fetchJson(postsUrl, { headers });
+  const posts = { data: [], total_results: 0 };
+  let page = 1;
+  for (let request = 0; request < 20; request += 1) {
+    const postsUrl = new URL(`https://api.beehiiv.com/v2/publications/${publication.id}/posts`);
+    postsUrl.searchParams.append("expand[]", "stats");
+    postsUrl.searchParams.set("limit", "100");
+    postsUrl.searchParams.set("page", String(page));
+    postsUrl.searchParams.set("order_by", "publish_date");
+    postsUrl.searchParams.set("direction", "desc");
+    const batch = await fetchJson(postsUrl, { headers });
+    posts.data.push(...(batch.data || []));
+    posts.total_results = Number(batch.total_results || posts.data.length);
+    const nextPage = batch.pagination?.next_page;
+    if (!nextPage || posts.data.length >= posts.total_results || !(batch.data || []).length) break;
+    page = Number(nextPage);
+  }
   const stats = publication.stats || {};
 
   return {
