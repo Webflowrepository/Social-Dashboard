@@ -1,0 +1,11 @@
+{
+  "period": "Latest captured baseline",
+  "capturedAt": "2026-09-02",
+  "source": "User-provided competitive snapshot",
+  "competitors": [
+    { "name": "Entrepreneurs' Organization", "newFollowers": 1343, "posts": 46, "comments": 211, "commentsPerDay": 7, "reactions": 1870, "watchStatus": "Baseline only" },
+    { "name": "Austin Technology Council", "newFollowers": 231, "posts": 24, "comments": 70, "commentsPerDay": 2, "reactions": 852, "watchStatus": "Baseline only" },
+    { "name": "The Founders Club", "newFollowers": 441, "posts": 0, "comments": 1, "commentsPerDay": 0, "reactions": 35, "watchStatus": "Baseline only" },
+    { "name": "The AI Collective", "newFollowers": 1458, "posts": 32, "comments": 14, "commentsPerDay": 0, "reactions": 307, "watchStatus": "Baseline only" }
+  ]
+}

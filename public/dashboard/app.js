@@ -1058,6 +1058,34 @@ function renderIntelligence() {
       ? renderBreakdown("Performance by topic/campaign", byTopic)
       : `<article class="breakdown-card"><h3>Topic/campaign metadata</h3><p class="empty-insight">Insufficient metadata. Add topic, category, campaign or contentType to CSV/API items before drawing conclusions.</p></article>`
   ].join("");
+  renderCompetitors();
+}
+
+function renderCompetitors() {
+  const table = document.querySelector("#competitor-table-body");
+  const summary = document.querySelector("#competitor-summary");
+  const watch = document.querySelector("#competitor-watch");
+  if (!table || !state.data.competitors) return;
+  const rows = [...state.data.competitors.competitors].sort((a, b) => b.reactions - a.reactions);
+  const maxReactions = Math.max(1, ...rows.map((row) => row.reactions));
+  const mostActive = [...rows].sort((a, b) => b.posts - a.posts)[0];
+  const fastestGrowing = [...rows].sort((a, b) => b.newFollowers - a.newFollowers)[0];
+  const mostConversation = [...rows].sort((a, b) => b.commentsPerDay - a.commentsPerDay)[0];
+  document.querySelector("#competitor-period").textContent = state.data.competitors.period;
+  summary.innerHTML = [
+    ["Fastest growth", fastestGrowing.name, `${formatNumber(fastestGrowing.newFollowers)} new followers`],
+    ["Most active", mostActive.name, `${formatNumber(mostActive.posts)} posts`],
+    ["Most conversation", mostConversation.name, `${formatNumber(mostConversation.commentsPerDay)} comments/day`]
+  ].map(([label, name, value]) => `<article><span>${label}</span><strong>${name}</strong><small>${value}</small></article>`).join("");
+  table.innerHTML = rows.map((row) => `<tr>
+    <td><strong>${row.name}</strong><span class="competitor-bar"><i style="width:${Math.max(5, Math.round((row.reactions / maxReactions) * 100))}%"></i></span></td>
+    <td>${formatNumber(row.newFollowers)}</td>
+    <td>${formatNumber(row.posts)}</td>
+    <td>${formatNumber(row.comments)}</td>
+    <td>${formatNumber(row.commentsPerDay)}</td>
+    <td><strong>${formatNumber(row.reactions)}</strong></td>
+  </tr>`).join("");
+  watch.innerHTML = `<div><strong>Content watchlist</strong><span>Live post-level monitoring is not connected yet. Add a public profile URL or approved API source for each organization to track topics, formats and publishing cadence.</span></div><div class="watch-status">${rows.map((row) => `<span>${row.name}<b>${row.watchStatus}</b></span>`).join("")}</div>`;
 }
 
 function groupPerformance(items, keyFn) {
@@ -1202,9 +1230,13 @@ function render() {
 
 async function loadData() {
   moveTechnicalDetails();
-  const response = await fetch(`/dashboard/social-data.json?ts=${Date.now()}`);
+  const [response, competitorResponse] = await Promise.all([
+    fetch(`/dashboard/social-data.json?ts=${Date.now()}`),
+    fetch(`/dashboard/competitor-data.json?ts=${Date.now()}`)
+  ]);
   if (!response.ok) throw new Error("Could not load social-data.json");
   state.data = await response.json();
+  state.data.competitors = competitorResponse.ok ? await competitorResponse.json() : null;
   render();
 }
 
