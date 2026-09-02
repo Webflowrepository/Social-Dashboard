@@ -858,6 +858,15 @@ async function getGoogleAnalyticsData(propertyId) {
   });
   const dateRanges = [{ startDate: "90daysAgo", endDate: "today" }];
   const dimensions = [{ name: "date" }, { name: "pagePath" }, { name: "pageTitle" }];
+  const aggregateReport = await runReport({
+    dateRanges,
+    metrics: [
+      { name: "activeUsers" },
+      { name: "sessions" },
+      { name: "screenPageViews" },
+      { name: "eventCount" }
+    ]
+  });
   const report = await runReport({
     dateRanges,
     dimensions,
@@ -919,10 +928,11 @@ async function getGoogleAnalyticsData(propertyId) {
     })
     .filter((item) => isContentPath(item._path))
     .map(({ _path, ...item }) => item);
-  const activeUsers = entries.reduce((sum, item) => sum + Number(item.metrics.users || 0), 0);
-  const sessions = entries.reduce((sum, item) => sum + Number(item.metrics.sessions || 0), 0);
-  const pageViews = entries.reduce((sum, item) => sum + Number(item.metrics.views || 0), 0);
-  const events = entries.reduce((sum, item) => sum + Number(item.metrics.events || 0), 0);
+  const aggregateValues = aggregateReport.rows?.[0]?.metricValues || [];
+  const activeUsers = Number(aggregateValues[0]?.value || 0);
+  const sessions = Number(aggregateValues[1]?.value || 0);
+  const pageViews = Number(aggregateValues[2]?.value || 0);
+  const events = Number(aggregateValues[3]?.value || 0);
   const clicks = entries.reduce((sum, item) => sum + Number(item.metrics.clicks || 0), 0);
   return {
     metrics: {
