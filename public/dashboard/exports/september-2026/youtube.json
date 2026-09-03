@@ -1,7 +1,7 @@
 {
   "channel": "youtube",
   "period": "2026-09",
-  "generatedAt": "2026-09-02T19:43:20.649Z",
+  "generatedAt": "2026-09-03T11:18:07.891Z",
   "sourceStatus": {
     "url": "https://www.youtube.com/@GILDhq",
     "sync": "api",
@@ -10,7 +10,7 @@
   "channelSummary": {
     "subscribers": 26,
     "videos": 8,
-    "views": 867,
+    "views": 876,
     "engagementRate": 0,
     "measuredVideos": 8
   },
