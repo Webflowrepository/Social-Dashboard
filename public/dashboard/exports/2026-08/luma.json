@@ -1,7 +1,7 @@
 {
   "channel": "luma",
   "period": "2026-08",
-  "generatedAt": "2026-09-02T19:43:20.649Z",
+  "generatedAt": "2026-09-02T18:25:10.245Z",
   "sourceStatus": {
     "url": "https://lu.ma/gild",
     "sync": "api",
@@ -9,11 +9,10 @@
   },
   "channelSummary": {
     "events": 30,
-    "registrations": 107,
-    "attendees": 52,
-    "going": 62,
-    "measuredEvents": 2,
-    "showRate": 83.87
+    "registrations": 1103,
+    "attendees": 438,
+    "going": 724,
+    "measuredEvents": 30
   },
   "contentItems": [
     {

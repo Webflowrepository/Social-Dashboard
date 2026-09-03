@@ -1,11 +1,11 @@
 {
   "channel": "instagram",
   "period": "2026-08",
-  "generatedAt": "2026-09-02T19:43:20.649Z",
+  "generatedAt": "2026-09-02T18:25:10.245Z",
   "sourceStatus": {
     "url": "https://www.instagram.com/gild.hq/",
-    "sync": "csv_import",
-    "note": "Post and Reel analytics are measured from imported Instagram exports; durable automatic sync requires Meta Graph API access."
+    "sync": "profile_linked",
+    "note": "Instagram needs Graph API token for durable metrics."
   },
   "channelSummary": {
     "followers": 82,
@@ -17,10 +17,7 @@
     "publishedPosts": 54,
     "likes": 31,
     "comments": 0,
-    "shares": 1,
-    "saves": 0,
-    "clicks": 0,
-    "totalInteractions": 32
+    "shares": 1
   },
   "contentItems": [
     {

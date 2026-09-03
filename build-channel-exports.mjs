@@ -41,8 +41,15 @@ for (const channel of channels) {
     summary.likes = sum(measuredItems, "likes");
     summary.comments = sum(measuredItems, "comments");
     summary.shares = sum(measuredItems, "shares");
+    summary.saves = sum(measuredItems, "saves");
+    summary.clicks = sum(measuredItems, "clicks");
     summary.reach = sum(measuredItems, "reach") || sum(measuredItems, "impressions");
-    summary.engagementRate = summary.reach ? Number((((summary.likes + summary.comments + summary.shares + sum(measuredItems, "saves")) / summary.reach) * 100).toFixed(2)) : 0;
+    summary.engagementRate = summary.reach ? Number((((summary.likes + summary.comments + summary.shares + summary.saves) / summary.reach) * 100).toFixed(2)) : 0;
+    summary.totalInteractions = summary.likes + summary.comments + summary.shares + summary.saves;
+    if (channel === "linkedin") {
+      summary.reactions = summary.likes;
+      summary.reposts = summary.shares;
+    }
   }
   if (channel === "website") {
     summary.users = sum(measuredItems, "users");
@@ -59,6 +66,21 @@ for (const channel of channels) {
     summary.clicks = sum(measuredItems, "clicks");
     summary.openRate = average(measuredItems, "openRate");
     summary.clickRate = average(measuredItems, "clickRate");
+  }
+  if (channel === "youtube") {
+    summary.views = sum(measuredItems, "views");
+    summary.likes = sum(measuredItems, "likes");
+    summary.comments = sum(measuredItems, "comments");
+    summary.shares = sum(measuredItems, "shares");
+    summary.watchMinutes = sum(measuredItems, "watchMinutes");
+    summary.measuredVideos = measuredItems.length;
+  }
+  if (channel === "luma") {
+    summary.registrations = sum(measuredItems, "registrations");
+    summary.going = sum(measuredItems, "going");
+    summary.attendees = sum(measuredItems, "attendees");
+    summary.showRate = summary.going ? Number(((summary.attendees / summary.going) * 100).toFixed(2)) : 0;
+    summary.measuredEvents = measuredItems.length;
   }
   const payload = {
     channel,

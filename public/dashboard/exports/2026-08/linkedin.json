@@ -1,11 +1,11 @@
 {
   "channel": "linkedin",
   "period": "2026-08",
-  "generatedAt": "2026-09-02T19:43:20.649Z",
+  "generatedAt": "2026-09-02T18:25:10.245Z",
   "sourceStatus": {
     "url": "https://www.linkedin.com/company/joingild/?viewAsMember=true",
-    "sync": "csv_import",
-    "note": "Post analytics are measured from imported LinkedIn exports; Page visitor analytics still requires approved OAuth access."
+    "sync": "profile_linked",
+    "note": "LinkedIn needs OAuth for posts and analytics."
   },
   "channelSummary": {
     "followers": 1029,
@@ -16,12 +16,7 @@
     "publishedPosts": 117,
     "likes": 63,
     "comments": 4,
-    "shares": 10,
-    "saves": 0,
-    "clicks": 493,
-    "totalInteractions": 77,
-    "reactions": 63,
-    "reposts": 10
+    "shares": 10
   },
   "contentItems": [
     {

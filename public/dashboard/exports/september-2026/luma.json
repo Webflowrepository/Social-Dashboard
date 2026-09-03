@@ -9,10 +9,11 @@
   },
   "channelSummary": {
     "events": 30,
-    "registrations": 1103,
-    "attendees": 438,
-    "going": 724,
-    "measuredEvents": 30
+    "registrations": 86,
+    "attendees": 0,
+    "going": 57,
+    "measuredEvents": 2,
+    "showRate": 0
   },
   "contentItems": [
     {

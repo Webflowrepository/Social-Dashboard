@@ -1,20 +1,20 @@
 {
   "channel": "newsletter",
   "period": "2026-08",
-  "generatedAt": "2026-09-02T19:43:20.649Z",
+  "generatedAt": "2026-09-02T18:25:10.245Z",
   "sourceStatus": {
     "url": "https://www.beehiiv.com/",
     "sync": "api",
     "note": "Beehiiv API is active."
   },
   "channelSummary": {
-    "subscribers": 18057,
+    "subscribers": 18058,
     "posts": 7,
     "openRate": 36.78,
     "clickRate": 7,
     "sent": 448701,
     "measuredIssues": 7,
-    "opens": 20310,
+    "opens": 20309,
     "clicks": 420
   },
   "contentItems": [
@@ -116,15 +116,15 @@
       "month": "2026-08",
       "url": "https://gild-austin.beehiiv.com/p/can-ai-ship-faster-than-teams-can-understand-it-what-s-next-at-gild",
       "section": null,
-      "metric": "4920 opens",
+      "metric": "4919 opens",
       "metrics": {
-        "opens": 4920,
+        "opens": 4919,
         "clicks": 99,
         "views": 19,
-        "openRate": 35.9,
+        "openRate": 35.89,
         "clickRate": 2.01
       },
-      "score": 5227,
+      "score": 5226,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },

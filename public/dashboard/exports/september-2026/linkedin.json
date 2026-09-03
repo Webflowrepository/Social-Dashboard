@@ -16,7 +16,12 @@
     "publishedPosts": 117,
     "likes": 0,
     "comments": 0,
-    "shares": 0
+    "shares": 0,
+    "saves": 0,
+    "clicks": 0,
+    "totalInteractions": 0,
+    "reactions": 0,
+    "reposts": 0
   },
   "contentItems": []
 }
