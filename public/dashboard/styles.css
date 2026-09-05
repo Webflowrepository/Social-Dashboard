@@ -929,6 +929,37 @@ h2 {
   padding: 26px;
 }
 
+.instagram-insights-grid {
+  align-items: stretch;
+}
+
+.instagram-format-row,
+.instagram-hashtag-row {
+  display: grid;
+  grid-template-columns: minmax(90px, .8fr) 90px minmax(120px, 1.4fr) minmax(180px, 1.8fr);
+  gap: 14px;
+  align-items: center;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line, #27333a);
+  color: var(--muted, #9fb2ba);
+  font-size: 12px;
+}
+.instagram-format-row strong,
+.instagram-hashtag-row strong { color: var(--text, #f4f7f8); }
+.instagram-format-row i { display: block; height: 6px; background: #1c272d; border-radius: 3px; overflow: hidden; }
+.instagram-format-row i .minimal-bar { display: block; height: 100%; }
+.instagram-growth-stat { display: flex; align-items: baseline; gap: 12px; margin: 8px 0 16px; }
+.instagram-growth-stat strong { font-size: 30px; color: var(--text, #fff); }
+.instagram-growth-stat span { color: var(--muted, #9fb2ba); }
+.instagram-alert { margin-top: 16px; padding: 12px 14px; border-left: 3px solid #df9b54; color: #e7c59e; background: rgba(223,155,84,.08); }
+.instagram-trend-bars { min-height: 96px; }
+
+@media (max-width: 760px) {
+  .instagram-format-row,
+  .instagram-hashtag-row { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .instagram-format-row i { grid-column: 1 / -1; }
+}
+
 /* Header navigation opens one focused working area instead of relying on hidden anchors. */
 .nav-focus .analysis-controls,
 .nav-focus .channel-switcher,

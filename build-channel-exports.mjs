@@ -33,7 +33,7 @@ await fs.mkdir(outputDir, { recursive: true });
 for (const channel of channels) {
   const channelInfo = data.channels.find((item) => item.id === channel) || { id: channel, metrics: {} };
   const items = (data.contentItems || []).filter((item) => item.platform === channel && periodKey(item.publishedAt) === month);
-  const measuredItems = items.filter((item) => item.signal !== "profile_proxy");
+  const measuredItems = items.filter((item) => item.signal !== "profile_proxy" && !["instagram_profile_growth", "instagram_linkinbio", "instagram_hashtag"].includes(item.format));
   const summary = { ...(channelInfo.metrics || {}) };
   if (["instagram", "linkedin"].includes(channel)) {
     summary.posts = measuredItems.length;
@@ -44,7 +44,8 @@ for (const channel of channels) {
     summary.saves = sum(measuredItems, "saves");
     summary.clicks = sum(measuredItems, "clicks");
     summary.reach = sum(measuredItems, "reach") || sum(measuredItems, "impressions");
-    summary.engagementRate = summary.reach ? Number((((summary.likes + summary.comments + summary.shares + summary.saves) / summary.reach) * 100).toFixed(2)) : 0;
+    const nativeRates = measuredItems.map((item) => Number(item.metrics?.engagementRate || 0)).filter((value) => value > 0);
+    summary.engagementRate = nativeRates.length ? Number((nativeRates.reduce((a, b) => a + b, 0) / nativeRates.length).toFixed(2)) : 0;
     summary.totalInteractions = summary.likes + summary.comments + summary.shares + summary.saves;
     if (channel === "linkedin") {
       summary.reactions = summary.likes;
@@ -90,6 +91,9 @@ for (const channel of channels) {
     channelSummary: summary,
     contentItems: measuredItems
   };
+  if (channel === "instagram") {
+    payload.instagramInsights = data.instagramInsights || { profile: [], linkInBio: [], hashtags: [], formats: [] };
+  }
   await fs.writeFile(path.join(outputDir, `${channel}.json`), `${JSON.stringify(payload, null, 2)}\n`, "utf8");
 }
 

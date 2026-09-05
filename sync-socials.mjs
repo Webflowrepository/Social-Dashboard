@@ -144,13 +144,18 @@ function importedMetric(row, keys) {
   return match ? row[match] : "";
 }
 
-function importedRowToItem(row, fallbackPlatform = "") {
+function importedRowToItem(row, fallbackPlatform = "", sourceFile = "") {
   const platform = String(importedMetric(row, ["platform", "channel", "source"]) || fallbackPlatform).toLowerCase();
   if (!["linkedin", "instagram"].includes(platform)) return null;
   const title = importedMetric(row, ["title", "post", "caption", "text", "content"]) || `${platform} post`;
   const url = importedMetric(row, ["url", "link", "permalink", "posturl", "instagrampost"]) || "";
   const imageUrl = importedMetric(row, ["imageurl", "image", "mediaurl", "thumbnail", "thumbnailurl", "picture", "coverurl"]) || "";
   const publishedAt = importedMetric(row, ["publishedat", "date", "createdat", "postedat", "timestamp", "timeposted"]) || null;
+  const sourceName = String(sourceFile || "").toLowerCase();
+  const isProfile = platform === "instagram" && /(profile|growth|discovery)/.test(sourceName);
+  const isHashtag = platform === "instagram" && /hashtag/.test(sourceName);
+  const isLinkInBio = platform === "instagram" && /(linkinbio|link.?in.?bio)/.test(sourceName);
+  const mediaType = importedMetric(row, ["mediatypeimagevideocarousel", "mediatype", "producttype"]);
   const metrics = {
     views: numberFrom(importedMetric(row, ["views", "plays", "videoviews"])),
     reach: numberFrom(importedMetric(row, ["reach"])),
@@ -163,6 +168,27 @@ function importedRowToItem(row, fallbackPlatform = "") {
     engagementRate: numberFrom(importedMetric(row, ["engagementrate"])),
     skipRate: numberFrom(importedMetric(row, ["skiprate"]))
   };
+  if (isProfile) {
+    metrics.profileViews = numberFrom(importedMetric(row, ["views", "profileviews"]));
+    metrics.profileReach = numberFrom(importedMetric(row, ["reach", "profilereach"]));
+    metrics.followers = numberFrom(importedMetric(row, ["followers", "followercount"]));
+    metrics.reposts = numberFrom(importedMetric(row, ["reposts"]));
+  }
+  if (isLinkInBio) {
+    metrics.postClicks = numberFrom(importedMetric(row, ["linkinbiopostclicks", "postclicks"]));
+    metrics.buttonClicks = numberFrom(importedMetric(row, ["linkinbiobuttonclicks", "buttonclicks"]));
+    metrics.pageViews = numberFrom(importedMetric(row, ["linkinbiopageviews", "biopageviews"]));
+    metrics.clickThroughRate = numberFrom(importedMetric(row, ["linkinbioclickthroughrate", "clickthroughrate"]));
+    metrics.clicks = metrics.postClicks + metrics.buttonClicks;
+  }
+  if (isHashtag) {
+    metrics.postCount = numberFrom(importedMetric(row, ["postcount"]));
+    metrics.medianViews = numberFrom(importedMetric(row, ["medianviews"]));
+    metrics.medianReach = numberFrom(importedMetric(row, ["medianreach"]));
+    metrics.medianLikes = numberFrom(importedMetric(row, ["medianlikes"]));
+    metrics.medianComments = numberFrom(importedMetric(row, ["mediancomments"]));
+    metrics.medianSaves = numberFrom(importedMetric(row, ["mediansaves"]));
+  }
   const score =
     numberFrom(importedMetric(row, ["score"])) ||
     metrics.views +
@@ -176,7 +202,7 @@ function importedRowToItem(row, fallbackPlatform = "") {
   return {
     id: `${platform}:import:${url || crypto.createHash("sha1").update(`${title}:${publishedAt}`).digest("hex")}`,
     platform,
-    format: platform === "instagram" ? "social_post_or_reel" : "company_post",
+    format: isProfile ? "instagram_profile_growth" : isLinkInBio ? "instagram_linkinbio" : isHashtag ? "instagram_hashtag" : platform === "instagram" && /video|reel/i.test(String(mediaType)) ? "instagram_reel" : platform === "instagram" ? "instagram_post" : "company_post",
     title,
     imageUrl,
     publishedAt,
@@ -184,7 +210,7 @@ function importedRowToItem(row, fallbackPlatform = "") {
     url,
     metrics,
     score: score ? Math.round(score) : null,
-    signal: "manual_import",
+    signal: isProfile || isLinkInBio || isHashtag ? "instagram_insights_import" : "manual_import",
     nextUse: platform === "linkedin" ? "Use winning LinkedIn posts to shape newsletter and event POV." : "Use winning Instagram creative to decide reels, clips and social proof."
   };
 }
@@ -193,21 +219,21 @@ async function readImportedContentItems() {
   await fs.mkdir(importsDir, { recursive: true });
   const files = await fs.readdir(importsDir).catch(() => []);
   const items = [];
-  for (const file of files.filter((name) => /\.(csv|json)$/i.test(name)).filter((name) => !/(profile|growth|discovery)/i.test(name))) {
+  for (const file of files.filter((name) => /\.(csv|json)$/i.test(name))) {
     const fileUrl = new URL(file, importsDir);
     const body = await fs.readFile(fileUrl, "utf8").catch(() => "");
     const fallbackPlatform = file.toLowerCase().includes("instagram") ? "instagram" : file.toLowerCase().includes("linkedin") ? "linkedin" : "";
     if (/\.json$/i.test(file)) {
       const parsed = JSON.parse(body);
       const rows = Array.isArray(parsed) ? parsed : parsed.items || parsed.posts || [];
-      rows.map((row) => importedRowToItem(Object.fromEntries(Object.entries(row).map(([key, value]) => [normalizeKey(key), value])), fallbackPlatform)).filter(Boolean).forEach((item) => items.push(item));
+      rows.map((row) => importedRowToItem(Object.fromEntries(Object.entries(row).map(([key, value]) => [normalizeKey(key), value])), fallbackPlatform, file)).filter(Boolean).forEach((item) => items.push(item));
       continue;
     }
     const [header, ...rows] = parseCsv(body);
     const keys = (header || []).map(normalizeKey);
     rows
       .map((values) => Object.fromEntries(keys.map((key, index) => [key, values[index] || ""])))
-      .map((row) => importedRowToItem(row, fallbackPlatform))
+      .map((row) => importedRowToItem(row, fallbackPlatform, file))
       .filter(Boolean)
       .forEach((item) => items.push(item));
   }
@@ -1274,7 +1300,7 @@ function mergeContentItems(items) {
 
 function deriveChannelMetrics(channels, items) {
   return channels.map((channel) => {
-    const channelItems = items.filter((item) => item.platform === channel.id && item.signal !== "profile_proxy");
+    const channelItems = items.filter((item) => item.platform === channel.id && item.signal !== "profile_proxy" && !["instagram_profile_growth", "instagram_linkinbio", "instagram_hashtag"].includes(item.format));
     const metrics = { ...channel.metrics };
     if (["linkedin", "instagram"].includes(channel.id)) {
       metrics.measuredPosts = channelItems.length;
@@ -1283,7 +1309,12 @@ function deriveChannelMetrics(channels, items) {
       const reach = channelItems.reduce((sum, item) => sum + Number(item.metrics?.reach || item.metrics?.impressions || 0), 0);
       const engagement = channelItems.reduce((sum, item) => sum + Number(item.metrics?.likes || 0) + Number(item.metrics?.comments || 0) + Number(item.metrics?.shares || 0) + Number(item.metrics?.saves || 0), 0);
       if (reach > 0) metrics.reach = reach;
-      if (reach > 0) metrics.engagementRate = Number(((engagement / reach) * 100).toFixed(2));
+      const nativeRates = channelItems.map((item) => Number(item.metrics?.engagementRate || 0)).filter((value) => value > 0);
+      if (channel.id === "instagram" && nativeRates.length) {
+        metrics.engagementRate = Number((nativeRates.reduce((sum, value) => sum + value, 0) / nativeRates.length).toFixed(2));
+      } else if (reach > 0) {
+        metrics.engagementRate = Number(((engagement / reach) * 100).toFixed(2));
+      }
     }
     if (channel.id === "youtube") metrics.measuredVideos = channelItems.length;
     if (channel.id === "newsletter") metrics.measuredIssues = channelItems.length;
@@ -1292,6 +1323,27 @@ function deriveChannelMetrics(channels, items) {
     if (channel.id === "website") metrics.measuredPages = new Set(channelItems.map((item) => item.section?.key || item.url)).size;
     return { ...channel, metrics };
   });
+}
+
+function buildInstagramInsights(items) {
+  const instagram = items.filter((item) => item.platform === "instagram");
+  const posts = instagram.filter((item) => !["instagram_profile_growth", "instagram_linkinbio", "instagram_hashtag"].includes(item.format));
+  const profile = instagram.filter((item) => item.format === "instagram_profile_growth").sort((a, b) => String(a.publishedAt).localeCompare(String(b.publishedAt)));
+  const linkInBio = instagram.filter((item) => item.format === "instagram_linkinbio").sort((a, b) => String(a.publishedAt).localeCompare(String(b.publishedAt)));
+  const hashtags = instagram.filter((item) => item.format === "instagram_hashtag");
+  const formats = new Map();
+  posts.forEach((item) => {
+    const raw = String(item.title || "").toLowerCase();
+    const type = /reel|\/reel\//.test(String(item.url || "").toLowerCase()) || /video/.test(String(item.format || "").toLowerCase()) ? "Video" : /carousel/.test(raw) ? "Carousel" : "Image";
+    const entry = formats.get(type) || { type, posts: 0, views: 0, reach: 0, engagementRate: 0, nativeRates: [] };
+    entry.posts += 1;
+    entry.views += Number(item.metrics?.views || 0);
+    entry.reach += Number(item.metrics?.reach || 0);
+    if (Number(item.metrics?.engagementRate || 0) > 0) entry.nativeRates.push(Number(item.metrics.engagementRate));
+    formats.set(type, entry);
+  });
+  [...formats.values()].forEach((entry) => { entry.avgViews = entry.posts ? Math.round(entry.views / entry.posts) : 0; entry.avgReach = entry.posts ? Math.round(entry.reach / entry.posts) : 0; entry.avgEngagementRate = entry.nativeRates.length ? Number((entry.nativeRates.reduce((a, b) => a + b, 0) / entry.nativeRates.length).toFixed(2)) : 0; delete entry.nativeRates; delete entry.views; delete entry.reach; });
+  return { profile, linkInBio, hashtags, formats: [...formats.values()], posts };
 }
 
 function profileScore(channel) {
@@ -1510,6 +1562,7 @@ async function main() {
     contentItems,
     recentPosts: contentItems.slice(0, 8)
   };
+  next.instagramInsights = buildInstagramInsights(contentItems);
 
   const snapshots = await readSnapshots();
   const snapshot = {

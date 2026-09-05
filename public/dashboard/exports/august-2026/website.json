@@ -1,17 +1,17 @@
 {
   "channel": "website",
   "period": "2026-08",
-  "generatedAt": "2026-09-02T19:43:20.649Z",
+  "generatedAt": "2026-09-05T15:48:57.968Z",
   "sourceStatus": {
     "url": "https://gildhq.com/",
     "sync": "ga4_api",
     "note": "Google Analytics page-level data is active."
   },
   "channelSummary": {
-    "users": 134,
-    "sessions": 147,
-    "pageViews": 217,
-    "events": 599,
+    "users": 132,
+    "sessions": 144,
+    "pageViews": 212,
+    "events": 586,
     "errors": 4294,
     "clicks": 3,
     "measuredPages": 2
@@ -164,31 +164,6 @@
         "clicks": 0
       },
       "score": 3.1999999999999997,
-      "signal": "ga4_api",
-      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
-    },
-    {
-      "id": "website:https://gildhq.com/GILD30",
-      "platform": "website",
-      "format": "website_section",
-      "title": "Austin GILD AI Forum x Tecla: AI and Engineering Leaders Dinner · Luma",
-      "imageUrl": "",
-      "publishedAt": "2026-08-24T12:00:00.000Z",
-      "month": "2026-08",
-      "url": "https://gildhq.com/GILD30",
-      "section": {
-        "key": "events",
-        "label": "Events"
-      },
-      "metric": "2 page views",
-      "metrics": {
-        "views": 5,
-        "users": 2,
-        "sessions": 3,
-        "events": 13,
-        "clicks": 0
-      },
-      "score": 5.800000000000001,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },

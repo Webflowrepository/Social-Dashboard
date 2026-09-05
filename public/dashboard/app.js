@@ -440,7 +440,38 @@ function metricBar(value, maximum, className) {
   return `<span class="minimal-bar ${className}" style="width:${width}%"></span>`;
 }
 
+function renderInstagramReport(items) {
+  const insight = state.data.instagramInsights || {};
+  const posts = items.filter((item) => !["instagram_profile_growth", "instagram_linkinbio", "instagram_hashtag"].includes(item.format));
+  const ranked = posts.slice().sort((a, b) => metricValue(b, "engagement") - metricValue(a, "engagement") || metricValue(b, "views") - metricValue(a, "views"));
+  const formats = (insight.formats || []).slice().sort((a, b) => b.avgViews - a.avgViews);
+  const profile = (insight.profile || []).filter((item) => inWindow(item, rangeWindow(state.range)));
+  const linkInBio = (insight.linkInBio || []).filter((item) => inWindow(item, rangeWindow(state.range)));
+  const hashtags = (insight.hashtags || []).slice().sort((a, b) => metricValue(b, "medianViews") - metricValue(a, "medianViews"));
+  const totalClicks = linkInBio.reduce((sum, item) => sum + metricValue(item, "clicks"), 0);
+  const latestFollowers = profile.at(-1)?.metrics?.followers || 0;
+  const firstFollowers = profile[0]?.metrics?.followers || latestFollowers;
+  const netFollowers = latestFollowers - firstFollowers;
+  const maxFormatViews = Math.max(1, ...formats.map((item) => item.avgViews));
+  const weekly = new Map();
+  linkInBio.forEach((item) => { const date = new Date(item.publishedAt); date.setUTCDate(date.getUTCDate() - ((date.getUTCDay() + 6) % 7)); const key = date.toISOString().slice(0, 10); weekly.set(key, (weekly.get(key) || 0) + metricValue(item, "clicks")); });
+  const zeroClickWeeks = [...weekly.values()].some((value, index, values) => value === 0 && values[index - 1] === 0);
+  const reels = posts.filter((item) => item.format === "instagram_reel" || item.format === "short_video" || /\/reel\//i.test(item.url || ""));
+  const avgSkipRate = averageMetric(reels, "skipRate");
+  const mediaRows = formats.map((item) => `<div class="instagram-format-row"><strong>${item.type}</strong><span>${item.posts} posts</span><i>${metricBar(item.avgViews, maxFormatViews, "engagement-fill")}</i><b>${formatNumber(item.avgViews)} avg views · ${formatNumber(item.avgReach)} avg reach · ${formatPercent(item.avgEngagementRate)}</b></div>`).join("");
+  document.querySelector("#brief-shell").innerHTML = `
+    <div class="minimal-head"><div><p class="eyebrow">Instagram · ${rangeWindow(state.range).label}</p><h2>What should we make more of?</h2><p class="website-source-note">Posts are ranked by real interactions. Supporting panels show growth, format and link-in-bio signals separately.</p></div><span class="record-count">${posts.length} measured posts</span></div>
+    <div class="minimal-metrics instagram-metrics"><div><span>Views</span><strong>${formatNumber(sumMetric(posts, "views"))}</strong></div><div><span>Reach</span><strong>${formatNumber(sumMetric(posts, "reach"))}</strong></div><div><span>Likes + comments</span><strong>${formatNumber(sumMetric(posts, "likes") + sumMetric(posts, "comments"))}</strong></div><div><span>Native engagement rate</span><strong>${formatPercent(averageMetric(posts, "engagementRate"))}</strong></div></div>
+    <article class="minimal-panel top-posts-panel"><div class="minimal-panel-head"><h3>Top posts by interaction</h3><span>Likes + comments + shares + saves</span></div>${ranked.slice(0, 3).map((item, index) => `<article class="content-post-card instagram-post-card"><div class="post-card-top"><span class="post-rank">#${index + 1}</span><span>${formatDate(item.publishedAt)}</span></div><a class="post-preview" href="${item.url || "#"}" target="_blank" rel="noreferrer">${postPreview(item)}</a><a class="post-card-title" href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><div class="post-card-metrics"><span><b>${formatNumber(metricValue(item, "views"))}</b> views</span><span><b>${formatNumber(metricValue(item, "reach"))}</b> reach</span><span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatNumber(metricValue(item, "comments"))}</b> comments</span></div><div class="post-card-score"><span>Interactions</span><strong>${formatNumber(metricValue(item, "engagement"))}</strong><i>${metricBar(metricValue(item, "engagement"), Math.max(1, ...ranked.map((post) => metricValue(post, "engagement"))), "engagement-fill")}</i></div></article>`).join("") || `<p class="minimal-empty">No Instagram posts in this period.</p>`}</article>
+    <div class="minimal-visual-grid instagram-insights-grid"><article class="minimal-panel"><div class="minimal-panel-head"><h3>Which format works best?</h3><span>Average performance per post</span></div>${mediaRows || `<p class="minimal-empty">Media type data will appear with the next detailed export.</p>`}<div class="instagram-growth-stat"><strong>${formatPercent(avgSkipRate)}</strong><span>average Reel skip rate${avgSkipRate > 40 ? " · review hooks" : ""}</span></div></article><article class="minimal-panel"><div class="minimal-panel-head"><h3>Audience growth</h3><span>Weekly profile export</span></div><div class="instagram-growth-stat"><strong>${formatNumber(netFollowers)}</strong><span>net new followers in this period</span></div><div class="instagram-growth-detail">${formatNumber(profile.reduce((sum, item) => sum + Number(item.metrics?.profileViews || 0), 0))} profile views · ${formatNumber(profile.reduce((sum, item) => sum + Number(item.metrics?.profileReach || 0), 0))} profile reach</div><div class="trend-bars instagram-trend-bars">${profile.slice(-10).map((item) => `<div title="${formatDate(item.publishedAt)}: ${formatNumber(item.metrics?.followers)} followers"><span style="height:${Math.max(5, Math.round((Number(item.metrics?.followers || 0) / Math.max(1, ...profile.map((row) => Number(row.metrics?.followers || 0)))) * 100))}%"></span><em>${formatDate(item.publishedAt).slice(0, 6)}</em></div>`).join("") || `<p class="minimal-empty">No profile growth data yet.</p>`}</div></article></div>
+    <div class="minimal-visual-grid instagram-insights-grid"><article class="minimal-panel"><div class="minimal-panel-head"><h3>Link-in-bio clicks</h3><span>Post clicks + button clicks</span></div><div class="instagram-growth-stat"><strong>${formatNumber(totalClicks)}</strong><span>clicks in this period</span></div><div class="trend-bars instagram-trend-bars">${[...weekly.entries()].map(([label, value]) => `<div title="Week of ${label}: ${formatNumber(value)} clicks"><span style="height:${Math.max(5, Math.round((value / Math.max(1, ...weekly.values())) * 100))}%"></span><em>${label.slice(5)}</em></div>`).join("") || `<p class="minimal-empty">No link-in-bio export loaded yet.</p>`}</div>${zeroClickWeeks ? `<p class="instagram-alert"><b>No link-in-bio clicks for two consecutive weeks.</b> Check the destination and tracking setup before treating this as audience behavior.</p>` : ""}</article><article class="minimal-panel"><div class="minimal-panel-head"><h3>Hashtags worth testing</h3><span>Median views · filter later by post count</span></div>${hashtags.slice(0, 8).map((item) => `<div class="instagram-hashtag-row"><strong>${item.title}</strong><span>${formatNumber(metricValue(item, "medianViews"))} median views</span><span>${formatNumber(metricValue(item, "medianReach"))} reach</span><b>${formatNumber(metricValue(item, "postCount"))} posts</b></div>`).join("") || `<p class="minimal-empty">Hashtag performance will appear when its export is loaded.</p>`}</article></div>`;
+}
+
 function renderMinimalSocialReport(items, channelId) {
+  if (channelId === "instagram") {
+    renderInstagramReport(items);
+    return;
+  }
   if (channelId === "newsletter") {
     renderMinimalNewsletterReport(items);
     return;
