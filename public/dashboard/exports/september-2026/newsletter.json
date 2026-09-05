@@ -1,20 +1,20 @@
 {
   "channel": "newsletter",
   "period": "2026-09",
-  "generatedAt": "2026-09-04T11:21:07.753Z",
+  "generatedAt": "2026-09-05T10:38:08.867Z",
   "sourceStatus": {
     "url": "https://www.beehiiv.com/",
     "sync": "api",
     "note": "Beehiiv API is active."
   },
   "channelSummary": {
-    "subscribers": 18057,
+    "subscribers": 18056,
     "posts": 1,
-    "openRate": 25.65,
-    "clickRate": 2.39,
+    "openRate": 25.79,
+    "clickRate": 2.38,
     "sent": 448701,
     "measuredIssues": 1,
-    "opens": 3721,
+    "opens": 3741,
     "clicks": 89
   },
   "contentItems": [
@@ -28,15 +28,15 @@
       "month": "2026-09",
       "url": "https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations",
       "section": null,
-      "metric": "3721 opens",
+      "metric": "3741 opens",
       "metrics": {
-        "opens": 3721,
+        "opens": 3741,
         "clicks": 89,
         "views": 8,
-        "openRate": 25.65,
-        "clickRate": 2.39
+        "openRate": 25.79,
+        "clickRate": 2.38
       },
-      "score": 3992,
+      "score": 4012,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     }
