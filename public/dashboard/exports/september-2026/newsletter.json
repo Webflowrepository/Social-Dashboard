@@ -1,7 +1,7 @@
 {
   "channel": "newsletter",
   "period": "2026-09",
-  "generatedAt": "2026-09-05T10:38:08.867Z",
+  "generatedAt": "2026-09-06T11:00:02.734Z",
   "sourceStatus": {
     "url": "https://www.beehiiv.com/",
     "sync": "api",
@@ -9,15 +9,37 @@
   },
   "channelSummary": {
     "subscribers": 18056,
-    "posts": 1,
-    "openRate": 25.79,
-    "clickRate": 2.38,
+    "posts": 2,
+    "openRate": 25.86,
+    "clickRate": 2.37,
     "sent": 448701,
-    "measuredIssues": 1,
-    "opens": 3741,
+    "measuredIssues": 2,
+    "opens": 3751,
     "clicks": 89
   },
   "contentItems": [
+    {
+      "id": "newsletter:https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations-1",
+      "platform": "newsletter",
+      "format": "newsletter_post",
+      "title": "What Changed in a Year of AI Conversations?  (1)",
+      "imageUrl": "",
+      "publishedAt": "2026-09-05T15:51:51.000Z",
+      "month": "2026-09",
+      "url": "https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations-1",
+      "section": null,
+      "metric": "0 opens",
+      "metrics": {
+        "opens": 0,
+        "clicks": 0,
+        "views": 0,
+        "openRate": 0,
+        "clickRate": 0
+      },
+      "score": 1,
+      "signal": "beehiiv_api",
+      "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
+    },
     {
       "id": "newsletter:https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations",
       "platform": "newsletter",
@@ -28,15 +50,15 @@
       "month": "2026-09",
       "url": "https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations",
       "section": null,
-      "metric": "3741 opens",
+      "metric": "3751 opens",
       "metrics": {
-        "opens": 3741,
+        "opens": 3751,
         "clicks": 89,
         "views": 8,
-        "openRate": 25.79,
-        "clickRate": 2.38
+        "openRate": 25.86,
+        "clickRate": 2.37
       },
-      "score": 4012,
+      "score": 4022,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     }
