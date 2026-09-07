@@ -1,7 +1,7 @@
 {
   "channel": "luma",
   "period": "2026-09",
-  "generatedAt": "2026-09-06T11:00:02.734Z",
+  "generatedAt": "2026-09-07T12:37:08.852Z",
   "sourceStatus": {
     "url": "https://lu.ma/gild",
     "sync": "api",
@@ -29,7 +29,7 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 48,
+        "registrations": 47,
         "going": 26,
         "attendees": 0
       },
@@ -50,7 +50,7 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 44,
+        "registrations": 45,
         "going": 31,
         "attendees": 0
       },

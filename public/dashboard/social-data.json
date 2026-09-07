@@ -1,5 +1,5 @@
 {
-  "lastSyncAt": "2026-09-06T11:00:02.734Z",
+  "lastSyncAt": "2026-09-07T12:37:08.852Z",
   "mode": "api-ready",
   "brand": {
     "name": "GILD",
@@ -11,7 +11,7 @@
       "id": "linkedin",
       "name": "LinkedIn",
       "metrics": {
-        "followers": 1028,
+        "followers": 1027,
         "posts": 117,
         "engagementRate": 3.17,
         "reach": 34583,
@@ -50,9 +50,9 @@
       "id": "youtube",
       "name": "YouTube",
       "metrics": {
-        "subscribers": 26,
+        "subscribers": 27,
         "videos": 8,
-        "views": 935,
+        "views": 950,
         "engagementRate": 0,
         "measuredVideos": 8
       },
@@ -97,9 +97,9 @@
       "id": "newsletter",
       "name": "Newsletter",
       "metrics": {
-        "subscribers": 18056,
+        "subscribers": 18057,
         "posts": 67,
-        "openRate": 32.67,
+        "openRate": 32.68,
         "clickRate": 2.93,
         "sent": 448701,
         "measuredIssues": 67
@@ -114,9 +114,9 @@
       "name": "Website",
       "metrics": {
         "users": 1621,
-        "sessions": 2758,
-        "pageViews": 5052,
-        "events": 13364,
+        "sessions": 2739,
+        "pageViews": 4978,
+        "events": 13217,
         "errors": 4294,
         "clicks": 70,
         "measuredPages": 4
@@ -358,7 +358,7 @@
       "linkedin": 1029,
       "instagram": 82,
       "youtube": 26,
-      "newsletter": 18058,
+      "newsletter": 18057,
       "website": 1632
     },
     {
@@ -375,18 +375,10 @@
       "instagram": 82,
       "youtube": 26,
       "newsletter": 18057,
-      "website": 1632
-    },
-    {
-      "label": "S-3",
-      "linkedin": 1029,
-      "instagram": 82,
-      "youtube": 26,
-      "newsletter": 18057,
       "website": 1615
     },
     {
-      "label": "S-2",
+      "label": "S-3",
       "linkedin": 1028,
       "instagram": 82,
       "youtube": 26,
@@ -394,7 +386,7 @@
       "website": 1617
     },
     {
-      "label": "S-1",
+      "label": "S-2",
       "linkedin": 1028,
       "instagram": 82,
       "youtube": 26,
@@ -402,11 +394,19 @@
       "website": 1619
     },
     {
-      "label": "Now",
+      "label": "S-1",
       "linkedin": 1028,
       "instagram": 82,
       "youtube": 26,
       "newsletter": 18056,
+      "website": 1621
+    },
+    {
+      "label": "Now",
+      "linkedin": 1027,
+      "instagram": 82,
+      "youtube": 27,
+      "newsletter": 18057,
       "website": 1621
     }
   ],
@@ -6497,15 +6497,15 @@
       "month": "2026-04",
       "url": "https://www.youtube.com/watch?v=QBr7ZQzo0RM",
       "section": null,
-      "metric": "52 views",
+      "metric": "53 views",
       "metrics": {
-        "views": 52,
+        "views": 53,
         "likes": 1,
         "comments": 0,
         "shares": 0,
         "watchMinutes": 0
       },
-      "score": 55,
+      "score": 56,
       "signal": "youtube_oauth_api",
       "nextUse": "Clip for LinkedIn + Instagram; full episode stays YouTube."
     },
@@ -6519,15 +6519,15 @@
       "month": "2026-04",
       "url": "https://www.youtube.com/watch?v=sCswyg_iSRM",
       "section": null,
-      "metric": "334 views",
+      "metric": "391 views",
       "metrics": {
-        "views": 334,
-        "likes": 14,
+        "views": 391,
+        "likes": 15,
         "comments": 0,
         "shares": 0,
         "watchMinutes": 0
       },
-      "score": 376,
+      "score": 436,
       "signal": "youtube_oauth_api",
       "nextUse": "Clip for LinkedIn + Instagram; full episode stays YouTube."
     },
@@ -6651,15 +6651,15 @@
       "month": "2026-09",
       "url": "https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations",
       "section": null,
-      "metric": "3751 opens",
+      "metric": "3755 opens",
       "metrics": {
-        "opens": 3751,
+        "opens": 3755,
         "clicks": 89,
         "views": 8,
-        "openRate": 25.86,
+        "openRate": 25.89,
         "clickRate": 2.37
       },
-      "score": 4022,
+      "score": 4026,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -6673,15 +6673,15 @@
       "month": "2026-08",
       "url": "https://gild-austin.beehiiv.com/p/where-do-500-gild-members-talk-between-dinners",
       "section": null,
-      "metric": "93 opens",
+      "metric": "94 opens",
       "metrics": {
-        "opens": 93,
+        "opens": 94,
         "clicks": 25,
         "views": 0,
-        "openRate": 40.09,
-        "clickRate": 26.88
+        "openRate": 40.52,
+        "clickRate": 26.6
       },
-      "score": 168,
+      "score": 169,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -6695,15 +6695,15 @@
       "month": "2026-08",
       "url": "https://gild-austin.beehiiv.com/p/what-do-ai-leaders-share-when-the-conversation-is-private",
       "section": null,
-      "metric": "6218 opens",
+      "metric": "6219 opens",
       "metrics": {
-        "opens": 6218,
+        "opens": 6219,
         "clicks": 130,
         "views": 26,
-        "openRate": 42.32,
+        "openRate": 42.33,
         "clickRate": 2.09
       },
-      "score": 6621,
+      "score": 6622,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -6717,15 +6717,15 @@
       "month": "2026-08",
       "url": "https://gild-austin.beehiiv.com/p/can-ai-ship-faster-than-teams-can-understand-it-what-s-next-at-gild",
       "section": null,
-      "metric": "4924 opens",
+      "metric": "4926 opens",
       "metrics": {
-        "opens": 4924,
+        "opens": 4926,
         "clicks": 99,
         "views": 19,
-        "openRate": 35.93,
+        "openRate": 35.95,
         "clickRate": 2.01
       },
-      "score": 5231,
+      "score": 5233,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -8224,7 +8224,7 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 48,
+        "registrations": 47,
         "going": 26,
         "attendees": 0
       },
@@ -8245,7 +8245,7 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 44,
+        "registrations": 45,
         "going": 31,
         "attendees": 0
       },
@@ -9112,31 +9112,6 @@
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
     {
-      "id": "website:https://gildhq.com/GildDallas1",
-      "platform": "website",
-      "format": "website_section",
-      "title": "GILD Dallas: Making AI Gains Stick · Luma",
-      "imageUrl": "",
-      "publishedAt": "2026-06-08T12:00:00.000Z",
-      "month": "2026-06",
-      "url": "https://gildhq.com/GildDallas1",
-      "section": {
-        "key": "other",
-        "label": "Other public pages"
-      },
-      "metric": "2 page views",
-      "metrics": {
-        "views": 2,
-        "users": 2,
-        "sessions": 2,
-        "events": 5,
-        "clicks": 0
-      },
-      "score": 3.1999999999999997,
-      "signal": "ga4_api",
-      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
-    },
-    {
       "id": "website:https://gildhq.com/Gild17",
       "platform": "website",
       "format": "website_section",
@@ -9287,56 +9262,6 @@
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
     {
-      "id": "website:https://gildhq.com/Gild18",
-      "platform": "website",
-      "format": "website_section",
-      "title": "AI Agents in Real Workflows · Luma",
-      "imageUrl": "",
-      "publishedAt": "2026-06-08T12:00:00.000Z",
-      "month": "2026-06",
-      "url": "https://gildhq.com/Gild18",
-      "section": {
-        "key": "other",
-        "label": "Other public pages"
-      },
-      "metric": "1 page views",
-      "metrics": {
-        "views": 2,
-        "users": 1,
-        "sessions": 1,
-        "events": 5,
-        "clicks": 0
-      },
-      "score": 2.6,
-      "signal": "ga4_api",
-      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
-    },
-    {
-      "id": "website:https://gildhq.com/Gild5",
-      "platform": "website",
-      "format": "website_section",
-      "title": "Gild Mixer: AI and The Future of Engineering · Luma",
-      "imageUrl": "",
-      "publishedAt": "2026-06-08T12:00:00.000Z",
-      "month": "2026-06",
-      "url": "https://gildhq.com/Gild5",
-      "section": {
-        "key": "other",
-        "label": "Other public pages"
-      },
-      "metric": "1 page views",
-      "metrics": {
-        "views": 6,
-        "users": 1,
-        "sessions": 3,
-        "events": 15,
-        "clicks": 0
-      },
-      "score": 6.800000000000001,
-      "signal": "ga4_api",
-      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
-    },
-    {
       "id": "website:https://gildhq.com/",
       "platform": "website",
       "format": "website_section",
@@ -9358,6 +9283,31 @@
         "clicks": 0
       },
       "score": 1.5999999999999999,
+      "signal": "ga4_api",
+      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
+    },
+    {
+      "id": "website:https://gildhq.com/Gild5",
+      "platform": "website",
+      "format": "website_section",
+      "title": "Gild Mixer: AI and The Future of Engineering · Luma",
+      "imageUrl": "",
+      "publishedAt": "2026-06-09T12:00:00.000Z",
+      "month": "2026-06",
+      "url": "https://gildhq.com/Gild5",
+      "section": {
+        "key": "other",
+        "label": "Other public pages"
+      },
+      "metric": "1 page views",
+      "metrics": {
+        "views": 6,
+        "users": 1,
+        "sessions": 3,
+        "events": 15,
+        "clicks": 0
+      },
+      "score": 6.800000000000001,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
@@ -9408,6 +9358,31 @@
         "clicks": 0
       },
       "score": 1.5999999999999999,
+      "signal": "ga4_api",
+      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
+    },
+    {
+      "id": "website:https://gildhq.com/Gild18",
+      "platform": "website",
+      "format": "website_section",
+      "title": "AI Agents in Real Workflows · Luma",
+      "imageUrl": "",
+      "publishedAt": "2026-06-11T12:00:00.000Z",
+      "month": "2026-06",
+      "url": "https://gildhq.com/Gild18",
+      "section": {
+        "key": "other",
+        "label": "Other public pages"
+      },
+      "metric": "1 page views",
+      "metrics": {
+        "views": 2,
+        "users": 1,
+        "sessions": 1,
+        "events": 5,
+        "clicks": 0
+      },
+      "score": 2.6,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
@@ -9483,6 +9458,31 @@
         "clicks": 0
       },
       "score": 2.6,
+      "signal": "ga4_api",
+      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
+    },
+    {
+      "id": "website:https://gildhq.com/GildDallas1",
+      "platform": "website",
+      "format": "website_section",
+      "title": "GILD Dallas: Making AI Gains Stick · Luma",
+      "imageUrl": "",
+      "publishedAt": "2026-06-18T12:00:00.000Z",
+      "month": "2026-06",
+      "url": "https://gildhq.com/GildDallas1",
+      "section": {
+        "key": "other",
+        "label": "Other public pages"
+      },
+      "metric": "1 page views",
+      "metrics": {
+        "views": 2,
+        "users": 1,
+        "sessions": 2,
+        "events": 5,
+        "clicks": 0
+      },
+      "score": 2.8,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
