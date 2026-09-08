@@ -1,7 +1,7 @@
 {
   "channel": "newsletter",
   "period": "2026-09",
-  "generatedAt": "2026-09-07T12:37:08.852Z",
+  "generatedAt": "2026-09-08T11:22:14.568Z",
   "sourceStatus": {
     "url": "https://www.beehiiv.com/",
     "sync": "api",
@@ -9,12 +9,12 @@
   },
   "channelSummary": {
     "subscribers": 18057,
-    "posts": 2,
-    "openRate": 25.89,
-    "clickRate": 2.37,
+    "posts": 3,
+    "openRate": 25.96,
+    "clickRate": 2.36,
     "sent": 448701,
-    "measuredIssues": 2,
-    "opens": 3755,
+    "measuredIssues": 3,
+    "opens": 3766,
     "clicks": 89
   },
   "contentItems": [
@@ -41,6 +41,28 @@
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
     {
+      "id": "newsletter:https://gild-austin.beehiiv.com/p/austin-ai-forum-this-thursday-dallas-and-miami-are-next",
+      "platform": "newsletter",
+      "format": "newsletter_post",
+      "title": "Austin AI Forum This Thursday. Dallas and Miami Are Next.",
+      "imageUrl": "",
+      "publishedAt": "2026-09-08T13:00:00.000Z",
+      "month": "2026-09",
+      "url": "https://gild-austin.beehiiv.com/p/austin-ai-forum-this-thursday-dallas-and-miami-are-next",
+      "section": null,
+      "metric": "0 opens",
+      "metrics": {
+        "opens": 0,
+        "clicks": 0,
+        "views": 3,
+        "openRate": 0,
+        "clickRate": 0
+      },
+      "score": 2,
+      "signal": "beehiiv_api",
+      "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
+    },
+    {
       "id": "newsletter:https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations",
       "platform": "newsletter",
       "format": "newsletter_post",
@@ -50,15 +72,15 @@
       "month": "2026-09",
       "url": "https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations",
       "section": null,
-      "metric": "3755 opens",
+      "metric": "3766 opens",
       "metrics": {
-        "opens": 3755,
+        "opens": 3766,
         "clicks": 89,
         "views": 8,
-        "openRate": 25.89,
-        "clickRate": 2.37
+        "openRate": 25.96,
+        "clickRate": 2.36
       },
-      "score": 4026,
+      "score": 4037,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     }
