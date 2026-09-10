@@ -1,21 +1,21 @@
 {
   "channel": "newsletter",
   "period": "2026-09",
-  "generatedAt": "2026-09-09T11:26:27.883Z",
+  "generatedAt": "2026-09-10T11:22:48.058Z",
   "sourceStatus": {
     "url": "https://www.beehiiv.com/",
     "sync": "api",
     "note": "Beehiiv API is active."
   },
   "channelSummary": {
-    "subscribers": 18022,
+    "subscribers": 18023,
     "posts": 3,
-    "openRate": 24.13,
-    "clickRate": 2.43,
+    "openRate": 24.54,
+    "clickRate": 2.44,
     "sent": 463327,
     "measuredIssues": 3,
-    "opens": 6768,
-    "clicks": 164
+    "opens": 6877,
+    "clicks": 167
   },
   "contentItems": [
     {
@@ -50,15 +50,15 @@
       "month": "2026-09",
       "url": "https://gild-austin.beehiiv.com/p/austin-ai-forum-this-thursday-dallas-and-miami-are-next",
       "section": null,
-      "metric": "2991 opens",
+      "metric": "3094 opens",
       "metrics": {
-        "opens": 2991,
-        "clicks": 75,
-        "views": 30,
-        "openRate": 22.23,
-        "clickRate": 2.51
+        "opens": 3094,
+        "clicks": 78,
+        "views": 31,
+        "openRate": 23,
+        "clickRate": 2.52
       },
-      "score": 3231,
+      "score": 3344,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -72,15 +72,15 @@
       "month": "2026-09",
       "url": "https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations",
       "section": null,
-      "metric": "3777 opens",
+      "metric": "3783 opens",
       "metrics": {
-        "opens": 3777,
+        "opens": 3783,
         "clicks": 89,
         "views": 8,
-        "openRate": 26.04,
-        "clickRate": 2.36
+        "openRate": 26.08,
+        "clickRate": 2.35
       },
-      "score": 4048,
+      "score": 4054,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     }

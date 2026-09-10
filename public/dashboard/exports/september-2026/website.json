@@ -1,22 +1,47 @@
 {
   "channel": "website",
   "period": "2026-09",
-  "generatedAt": "2026-09-09T11:26:27.883Z",
+  "generatedAt": "2026-09-10T11:22:48.058Z",
   "sourceStatus": {
     "url": "https://gildhq.com/",
     "sync": "ga4_api",
     "note": "Google Analytics page-level data is active."
   },
   "channelSummary": {
-    "users": 7,
-    "sessions": 12,
-    "pageViews": 14,
-    "events": 39,
+    "users": 17,
+    "sessions": 25,
+    "pageViews": 30,
+    "events": 93,
     "errors": 4294,
     "clicks": 1,
     "measuredPages": 2
   },
   "contentItems": [
+    {
+      "id": "website:https://gildhq.com/GILD29",
+      "platform": "website",
+      "format": "website_section",
+      "title": "Miami GILD AI Forum: AI and Engineering Leaders Dinner - Coral Gables · Luma",
+      "imageUrl": "",
+      "publishedAt": "2026-09-09T12:00:00.000Z",
+      "month": "2026-09",
+      "url": "https://gildhq.com/GILD29",
+      "section": {
+        "key": "events",
+        "label": "Events"
+      },
+      "metric": "13 page views",
+      "metrics": {
+        "views": 13,
+        "users": 9,
+        "sessions": 12,
+        "events": 49,
+        "clicks": 0
+      },
+      "score": 19,
+      "signal": "ga4_api",
+      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
+    },
     {
       "id": "website:https://gildhq.com/GILD30",
       "platform": "website",
@@ -55,15 +80,15 @@
         "key": "events",
         "label": "Events"
       },
-      "metric": "8 page views",
+      "metric": "10 page views",
       "metrics": {
-        "views": 8,
+        "views": 10,
         "users": 3,
         "sessions": 7,
-        "events": 18,
+        "events": 21,
         "clicks": 1
       },
-      "score": 10.6,
+      "score": 12.6,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
@@ -85,7 +110,7 @@
         "views": 1,
         "users": 1,
         "sessions": 1,
-        "events": 4,
+        "events": 5,
         "clicks": 0
       },
       "score": 1.5999999999999999,
@@ -105,15 +130,15 @@
         "key": "other",
         "label": "Other public pages"
       },
-      "metric": "0 page views",
+      "metric": "1 page views",
       "metrics": {
-        "views": 0,
-        "users": 0,
-        "sessions": 1,
-        "events": 2,
+        "views": 1,
+        "users": 1,
+        "sessions": 2,
+        "events": 3,
         "clicks": 0
       },
-      "score": 0.2,
+      "score": 1.7999999999999998,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     }
