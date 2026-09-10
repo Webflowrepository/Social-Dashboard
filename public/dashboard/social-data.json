@@ -1,5 +1,5 @@
 {
-  "lastSyncAt": "2026-09-10T18:04:39.406Z",
+  "lastSyncAt": "2026-09-10T18:05:43.134Z",
   "mode": "api-ready",
   "brand": {
     "name": "GILD",
@@ -358,7 +358,7 @@
       "linkedin": 1029,
       "instagram": 82,
       "youtube": 26,
-      "newsletter": 18058,
+      "newsletter": 18057,
       "website": 1632
     },
     {
@@ -375,18 +375,10 @@
       "instagram": 82,
       "youtube": 26,
       "newsletter": 18057,
-      "website": 1632
-    },
-    {
-      "label": "S-3",
-      "linkedin": 1029,
-      "instagram": 82,
-      "youtube": 26,
-      "newsletter": 18057,
       "website": 1615
     },
     {
-      "label": "S-2",
+      "label": "S-3",
       "linkedin": 1028,
       "instagram": 82,
       "youtube": 26,
@@ -394,12 +386,20 @@
       "website": 1617
     },
     {
-      "label": "S-1",
+      "label": "S-2",
       "linkedin": 1028,
       "instagram": 82,
       "youtube": 26,
       "newsletter": 18056,
       "website": 1619
+    },
+    {
+      "label": "S-1",
+      "linkedin": 1028,
+      "instagram": 138,
+      "youtube": 27,
+      "newsletter": 18024,
+      "website": 1520
     },
     {
       "label": "Now",
