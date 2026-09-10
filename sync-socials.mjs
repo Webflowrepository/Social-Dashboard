@@ -147,7 +147,7 @@ function importedMetric(row, keys) {
 function importedRowToItem(row, fallbackPlatform = "", sourceFile = "") {
   const platform = String(importedMetric(row, ["platform", "channel", "source"]) || fallbackPlatform).toLowerCase();
   if (!["linkedin", "instagram"].includes(platform)) return null;
-  const title = importedMetric(row, ["title", "post", "caption", "text", "content"]) || `${platform} post`;
+  const title = importedMetric(row, ["title", "post", "caption", "text", "content", "hashtag"]) || `${platform} post`;
   const url = importedMetric(row, ["url", "link", "permalink", "posturl", "instagrampost"]) || "";
   const imageUrl = importedMetric(row, ["imageurl", "image", "mediaurl", "thumbnail", "thumbnailurl", "picture", "coverurl"]) || "";
   const publishedAt = importedMetric(row, ["publishedat", "date", "createdat", "postedat", "timestamp", "timeposted"]) || null;
@@ -202,6 +202,7 @@ function importedRowToItem(row, fallbackPlatform = "", sourceFile = "") {
   return {
     id: `${platform}:import:${url || crypto.createHash("sha1").update(`${title}:${publishedAt}`).digest("hex")}`,
     platform,
+    mediaType: mediaType || null,
     format: isProfile ? "instagram_profile_growth" : isLinkInBio ? "instagram_linkinbio" : isHashtag ? "instagram_hashtag" : platform === "instagram" && /video|reel/i.test(String(mediaType)) ? "instagram_reel" : platform === "instagram" ? "instagram_post" : "company_post",
     title,
     imageUrl,
