@@ -1,17 +1,17 @@
 {
   "channel": "website",
   "period": "2026-09",
-  "generatedAt": "2026-09-11T11:24:32.966Z",
+  "generatedAt": "2026-09-12T10:50:13.831Z",
   "sourceStatus": {
     "url": "https://gildhq.com/",
     "sync": "ga4_api",
     "note": "Google Analytics page-level data is active."
   },
   "channelSummary": {
-    "users": 21,
-    "sessions": 29,
-    "pageViews": 38,
-    "events": 102,
+    "users": 24,
+    "sessions": 32,
+    "pageViews": 41,
+    "events": 107,
     "errors": 4294,
     "clicks": 1,
     "measuredPages": 2
@@ -89,6 +89,31 @@
         "clicks": 1
       },
       "score": 12.6,
+      "signal": "ga4_api",
+      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
+    },
+    {
+      "id": "website:https://gildhq.com/home/calendars",
+      "platform": "website",
+      "format": "website_section",
+      "title": "Calendars · Luma",
+      "imageUrl": "",
+      "publishedAt": "2026-09-11T12:00:00.000Z",
+      "month": "2026-09",
+      "url": "https://gildhq.com/home/calendars",
+      "section": {
+        "key": "events",
+        "label": "Events"
+      },
+      "metric": "3 page views",
+      "metrics": {
+        "views": 3,
+        "users": 3,
+        "sessions": 3,
+        "events": 5,
+        "clicks": 0
+      },
+      "score": 4.800000000000001,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },

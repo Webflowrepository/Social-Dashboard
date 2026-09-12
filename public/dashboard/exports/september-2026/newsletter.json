@@ -1,23 +1,133 @@
 {
   "channel": "newsletter",
   "period": "2026-09",
-  "generatedAt": "2026-09-11T11:24:32.966Z",
+  "generatedAt": "2026-09-12T10:50:13.831Z",
   "sourceStatus": {
     "url": "https://www.beehiiv.com/",
     "sync": "api",
     "note": "Beehiiv API is active."
   },
   "channelSummary": {
-    "subscribers": 18024,
-    "posts": 3,
-    "openRate": 24.65,
-    "clickRate": 2.46,
+    "subscribers": 18026,
+    "posts": 8,
+    "openRate": 24.76,
+    "clickRate": 2.45,
     "sent": 463327,
-    "measuredIssues": 3,
-    "opens": 6907,
+    "measuredIssues": 8,
+    "opens": 6937,
     "clicks": 169
   },
   "contentItems": [
+    {
+      "id": "newsletter:https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations-1-8b2a0d0a0c35ec77",
+      "platform": "newsletter",
+      "format": "newsletter_post",
+      "title": "What Changed in a Year of AI Conversations?  (1)",
+      "imageUrl": "",
+      "publishedAt": "2026-09-11T16:26:04.000Z",
+      "month": "2026-09",
+      "url": "https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations-1-8b2a0d0a0c35ec77",
+      "section": null,
+      "metric": "0 opens",
+      "metrics": {
+        "opens": 0,
+        "clicks": 0,
+        "views": 0,
+        "openRate": 0,
+        "clickRate": 0
+      },
+      "score": 1,
+      "signal": "beehiiv_api",
+      "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
+    },
+    {
+      "id": "newsletter:https://gild-austin.beehiiv.com/p/podcastwhat-changed-in-a-year-of-ai-conversations",
+      "platform": "newsletter",
+      "format": "newsletter_post",
+      "title": "PODCASTWhat Changed in a Year of AI Conversations?",
+      "imageUrl": "",
+      "publishedAt": "2026-09-11T16:25:20.000Z",
+      "month": "2026-09",
+      "url": "https://gild-austin.beehiiv.com/p/podcastwhat-changed-in-a-year-of-ai-conversations",
+      "section": null,
+      "metric": "0 opens",
+      "metrics": {
+        "opens": 0,
+        "clicks": 0,
+        "views": 0,
+        "openRate": 0,
+        "clickRate": 0
+      },
+      "score": 1,
+      "signal": "beehiiv_api",
+      "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
+    },
+    {
+      "id": "newsletter:https://gild-austin.beehiiv.com/p/tech-leaders-connecting-around-what-matters-most-ai-growth-and-execution-5a5e1d78d110ea2c",
+      "platform": "newsletter",
+      "format": "newsletter_post",
+      "title": "Tech leaders connecting around what matters most: AI, growth, and execution.",
+      "imageUrl": "",
+      "publishedAt": "2026-09-11T15:09:39.000Z",
+      "month": "2026-09",
+      "url": "https://gild-austin.beehiiv.com/p/tech-leaders-connecting-around-what-matters-most-ai-growth-and-execution-5a5e1d78d110ea2c",
+      "section": null,
+      "metric": "0 opens",
+      "metrics": {
+        "opens": 0,
+        "clicks": 0,
+        "views": 0,
+        "openRate": 0,
+        "clickRate": 0
+      },
+      "score": 1,
+      "signal": "beehiiv_api",
+      "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
+    },
+    {
+      "id": "newsletter:https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations-1-419ef15e021fffae",
+      "platform": "newsletter",
+      "format": "newsletter_post",
+      "title": "What Changed in a Year of AI Conversations?  (1)",
+      "imageUrl": "",
+      "publishedAt": "2026-09-11T15:01:16.000Z",
+      "month": "2026-09",
+      "url": "https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations-1-419ef15e021fffae",
+      "section": null,
+      "metric": "0 opens",
+      "metrics": {
+        "opens": 0,
+        "clicks": 0,
+        "views": 0,
+        "openRate": 0,
+        "clickRate": 0
+      },
+      "score": 1,
+      "signal": "beehiiv_api",
+      "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
+    },
+    {
+      "id": "newsletter:https://gild-austin.beehiiv.com/p/tech-leaders-connecting-around-what-matters-most-ai-growth-and-execution-e4505cfef53205c9",
+      "platform": "newsletter",
+      "format": "newsletter_post",
+      "title": "Tech leaders connecting around what matters most: AI, growth, and execution.",
+      "imageUrl": "",
+      "publishedAt": "2026-09-11T15:00:04.000Z",
+      "month": "2026-09",
+      "url": "https://gild-austin.beehiiv.com/p/tech-leaders-connecting-around-what-matters-most-ai-growth-and-execution-e4505cfef53205c9",
+      "section": null,
+      "metric": "0 opens",
+      "metrics": {
+        "opens": 0,
+        "clicks": 0,
+        "views": 0,
+        "openRate": 0,
+        "clickRate": 0
+      },
+      "score": 1,
+      "signal": "beehiiv_api",
+      "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
+    },
     {
       "id": "newsletter:https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations-1",
       "platform": "newsletter",
@@ -50,15 +160,15 @@
       "month": "2026-09",
       "url": "https://gild-austin.beehiiv.com/p/austin-ai-forum-this-thursday-dallas-and-miami-are-next",
       "section": null,
-      "metric": "3121 opens",
+      "metric": "3144 opens",
       "metrics": {
-        "opens": 3121,
+        "opens": 3144,
         "clicks": 80,
-        "views": 31,
-        "openRate": 23.2,
-        "clickRate": 2.56
+        "views": 42,
+        "openRate": 23.37,
+        "clickRate": 2.54
       },
-      "score": 3377,
+      "score": 3405,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -72,15 +182,15 @@
       "month": "2026-09",
       "url": "https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations",
       "section": null,
-      "metric": "3786 opens",
+      "metric": "3793 opens",
       "metrics": {
-        "opens": 3786,
+        "opens": 3793,
         "clicks": 89,
-        "views": 8,
-        "openRate": 26.1,
+        "views": 15,
+        "openRate": 26.15,
         "clickRate": 2.35
       },
-      "score": 4057,
+      "score": 4068,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     }
