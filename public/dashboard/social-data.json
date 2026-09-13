@@ -1,5 +1,5 @@
 {
-  "lastSyncAt": "2026-09-12T10:50:13.831Z",
+  "lastSyncAt": "2026-09-13T11:55:35.228Z",
   "mode": "api-ready",
   "brand": {
     "name": "GILD",
@@ -11,7 +11,7 @@
       "id": "linkedin",
       "name": "LinkedIn",
       "metrics": {
-        "followers": 1033,
+        "followers": 1036,
         "posts": 117,
         "engagementRate": 3.17,
         "reach": 34583,
@@ -52,7 +52,7 @@
       "metrics": {
         "subscribers": 29,
         "videos": 8,
-        "views": 1081,
+        "views": 1104,
         "engagementRate": 0,
         "measuredVideos": 8
       },
@@ -99,7 +99,7 @@
       "metrics": {
         "subscribers": 18026,
         "posts": 73,
-        "openRate": 32.42,
+        "openRate": 32.43,
         "clickRate": 2.92,
         "sent": 463327,
         "measuredIssues": 73
@@ -113,10 +113,10 @@
       "id": "website",
       "name": "Website",
       "metrics": {
-        "users": 1531,
+        "users": 1533,
         "sessions": 2632,
-        "pageViews": 5429,
-        "events": 13307,
+        "pageViews": 5440,
+        "events": 13322,
         "errors": 4294,
         "clicks": 75,
         "measuredPages": 4
@@ -347,14 +347,6 @@
   "audienceHistory": [
     {
       "label": "S-7",
-      "linkedin": 1029,
-      "instagram": 82,
-      "youtube": 26,
-      "newsletter": 18057,
-      "website": 1615
-    },
-    {
-      "label": "S-6",
       "linkedin": 1028,
       "instagram": 82,
       "youtube": 26,
@@ -362,12 +354,20 @@
       "website": 1617
     },
     {
-      "label": "S-5",
+      "label": "S-6",
       "linkedin": 1028,
       "instagram": 82,
       "youtube": 26,
       "newsletter": 18056,
       "website": 1619
+    },
+    {
+      "label": "S-5",
+      "linkedin": 1028,
+      "instagram": 138,
+      "youtube": 27,
+      "newsletter": 18024,
+      "website": 1520
     },
     {
       "label": "S-4",
@@ -379,14 +379,6 @@
     },
     {
       "label": "S-3",
-      "linkedin": 1028,
-      "instagram": 138,
-      "youtube": 27,
-      "newsletter": 18024,
-      "website": 1520
-    },
-    {
-      "label": "S-2",
       "linkedin": 1029,
       "instagram": 138,
       "youtube": 27,
@@ -394,7 +386,7 @@
       "website": 1523
     },
     {
-      "label": "S-1",
+      "label": "S-2",
       "linkedin": 1030,
       "instagram": 138,
       "youtube": 29,
@@ -402,12 +394,20 @@
       "website": 1521
     },
     {
-      "label": "Now",
+      "label": "S-1",
       "linkedin": 1033,
       "instagram": 138,
       "youtube": 29,
       "newsletter": 18026,
       "website": 1531
+    },
+    {
+      "label": "Now",
+      "linkedin": 1036,
+      "instagram": 138,
+      "youtube": 29,
+      "newsletter": 18026,
+      "website": 1533
     }
   ],
   "contentPipeline": [
@@ -6519,15 +6519,15 @@
       "month": "2026-04",
       "url": "https://www.youtube.com/watch?v=sCswyg_iSRM",
       "section": null,
-      "metric": "461 views",
+      "metric": "476 views",
       "metrics": {
-        "views": 461,
+        "views": 476,
         "likes": 17,
         "comments": 1,
         "shares": 0,
         "watchMinutes": 0
       },
-      "score": 518,
+      "score": 533,
       "signal": "youtube_oauth_api",
       "nextUse": "Clip for LinkedIn + Instagram; full episode stays YouTube."
     },
@@ -6541,15 +6541,15 @@
       "month": "2026-03",
       "url": "https://www.youtube.com/watch?v=JUaagFr0aAA",
       "section": null,
-      "metric": "97 views",
+      "metric": "98 views",
       "metrics": {
-        "views": 97,
+        "views": 98,
         "likes": 6,
         "comments": 0,
         "shares": 0,
         "watchMinutes": 0
       },
-      "score": 115,
+      "score": 116,
       "signal": "youtube_oauth_api",
       "nextUse": "Clip for LinkedIn + Instagram; full episode stays YouTube."
     },
@@ -6761,15 +6761,15 @@
       "month": "2026-09",
       "url": "https://gild-austin.beehiiv.com/p/austin-ai-forum-this-thursday-dallas-and-miami-are-next",
       "section": null,
-      "metric": "3144 opens",
+      "metric": "3156 opens",
       "metrics": {
-        "opens": 3144,
+        "opens": 3156,
         "clicks": 80,
         "views": 42,
-        "openRate": 23.37,
-        "clickRate": 2.54
+        "openRate": 23.46,
+        "clickRate": 2.53
       },
-      "score": 3405,
+      "score": 3417,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -6783,15 +6783,15 @@
       "month": "2026-09",
       "url": "https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations",
       "section": null,
-      "metric": "3793 opens",
+      "metric": "3795 opens",
       "metrics": {
-        "opens": 3793,
+        "opens": 3795,
         "clicks": 89,
         "views": 15,
-        "openRate": 26.15,
+        "openRate": 26.16,
         "clickRate": 2.35
       },
-      "score": 4068,
+      "score": 4070,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -6849,15 +6849,15 @@
       "month": "2026-08",
       "url": "https://gild-austin.beehiiv.com/p/can-ai-ship-faster-than-teams-can-understand-it-what-s-next-at-gild",
       "section": null,
-      "metric": "4929 opens",
+      "metric": "4931 opens",
       "metrics": {
-        "opens": 4929,
+        "opens": 4931,
         "clicks": 99,
         "views": 19,
-        "openRate": 35.97,
+        "openRate": 35.98,
         "clickRate": 2.01
       },
-      "score": 5236,
+      "score": 5238,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -9489,7 +9489,7 @@
         "events": 15,
         "clicks": 0
       },
-      "score": 7,
+      "score": 6.800000000000001,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
@@ -9583,13 +9583,13 @@
       },
       "metric": "0 page views",
       "metrics": {
-        "views": 5,
+        "views": 8,
         "users": 1,
         "sessions": 1,
-        "events": 5,
+        "events": 8,
         "clicks": 0
       },
-      "score": 5.6000000000000005,
+      "score": 8.6,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
