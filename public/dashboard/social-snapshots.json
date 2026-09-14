@@ -1,20 +1,5 @@
 [
   {
-    "at": "2026-08-19T03:49:43.539Z",
-    "metrics": {
-      "linkedin": 1011,
-      "instagram": 80,
-      "youtube": 26,
-      "spotify": 0
-    },
-    "content": {
-      "linkedin": 0,
-      "instagram": 50,
-      "youtube": 8,
-      "spotify": 0
-    }
-  },
-  {
     "at": "2026-08-19T04:49:44.300Z",
     "metrics": {
       "linkedin": 1011,
@@ -2138,6 +2123,27 @@
       "luma": 0,
       "newsletter": 18026,
       "website": 1533
+    },
+    "content": {
+      "linkedin": 117,
+      "instagram": 20,
+      "youtube": 8,
+      "spotify": 3,
+      "luma": 0,
+      "newsletter": 73,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-09-14T12:51:29.272Z",
+    "metrics": {
+      "linkedin": 1037,
+      "instagram": 138,
+      "youtube": 29,
+      "spotify": 0,
+      "luma": 0,
+      "newsletter": 18026,
+      "website": 1527
     },
     "content": {
       "linkedin": 117,

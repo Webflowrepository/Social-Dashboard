@@ -1,14 +1,14 @@
 {
   "channel": "linkedin",
   "period": "2026-09",
-  "generatedAt": "2026-09-13T11:55:35.228Z",
+  "generatedAt": "2026-09-14T12:51:29.272Z",
   "sourceStatus": {
     "url": "https://www.linkedin.com/company/joingild/?viewAsMember=true",
     "sync": "csv_import",
     "note": "Post analytics are measured from imported LinkedIn exports; Page visitor analytics still requires approved OAuth access."
   },
   "channelSummary": {
-    "followers": 1036,
+    "followers": 1037,
     "posts": 0,
     "engagementRate": 0,
     "reach": 0,
