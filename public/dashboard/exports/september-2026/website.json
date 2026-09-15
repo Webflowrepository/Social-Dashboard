@@ -1,7 +1,7 @@
 {
   "channel": "website",
   "period": "2026-09",
-  "generatedAt": "2026-09-14T12:51:29.272Z",
+  "generatedAt": "2026-09-15T11:46:48.527Z",
   "sourceStatus": {
     "url": "https://gildhq.com/",
     "sync": "ga4_api",
@@ -9,7 +9,7 @@
   },
   "channelSummary": {
     "users": 24,
-    "sessions": 32,
+    "sessions": 33,
     "pageViews": 41,
     "events": 107,
     "errors": 4294,
@@ -59,11 +59,11 @@
       "metrics": {
         "views": 5,
         "users": 3,
-        "sessions": 3,
+        "sessions": 4,
         "events": 15,
         "clicks": 0
       },
-      "score": 6.800000000000001,
+      "score": 7,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
