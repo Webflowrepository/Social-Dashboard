@@ -439,8 +439,8 @@
     "instagram": {
       "url": "https://www.instagram.com/gild.hq/",
       "sync": "csv_import",
-      "importedThrough": "15 Sep 2026",
-      "note": "Imported data — through 15 Sep 2026. This is not a live Meta API reading."
+      "importedThrough": "Aug 28, 2026",
+      "note": "Imported data — post metrics through Aug 28, 2026; profile metrics through Sep 1, 2026. This is not a live Meta API reading."
     },
     "youtube": {
       "url": "https://www.youtube.com/@GILDhq",

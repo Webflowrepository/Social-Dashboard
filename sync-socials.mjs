@@ -1510,6 +1510,19 @@ async function main() {
     .filter((channel) => !platformsWithRealItems.has(channel.id))
     .map((channel) => profileProxyItem(channel, now));
   const contentItems = [...proxyItems, ...syncedItems];
+  const instagramImportedItems = importedItems.filter((item) => item.platform === "instagram");
+  const latestImportedInstagramPost = instagramImportedItems
+    .filter((item) => !["instagram_profile_growth", "instagram_linkinbio", "instagram_hashtag"].includes(item.format))
+    .sort((a, b) => String(b.publishedAt).localeCompare(String(a.publishedAt)))[0];
+  const latestImportedInstagramProfile = instagramImportedItems
+    .filter((item) => item.format === "instagram_profile_growth")
+    .sort((a, b) => String(b.publishedAt).localeCompare(String(a.publishedAt)))[0];
+  const formatImportedDate = (item) => item
+    ? new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(item.publishedAt))
+    : "not available";
+  const instagramPostCoverage = formatImportedDate(latestImportedInstagramPost);
+  const instagramProfileCoverage = formatImportedDate(latestImportedInstagramProfile);
+  const instagramImportNote = `Imported data — post metrics through ${instagramPostCoverage}; profile metrics through ${instagramProfileCoverage}. This is not a live Meta API reading.`;
 
   const next = {
     ...current,
@@ -1529,8 +1542,9 @@ async function main() {
       instagram: {
         url: publicProfiles.instagram.url,
         sync: apiData.instagram?.metrics ? "api" : importedPlatforms.has("instagram") ? "csv_import" : "profile_linked",
+        importedThrough: instagramPostCoverage,
         note: apiData.instagram?.error || (importedPlatforms.has("instagram")
-          ? "Post and Reel analytics are measured from imported Instagram exports; durable automatic sync requires Meta Graph API access."
+          ? instagramImportNote
           : "Instagram needs Graph API token for durable metrics.")
       },
       youtube: {
