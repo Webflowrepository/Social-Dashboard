@@ -3,6 +3,7 @@ const SOCIAL_CHANNELS = ["instagram", "linkedin", "youtube"];
 const LIVE_ANALYTICS_ENDPOINT = "https://social-dashboard-sync.tecla.workers.dev/api/dashboard/overview";
 const LIVE_GA4_ENDPOINT = "https://social-dashboard-sync.tecla.workers.dev/api/dashboard/ga4";
 const LIVE_BEEHIIV_ENDPOINT = "https://social-dashboard-sync.tecla.workers.dev/api/dashboard/beehiiv";
+const LIVE_YOUTUBE_ENDPOINT = "https://social-dashboard-sync.tecla.workers.dev/api/dashboard/youtube";
 
 const channelNames = {
   instagram: "Instagram",
@@ -320,6 +321,39 @@ async function refreshBeehiiv(requestId = state.liveRequest) {
   }
 }
 
+async function refreshYouTube(requestId = state.liveRequest) {
+  if (!state.data) return;
+  const range = ga4RangeForDashboard();
+  const url = new URL(LIVE_YOUTUBE_ENDPOINT);
+  url.searchParams.set("start", range.start);
+  url.searchParams.set("end", range.end);
+  url.searchParams.set("request", String(Date.now()));
+  try {
+    const response = await fetch(url, { cache: "no-store" });
+    if (!response.ok) throw new Error(`YouTube sync returned ${response.status}`);
+    const live = await response.json();
+    if (requestId !== state.liveRequest) return;
+    state.data.liveYouTube = {
+      mode: live.mode,
+      range: live.range,
+      content: (live.content || []).map((video) => ({
+        id: video.external_content_id,
+        platform: "youtube",
+        format: "long_form_video",
+        title: video.title,
+        url: video.url,
+        publishedAt: video.published_at,
+        metrics: { views: Number(video.views || 0), likes: Number(video.likes || 0), comments: Number(video.comments || 0), shares: Number(video.shares || 0), engagement: Number(video.engagement || 0) },
+        signal: live.mode === "analytics" ? "youtube_analytics_api" : "youtube_data_api"
+      }))
+    };
+  } catch (error) {
+    if (requestId !== state.liveRequest) return;
+    state.data.liveYouTube = { mode: "unavailable", range, content: [] };
+    console.warn("Live YouTube period data is unavailable.", error);
+  }
+}
+
 function selectRange(range, customDateRange = null) {
   state.range = range;
   state.customDateRange = customDateRange;
@@ -329,8 +363,9 @@ function selectRange(range, customDateRange = null) {
   state.data.liveWebsiteTotals = null;
   state.data.liveWebsiteRange = null;
   state.data.liveNewsletter = null;
+  state.data.liveYouTube = { mode: "loading", content: [] };
   render({ deferHeavy: true });
-  void Promise.all([refreshGoogleAnalytics(requestId), refreshBeehiiv(requestId)]).then(() => {
+  void Promise.all([refreshGoogleAnalytics(requestId), refreshBeehiiv(requestId), refreshYouTube(requestId)]).then(() => {
     if (requestId === state.liveRequest) render();
   });
 }
@@ -343,6 +378,9 @@ function inWindow(item, window) {
 }
 
 function selectedItems(window = rangeWindow(state.range), { includeChannel = true } = {}) {
+  if (includeChannel && state.channel === "youtube" && state.data.liveYouTube) {
+    return state.data.liveYouTube.mode === "analytics" ? state.data.liveYouTube.content : [];
+  }
   return realItems()
     .filter((item) => !includeChannel || state.channel === "all" || item.platform === state.channel)
     .filter((item) => inWindow(item, window));
@@ -711,7 +749,16 @@ function renderMinimalSocialReport(items, channelId) {
   const totalEngagement = sumMetric(items, primaryMetric);
   const channelRecord = channelById()[channelId] || {};
   const channelSource = state.data.sourceStatus?.[channelId] || {};
-  const sourceNote = channelSource.sync === "api"
+  const youtubePeriodMode = channelId === "youtube" ? state.data.liveYouTube?.mode : null;
+  const sourceNote = youtubePeriodMode === "analytics"
+    ? `YouTube Analytics · performance during ${state.data.liveYouTube.range.start}–${state.data.liveYouTube.range.end} across all channel videos.`
+    : youtubePeriodMode === "loading"
+      ? "Loading YouTube performance for this period."
+      : youtubePeriodMode === "lifetime"
+        ? "YouTube Analytics is not enabled, so period performance cannot be verified. Lifetime totals are not shown as period data."
+        : youtubePeriodMode === "unavailable"
+          ? "YouTube period data is temporarily unavailable; no estimates are shown."
+          : channelSource.sync === "api"
     ? `${channelNames[channelId]} API connected · values were fetched from the source.`
     : channelSource.sync === "csv_import"
       ? `Imported data — through ${channelSource.importedThrough || "15 Sep 2026"}. This is not a live ${channelNames[channelId]} API reading.`
@@ -741,7 +788,7 @@ function renderMinimalSocialReport(items, channelId) {
         <a class="post-card-title" href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a>
         <div class="post-card-metrics">${channelId === "youtube" ? `<span><b>${formatNumber(metricValue(item, "views"))}</b> views</span><span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatNumber(metricValue(item, "comments"))}</b> comments</span><span><b>${formatNumber(metricValue(item, "watchMinutes"))}</b> watch min</span>` : channelId === "instagram" ? `<span><b>${formatNumber(metricValue(item, "views"))}</b> views</span><span><b>${formatNumber(metricValue(item, "reach"))}</b> reach</span><span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatPercent(metricValue(item, "engagementRate"))}</b> engagement</span>` : `<span><b>${formatNumber(metricValue(item, "likes"))}</b> reactions</span><span><b>${formatNumber(metricValue(item, "comments"))}</b> comments</span><span><b>${formatNumber(metricValue(item, "shares"))}</b> reposts</span><span><b>${formatNumber(metricValue(item, "clicks"))}</b> clicks</span>`}</div>
         <div class="post-card-score"><span>${sortLabel}</span><strong>${formatNumber(metricValue(item, sortMetric))}</strong><i>${metricBar(metricValue(item, sortMetric), maxEngagement, "engagement-fill")}</i></div>
-      </article>`).join("")}</div>` : `<p class="minimal-empty">No comparable posts in this period.</p>`}
+      </article>`).join("")}</div>` : `<p class="minimal-empty">${channelId === "youtube" && youtubePeriodMode === "loading" ? "Loading YouTube performance for this period." : channelId === "youtube" && youtubePeriodMode === "lifetime" ? "Enable YouTube Analytics API to report how all videos performed during this period." : "No comparable posts in this period."}</p>`}
     </article>
     <div class="minimal-visual-grid">
       <article class="minimal-panel engagement-panel">
@@ -1587,7 +1634,8 @@ async function loadData() {
       state.data.lastSyncAt = live.generatedAt || state.data.lastSyncAt;
     }
   }
-  await Promise.all([refreshGoogleAnalytics(), refreshBeehiiv()]);
+  state.data.liveYouTube = { mode: "loading", content: [] };
+  await Promise.all([refreshGoogleAnalytics(), refreshBeehiiv(), refreshYouTube()]);
   render();
 }
 
