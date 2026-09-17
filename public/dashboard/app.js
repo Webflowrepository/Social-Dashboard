@@ -1,5 +1,8 @@
 const CHANNELS = ["instagram", "linkedin", "newsletter", "website", "youtube", "spotify", "luma"];
 const SOCIAL_CHANNELS = ["instagram", "linkedin", "youtube"];
+const LIVE_ANALYTICS_ENDPOINT = "https://social-dashboard-sync.tecla.workers.dev/api/dashboard/overview";
+const LIVE_GA4_ENDPOINT = "https://social-dashboard-sync.tecla.workers.dev/api/dashboard/ga4";
+const LIVE_BEEHIIV_ENDPOINT = "https://social-dashboard-sync.tecla.workers.dev/api/dashboard/beehiiv";
 
 const channelNames = {
   instagram: "Instagram",
@@ -50,6 +53,9 @@ const metricLabels = {
 const state = {
   data: null,
   range: "all",
+  customDateRange: null,
+  liveRequest: 0,
+  renderRequest: 0,
   channel: "all",
   youtubeSort: "views",
   navTarget: null
@@ -81,6 +87,13 @@ const formatBytes = (value) => {
 
 const formatPercent = (value) => `${Number(value || 0).toFixed(Number(value || 0) >= 10 ? 1 : 2)}%`;
 
+const formatDuration = (value) => {
+  // GA4's report snapshot displays whole seconds without rounding up.
+  const seconds = Math.max(0, Math.floor(Number(value || 0)));
+  if (seconds < 60) return `${seconds}s`;
+  return `${Math.floor(seconds / 60)}m ${seconds % 60}s`;
+};
+
 const formatDate = (value) =>
   value ? new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(value)) : "No date";
 
@@ -97,16 +110,19 @@ function realItems() {
 }
 
 function monthStart(date) {
-  return new Date(date.getFullYear(), date.getMonth(), 1);
+  return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1));
 }
 
 function addMonths(date, months) {
-  return new Date(date.getFullYear(), date.getMonth() + months, date.getDate());
+  return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + months, date.getUTCDate()));
 }
 
 function rangeWindow(range) {
+  // Every channel uses completed UTC days. This deliberately matches the GA4
+  // query below, so changing a period never compares a live partial day in one
+  // channel against a completed-day range in another.
   const now = new Date();
-  const end = new Date(now);
+  const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - 1, 23, 59, 59, 999));
   let start = null;
   let previousStart = null;
   let previousEnd = null;
@@ -114,22 +130,34 @@ function rangeWindow(range) {
 
   if (range === "all") return { start, end, previousStart, previousEnd, label };
 
+  if (range === "custom" && state.customDateRange) {
+    const { start: startDate, end: endDate } = state.customDateRange;
+    start = new Date(`${startDate}T00:00:00.000Z`);
+    end = new Date(`${endDate}T23:59:59.999Z`);
+    const days = Math.floor((end.getTime() - start.getTime()) / 86400000) + 1;
+    previousEnd = new Date(start.getTime() - 1);
+    previousStart = new Date(previousEnd);
+    previousStart.setUTCDate(previousStart.getUTCDate() - days + 1);
+    label = `${startDate} to ${endDate}`;
+    return { start, end, previousStart, previousEnd, label };
+  }
+
   if (range === "this-week") {
-    start = new Date(now);
-    const mondayOffset = (now.getDay() + 6) % 7;
-    start.setDate(now.getDate() - mondayOffset);
-    start.setHours(0, 0, 0, 0);
+    // Keep this aligned with GA4's rolling seven-day view, which includes the latest complete day.
+    start = new Date(end);
+    start.setUTCDate(end.getUTCDate() - 6);
+    start.setUTCHours(0, 0, 0, 0);
     previousStart = new Date(start);
-    previousStart.setDate(start.getDate() - 7);
+    previousStart.setUTCDate(start.getUTCDate() - 7);
     previousEnd = new Date(start.getTime() - 1);
     label = "This week";
   } else if (range === "this-month") {
-    start = monthStart(now);
+    start = new Date(Date.UTC(end.getUTCFullYear(), end.getUTCMonth(), 1));
     previousStart = addMonths(start, -1);
     previousEnd = new Date(start.getTime() - 1);
     label = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" }).format(start);
   } else if (range === "last-month") {
-    const thisMonth = monthStart(now);
+    const thisMonth = new Date(Date.UTC(end.getUTCFullYear(), end.getUTCMonth(), 1));
     start = addMonths(thisMonth, -1);
     end.setTime(thisMonth.getTime() - 1);
     previousStart = addMonths(start, -1);
@@ -137,15 +165,174 @@ function rangeWindow(range) {
     label = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" }).format(start);
   } else {
     const days = range === "7d" ? 7 : range === "3m" ? 90 : range === "6m" ? 180 : 30;
-    start = new Date(now);
-    start.setDate(now.getDate() - days);
+    start = new Date(end);
+    start.setUTCDate(end.getUTCDate() - days + 1);
+    start.setUTCHours(0, 0, 0, 0);
     previousEnd = new Date(start.getTime() - 1);
     previousStart = new Date(previousEnd);
-    previousStart.setDate(previousEnd.getDate() - days);
+    previousStart.setUTCDate(previousEnd.getUTCDate() - days + 1);
     label = range === "7d" ? "Last 7 days" : range === "3m" ? "Last 3 months" : range === "6m" ? "Last 6 months" : "Last 30 days";
   }
 
   return { start, end, previousStart, previousEnd, label };
+}
+
+function isoDateUtc(date) {
+  return date.toISOString().slice(0, 10);
+}
+
+function ga4RangeForDashboard(range = state.range) {
+  if (range === "custom" && state.customDateRange) return state.customDateRange;
+  const now = new Date();
+  const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - 1));
+  const start = new Date(end);
+
+  if (range === "this-week") start.setUTCDate(end.getUTCDate() - 6);
+  else if (range === "this-month") start.setUTCDate(1);
+  else if (range === "last-month") {
+    start.setUTCMonth(start.getUTCMonth() - 1, 1);
+    end.setUTCDate(0);
+  } else if (range === "3m") start.setUTCDate(end.getUTCDate() - 89);
+  else if (range === "all") start.setUTCDate(end.getUTCDate() - 365);
+  else start.setUTCDate(end.getUTCDate() - 29);
+
+  return { start: isoDateUtc(start), end: isoDateUtc(end) };
+}
+
+async function refreshGoogleAnalytics(requestId = state.liveRequest) {
+  if (!state.data) return;
+  const range = ga4RangeForDashboard();
+  const url = new URL(LIVE_GA4_ENDPOINT);
+  url.searchParams.set("start", range.start);
+  url.searchParams.set("end", range.end);
+  // A unique URL prevents any intermediary or browser cache from reusing a
+  // previous page-level response for the same visible date range.
+  url.searchParams.set("request", String(Date.now()));
+
+  try {
+    const response = await fetch(url, { cache: "no-store" });
+    if (!response.ok) throw new Error(`Google Analytics sync returned ${response.status}`);
+    const live = await response.json();
+    if (requestId !== state.liveRequest) return;
+    const metricValues = Object.fromEntries(
+      (live.metrics || [])
+        .filter((metric) => metric.dimensions_json?.scope === "period")
+        .map((metric) => [metric.metric_key, Number(metric.metric_value || 0)])
+    );
+    const daily = new Map();
+    const pages = new Map();
+    (live.metrics || []).filter((metric) => metric.dimensions_json?.date).forEach((metric) => {
+      const date = metric.dimensions_json.date;
+      const current = daily.get(date) || { users: 0, newUsers: 0, sessions: 0, views: 0, events: 0, engagementSeconds: 0 };
+      if (metric.metric_key === "activeUsers") current.users = Number(metric.metric_value || 0);
+      if (metric.metric_key === "newUsers") current.newUsers = Number(metric.metric_value || 0);
+      if (metric.metric_key === "sessions") current.sessions = Number(metric.metric_value || 0);
+      if (metric.metric_key === "screenPageViews") current.views = Number(metric.metric_value || 0);
+      if (metric.metric_key === "eventCount") current.events = Number(metric.metric_value || 0);
+      if (metric.metric_key === "userEngagementDuration") current.engagementSeconds = Number(metric.metric_value || 0);
+      daily.set(date, current);
+    });
+    (live.metrics || []).filter((metric) => metric.dimensions_json?.pagePath).forEach((metric) => {
+      const pagePath = metric.dimensions_json.pagePath;
+      const current = pages.get(pagePath) || { users: 0, newUsers: 0, sessions: 0, views: 0, events: 0, engagementSeconds: 0 };
+      if (metric.metric_key === "activeUsers") current.users = Number(metric.metric_value || 0);
+      if (metric.metric_key === "newUsers") current.newUsers = Number(metric.metric_value || 0);
+      if (metric.metric_key === "sessions") current.sessions = Number(metric.metric_value || 0);
+      if (metric.metric_key === "screenPageViews") current.views = Number(metric.metric_value || 0);
+      if (metric.metric_key === "eventCount") current.events = Number(metric.metric_value || 0);
+      if (metric.metric_key === "userEngagementDuration") current.engagementSeconds = Number(metric.metric_value || 0);
+      pages.set(pagePath, current);
+    });
+    const websiteItems = [...daily.entries()].map(([date, metrics]) => ({
+      id: `website:ga4:${date}`,
+      platform: "website",
+      format: "website_daily",
+      title: `Website · ${date}`,
+      publishedAt: `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}T12:00:00.000Z`,
+      url: state.data.brand?.website || "https://gildhq.com/",
+      metrics,
+      signal: "api"
+    }));
+    const baseUrl = state.data.brand?.website || "https://gildhq.com";
+    const websitePageItems = [...pages.entries()].map(([pagePath, metrics]) => ({
+      id: `website:ga4-page:${pagePath}`,
+      platform: "website",
+      format: "website_ga4_page",
+      title: pagePath,
+      publishedAt: `${range.end}T12:00:00.000Z`,
+      url: new URL(pagePath, baseUrl).toString(),
+      metrics,
+      signal: "api"
+    }));
+    state.data.liveWebsiteTotals = {
+      users: metricValues.activeUsers || 0,
+      newUsers: metricValues.newUsers || 0,
+      sessions: metricValues.sessions || 0,
+      views: metricValues.screenPageViews || 0,
+      events: metricValues.eventCount || 0,
+      engagementSeconds: metricValues.userEngagementDuration || 0
+    };
+    state.data.contentItems = [...(state.data.contentItems || []).filter((item) => !["website_daily", "website_ga4_page"].includes(item.format)), ...websiteItems, ...websitePageItems];
+    state.data.liveWebsiteRange = live.range;
+    state.data.liveWebsiteUpdatedAt = live.generatedAt;
+  } catch (error) {
+    if (requestId !== state.liveRequest) return;
+    state.data.liveWebsiteTotals = null;
+    state.data.liveWebsiteRange = null;
+    state.data.liveWebsiteUpdatedAt = null;
+    console.warn("Live Google Analytics unavailable; website totals are not shown as current.", error);
+  }
+}
+
+async function refreshBeehiiv(requestId = state.liveRequest) {
+  if (!state.data) return;
+  const range = ga4RangeForDashboard();
+  const url = new URL(LIVE_BEEHIIV_ENDPOINT);
+  url.searchParams.set("start", range.start);
+  url.searchParams.set("end", range.end);
+  url.searchParams.set("request", String(Date.now()));
+  try {
+    const response = await fetch(url, { cache: "no-store" });
+    if (!response.ok) throw new Error(`Beehiiv sync returned ${response.status}`);
+    const live = await response.json();
+    if (requestId !== state.liveRequest) return;
+    state.data.liveNewsletter = {
+      range: live.range,
+      generatedAt: live.generatedAt,
+      engagement: live.engagement,
+      subscribers: (live.metrics || []).find((metric) => metric.metric_key === "beehiiv_subscribers")?.metric_value,
+      posts: (live.posts || []).map((post) => ({
+        id: `newsletter:beehiiv:${post.id}`,
+        platform: "newsletter",
+        format: "newsletter_post",
+        title: post.title,
+        publishedAt: post.publishedAt,
+        url: post.url,
+        preview: post.preview,
+        metrics: { opens: Number(post.metrics?.opens || 0), clicks: Number(post.metrics?.clicks || 0), openRate: Number(post.metrics?.openRate || 0), clickRate: Number(post.metrics?.clickRate || 0), delivered: Number(post.metrics?.delivered || 0), unsubscribes: Number(post.metrics?.unsubscribes || 0) },
+        signal: "beehiiv_live"
+      }))
+    };
+  } catch (error) {
+    if (requestId !== state.liveRequest) return;
+    state.data.liveNewsletter = null;
+    console.warn("Live Beehiiv unavailable; imported newsletter values are not shown as live.", error);
+  }
+}
+
+function selectRange(range, customDateRange = null) {
+  state.range = range;
+  state.customDateRange = customDateRange;
+  const requestId = ++state.liveRequest;
+  // Change the interface immediately. Existing live totals belong to the old
+  // window, so hide them until the fresh source response arrives.
+  state.data.liveWebsiteTotals = null;
+  state.data.liveWebsiteRange = null;
+  state.data.liveNewsletter = null;
+  render({ deferHeavy: true });
+  void Promise.all([refreshGoogleAnalytics(requestId), refreshBeehiiv(requestId)]).then(() => {
+    if (requestId === state.liveRequest) render();
+  });
 }
 
 function inWindow(item, window) {
@@ -159,6 +346,13 @@ function selectedItems(window = rangeWindow(state.range), { includeChannel = tru
   return realItems()
     .filter((item) => !includeChannel || state.channel === "all" || item.platform === state.channel)
     .filter((item) => inWindow(item, window));
+}
+
+function latestItemDate(items) {
+  return items
+    .map((item) => item.publishedAt)
+    .filter(Boolean)
+    .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())[0];
 }
 
 function previousItems() {
@@ -296,7 +490,7 @@ function readingFor(item) {
 }
 
 function renderSyncStatus() {
-  document.querySelector("#sync-label")?.replaceChildren("Auto-sync active");
+  document.querySelector("#sync-label")?.replaceChildren(state.data.liveAnalytics ? "Live data connected" : "Auto-sync active");
   document.querySelector("#sync-time")?.replaceChildren(`Last sync: ${formatDate(state.data.lastSyncAt)}`);
   document.querySelector("#sidebar-mode")?.replaceChildren(state.data.mode || "local");
 }
@@ -479,7 +673,7 @@ function renderInstagramReport(items) {
   const mediaRows = formats.map((item) => `<div class="instagram-format-row"><strong>${item.type}</strong><span>${item.posts} posts in period</span><i>${metricBar(item.avgViews, maxFormatViews, "engagement-fill")}</i><b>${formatNumber(item.avgViews)} avg views · ${formatNumber(item.avgReach)} avg reach · ${formatPercent(item.avgEngagementRate)}</b></div>`).join("");
   const reelRows = reels.slice().sort((a, b) => metricValue(b, "skipRate") - metricValue(a, "skipRate")).slice(0, 5).map((item) => `<div class="instagram-format-row"><strong>${shortTitle(item)}</strong><span>${formatNumber(metricValue(item, "views"))} views · ${formatNumber(metricValue(item, "reach"))} reach</span><b>${formatPercent(metricValue(item, "skipRate"))} skip rate${metricValue(item, "skipRate") > 40 ? " · review" : ""}</b></div>`).join("");
   document.querySelector("#brief-shell").innerHTML = `
-    <div class="minimal-head"><div><p class="eyebrow">Instagram · ${rangeWindow(state.range).label}</p><h2>What should we make more of?</h2><p class="website-source-note">Posts are ranked by real interactions. Supporting panels show growth, format and link-in-bio signals separately.</p></div><span class="record-count">${posts.length} measured posts</span></div>
+    <div class="minimal-head"><div><p class="eyebrow">Instagram · ${rangeWindow(state.range).label}</p><h2>What should we make more of?</h2><p class="website-source-note">${state.data.sourceStatus?.instagram?.sync === "api" ? "Instagram API connected. Posts are ranked by current native metrics." : `Imported data — through ${state.data.sourceStatus?.instagram?.importedThrough || "15 Sep 2026"}. This is not a live Meta API reading.`}</p></div><span class="record-count">${posts.length} measured posts</span></div>
     <div class="minimal-metrics instagram-metrics"><div><span>Views</span><strong>${formatNumber(sumMetric(posts, "views"))}</strong></div><div><span>Reach</span><strong>${formatNumber(sumMetric(posts, "reach"))}</strong></div><div><span>Likes + comments</span><strong>${formatNumber(sumMetric(posts, "likes") + sumMetric(posts, "comments"))}</strong></div><div><span>Native engagement rate</span><strong>${formatPercent(averageMetric(posts, "engagementRate"))}</strong></div></div>
     <article class="minimal-panel top-posts-panel"><div class="minimal-panel-head"><h3>Top posts by interaction</h3><span>Likes + comments + shares + saves</span></div>${ranked.slice(0, 3).map((item, index) => `<article class="content-post-card instagram-post-card"><div class="post-card-top"><span class="post-rank">#${index + 1}</span><span>${formatDate(item.publishedAt)}</span></div><a class="post-preview" href="${item.url || "#"}" target="_blank" rel="noreferrer">${postPreview(item)}</a><a class="post-card-title" href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><div class="post-card-metrics"><span><b>${formatNumber(metricValue(item, "views"))}</b> views</span><span><b>${formatNumber(metricValue(item, "reach"))}</b> reach</span><span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatNumber(metricValue(item, "comments"))}</b> comments</span></div><div class="post-card-score"><span>Interactions</span><strong>${formatNumber(metricValue(item, "engagement"))}</strong><i>${metricBar(metricValue(item, "engagement"), Math.max(1, ...ranked.map((post) => metricValue(post, "engagement"))), "engagement-fill")}</i></div></article>`).join("") || `<p class="minimal-empty">No Instagram posts in this period.</p>`}</article>
     <div class="minimal-visual-grid instagram-insights-grid"><article class="minimal-panel"><div class="minimal-panel-head"><h3>Which format works best?</h3><span>Average performance per post</span></div>${mediaRows || `<p class="minimal-empty">Media type data will appear with the next detailed export.</p>`}<div class="instagram-growth-stat"><strong>${formatPercent(avgSkipRate)}</strong><span>average Reel skip rate${avgSkipRate > 40 ? " · review hooks" : ""}</span></div><div class="instagram-reel-list">${reelRows || `<p class="minimal-empty">No reel detail in this period.</p>`}</div></article><article class="minimal-panel"><div class="minimal-panel-head"><h3>Audience growth</h3><span>Weekly profile export</span></div><div class="instagram-growth-stat"><strong>${formatNumber(netFollowers)}</strong><span>net new followers in this period</span></div><div class="instagram-growth-detail">${formatNumber(profile.reduce((sum, item) => sum + Number(item.metrics?.profileViews || 0), 0))} profile views · ${formatNumber(profile.reduce((sum, item) => sum + Number(item.metrics?.profileReach || 0), 0))} profile reach</div><div class="trend-bars instagram-trend-bars">${profile.slice(-10).map((item) => `<div title="${formatDate(item.publishedAt)}: ${formatNumber(item.metrics?.followers)} followers"><span style="height:${Math.max(5, Math.round((Number(item.metrics?.followers || 0) / Math.max(1, ...profile.map((row) => Number(row.metrics?.followers || 0)))) * 100))}%"></span><em>${formatDate(item.publishedAt).slice(0, 6)}</em></div>`).join("") || `<p class="minimal-empty">No profile growth data yet.</p>`}</div></article></div>
@@ -516,6 +710,12 @@ function renderMinimalSocialReport(items, channelId) {
   const totalShares = sumMetric(items, "shares");
   const totalEngagement = sumMetric(items, primaryMetric);
   const channelRecord = channelById()[channelId] || {};
+  const channelSource = state.data.sourceStatus?.[channelId] || {};
+  const sourceNote = channelSource.sync === "api"
+    ? `${channelNames[channelId]} API connected · values were fetched from the source.`
+    : channelSource.sync === "csv_import"
+      ? `Imported data — through ${channelSource.importedThrough || "15 Sep 2026"}. This is not a live ${channelNames[channelId]} API reading.`
+      : "Source status is shown below; unavailable analytics are not estimated.";
   const profilePostCount = state.range === "all" ? Number(channelRecord.metrics?.posts || 0) : 0;
   const coverageNote = profilePostCount > items.length
     ? `<p class="data-coverage-note">${channelNames[channelId]} shows ${formatNumber(profilePostCount)} published posts on the profile. Detailed metrics are available for ${formatNumber(items.length)} imported posts so far.</p>`
@@ -523,7 +723,7 @@ function renderMinimalSocialReport(items, channelId) {
 
   document.querySelector("#brief-shell").innerHTML = `
     <div class="minimal-head">
-      <div><p class="eyebrow">${channelNames[channelId]} · ${rangeWindow(state.range).label}</p><h2>${channelId === "youtube" ? "Videos ranked by performance" : "Posts and engagement"}</h2>${coverageNote}</div>
+      <div><p class="eyebrow">${channelNames[channelId]} · ${rangeWindow(state.range).label}</p><h2>${channelId === "youtube" ? "Videos ranked by performance" : "Posts and engagement"}</h2><p class="website-source-note">${sourceNote}</p>${coverageNote}</div>
       <span class="record-count">${profilePostCount > items.length ? `${formatNumber(profilePostCount)} published · ${formatNumber(items.length)} measured` : `${items.length} posts`}</span>
     </div>
     ${channelId === "youtube" ? `<div class="youtube-sort-controls" role="group" aria-label="Sort YouTube videos"><span>Rank by:</span>${Object.entries(youtubeSortLabels).map(([metric, label]) => `<button class="youtube-sort-button ${state.youtubeSort === metric ? "active" : ""}" data-youtube-sort="${metric}" type="button">${label}</button>`).join("")}</div>` : ""}
@@ -580,7 +780,7 @@ function renderMinimalLumaReport(items) {
 
   document.querySelector("#brief-shell").innerHTML = `
     <div class="minimal-head">
-      <div><p class="eyebrow">Luma · ${rangeWindow(state.range).label}</p><h2>Which events brought people together?</h2><p class="website-source-note">Compare registrations and attendance to decide which event topics and formats to repeat.</p></div>
+      <div><p class="eyebrow">Luma · ${rangeWindow(state.range).label}</p><h2>Which events brought people together?</h2><p class="website-source-note">${state.data.sourceStatus?.luma?.sync === "api" ? "Luma API connected · registrations and check-ins are source data." : "Current Luma API data is unavailable; no estimates are shown."}</p></div>
       <span class="record-count">${items.length} events</span>
     </div>
     <div class="minimal-metrics">
@@ -612,20 +812,25 @@ function renderMinimalLumaReport(items) {
 }
 
 function renderMinimalNewsletterReport(items) {
+  const live = state.data.liveNewsletter;
+  if (live) items = live.posts;
   const ranked = items
     .slice()
     .sort((a, b) => metricValue(b, "clicks") - metricValue(a, "clicks") || metricValue(b, "opens") - metricValue(a, "opens"))
     .slice(0, 8);
   const maxClicks = Math.max(1, ...ranked.map((item) => metricValue(item, "clicks")));
   const maxOpens = Math.max(1, ...ranked.map((item) => metricValue(item, "opens")));
-  const totalOpens = sumMetric(items, "opens");
-  const totalClicks = sumMetric(items, "clicks");
+  const totalOpens = live ? Number(live.engagement?.opens || 0) : sumMetric(items, "opens");
+  const totalClicks = live ? Number(live.engagement?.clicks || 0) : sumMetric(items, "clicks");
   const averageOpenRate = averageMetric(items, "openRate");
   const averageClickRate = averageMetric(items, "clickRate");
+  const liveBeehiivSubscribers = live?.subscribers ?? (state.data.liveAnalytics?.metrics || [])
+    .find((item) => item.source === "beehiiv" && item.metric_key === "beehiiv_subscribers");
+  const liveBeehiivSync = state.data.liveAnalytics?.sources?.find((item) => item.source === "beehiiv")?.last_successful_sync;
 
   document.querySelector("#brief-shell").innerHTML = `
     <div class="minimal-head newsletter-report-head">
-      <div><p class="eyebrow">Newsletter · ${rangeWindow(state.range).label}</p><h2>Which issues got opened and clicked</h2></div>
+      <div><p class="eyebrow">Newsletter · ${live?.range ? `${live.range.start} to ${live.range.end} · Beehiiv` : rangeWindow(state.range).label}</p><h2>Which issues got opened and clicked</h2><p class="website-source-note">${live ? "Beehiiv API connected · opens and clicks match Beehiiv's selected period. Issues use Beehiiv's live campaign statistics." : "Current Beehiiv metrics are temporarily unavailable; imported values are not presented as live."}</p></div>
       <span class="record-count">${items.length} issues</span>
     </div>
     <div class="minimal-metrics newsletter-metrics">
@@ -633,6 +838,7 @@ function renderMinimalNewsletterReport(items) {
       <div><span>Clicked</span><strong>${formatNumber(totalClicks)}</strong></div>
       <div><span>Average open rate</span><strong>${formatPercent(averageOpenRate)}</strong></div>
       <div><span>Average click rate</span><strong>${formatPercent(averageClickRate)}</strong></div>
+      ${liveBeehiivSubscribers ? `<div><span>Active subscribers</span><strong>${formatNumber(typeof liveBeehiivSubscribers === "object" ? liveBeehiivSubscribers.metric_value : liveBeehiivSubscribers)}</strong><small>Live from Beehiiv</small></div>` : ""}
     </div>
     <article class="minimal-panel top-posts-panel newsletter-panel">
       <div class="minimal-panel-head"><h3>Top newsletter issues</h3><span>Highest clicks first</span></div>
@@ -664,14 +870,21 @@ function renderMinimalNewsletterReport(items) {
 }
 
 function renderMinimalWebsiteReport(items) {
-  const previous = previousItems();
+  // This panel is exclusively a direct GA4 report: imported content can never hide it.
+  items = (state.data.contentItems || []).filter((item) => ["website_daily", "website_ga4_page"].includes(item.format));
+  const liveItems = items.filter((item) => item.format === "website_daily");
+  const reportItems = liveItems.length ? liveItems : items;
+  const previous = previousItems().filter((item) => item.format === "website_daily");
+  const currentItems = liveItems.length ? reportItems : items;
   const daily = ["this-week", "this-month", "last-month"].includes(state.range);
-  const websiteRangeLabel = state.range === "all" ? "All available · last 90 days" : rangeWindow(state.range).label;
+  const websiteRangeLabel = state.data.liveWebsiteRange ? `${state.data.liveWebsiteRange.start} to ${state.data.liveWebsiteRange.end} · Google Analytics` : "Google Analytics";
   const metricNames = ["users", "sessions", "views", "events", "clicks"];
   const totals = (records) => Object.fromEntries(metricNames.map((metric) => [metric, sumMetric(records, metric)]));
-  const currentTotals = totals(items);
+  const livePeriodTotals = state.data.liveWebsiteTotals;
+  const currentTotals = livePeriodTotals ? { ...livePeriodTotals, clicks: 0 } : null;
   const previousTotals = totals(previous);
   const change = (metric) => {
+    if (!currentTotals) return `<small class="website-change neutral">Unavailable</small>`;
     if (currentTotals[metric] === 0 && previousTotals[metric] > 0) {
       return `<small class="website-change neutral">No data in this period</small>`;
     }
@@ -679,7 +892,7 @@ function renderMinimalWebsiteReport(items) {
     return `<small class="website-change ${result.className}">${result.text}</small>`;
   };
   const trendMap = new Map();
-  items.forEach((item) => {
+  currentItems.forEach((item) => {
     const date = new Date(item.publishedAt);
     const bucket = new Date(date);
     if (!daily) bucket.setUTCDate(bucket.getUTCDate() - ((bucket.getUTCDay() + 6) % 7));
@@ -696,7 +909,9 @@ function renderMinimalWebsiteReport(items) {
   const bestPeriodLabel = bestPeriod ? formatDate(bestPeriod[0]) : "No period yet";
   const aggregateSections = (records) => {
     const grouped = new Map();
-    records.filter((item) => item.format === "website_section").forEach((item) => {
+    const ga4Pages = records.filter((item) => item.format === "website_ga4_page");
+    const pageRecords = ga4Pages.length ? ga4Pages : records.filter((item) => item.format === "website_section");
+    pageRecords.forEach((item) => {
       const key = item.section?.key || (() => {
         try { return new URL(item.url).pathname.toLowerCase(); } catch { return String(item.url || item.title).toLowerCase(); }
       })();
@@ -726,7 +941,9 @@ function renderMinimalWebsiteReport(items) {
     return `<tr><td><a href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><small>${item.url || ""}</small></td><td>${formatNumber(metricValue(item, "users"))}</td><td>${formatNumber(metricValue(item, "sessions"))}</td><td><b>${formatNumber(metricValue(item, "views"))}</b><small class="website-change ${viewChange.className}">${viewChange.text}</small></td><td>${formatNumber(metricValue(item, "clicks"))}</td><td>${formatNumber(metricValue(item, "events"))}</td></tr>`;
   }).join("");
   const pageDetails = new Map();
-  items.filter((item) => item.format === "website_section").forEach((item) => {
+  const ga4Pages = items.filter((item) => item.format === "website_ga4_page");
+  const pageRecords = ga4Pages.length ? ga4Pages : items.filter((item) => item.format === "website_section");
+  pageRecords.forEach((item) => {
     const key = item.url || item.title;
     const current = pageDetails.get(key) || { ...item, metrics: {}, samples: 0 };
     current.title = item.title || current.title;
@@ -741,9 +958,9 @@ function renderMinimalWebsiteReport(items) {
     .map((item) => `<tr><td><strong class="website-section-label">${item.section?.label || "Other public pages"}</strong><a href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><small>${item.url || ""}</small></td><td>${formatNumber(metricValue(item, "users"))}</td><td>${formatNumber(metricValue(item, "sessions"))}</td><td><b>${formatNumber(metricValue(item, "views"))}</b></td><td>${formatNumber(metricValue(item, "clicks"))}</td><td>${formatNumber(metricValue(item, "events"))}</td></tr>`)
     .join("");
   document.querySelector("#brief-shell").innerHTML = `
-    <div class="minimal-head website-report-head"><div><p class="eyebrow">Website · ${websiteRangeLabel}</p><h2>Which areas of GILD are working?</h2><p class="website-source-note">Compare the public areas of the site by people, page views and clicks. This shows where content and promotion should go next.</p></div><span class="record-count">${sections.length} areas</span></div>
-    <div class="website-range-controls" role="group" aria-label="Website period"><span>Compare:</span>${["this-week", "this-month", "last-month", "3m", "all"].map((range) => `<button class="website-range-button ${state.range === range ? "active" : ""}" data-website-range="${range}" type="button">${range === "this-week" ? "This week" : range === "this-month" ? "This month" : range === "last-month" ? "Last month" : range === "3m" ? "Last 3 months" : "All available"}</button>`).join("")}</div>
-    <div class="minimal-metrics website-metrics website-ga4-metrics"><div><span>Users</span><strong>${formatNumber(currentTotals.users)}</strong>${change("users")}</div><div><span>Sessions</span><strong>${formatNumber(currentTotals.sessions)}</strong>${change("sessions")}</div><div><span>Page views</span><strong>${formatNumber(currentTotals.views)}</strong>${change("views")}</div><div><span>Clicks</span><strong>${formatNumber(currentTotals.clicks)}</strong>${change("clicks")}</div><div><span>Events</span><strong>${formatNumber(currentTotals.events)}</strong>${change("events")}</div></div>
+    <div class="minimal-head website-report-head"><div><p class="eyebrow">Website · ${websiteRangeLabel}</p><h2>Which areas of GILD are working?</h2><p class="website-source-note">${livePeriodTotals ? `Google Analytics totals and page rows match ${state.data.liveWebsiteRange.start}–${state.data.liveWebsiteRange.end}.` : "Current Google Analytics totals are temporarily unavailable; no stale totals are presented as live."}</p></div><span class="record-count">${sections.length} pages</span></div>
+    <div class="website-range-controls" role="group" aria-label="Website period"><span>Compare:</span>${["this-week", "this-month", "last-month", "3m", "all"].map((range) => `<button class="website-range-button ${state.range === range ? "active" : ""}" data-website-range="${range}" type="button">${range === "this-week" ? "This week" : range === "this-month" ? "This month" : range === "last-month" ? "Last month" : range === "3m" ? "Last 3 months" : "Last 12 months"}</button>`).join("")}<div class="website-date-form" role="group" aria-label="Custom date range"><label>From <input type="date" id="website-date-start" value="${state.customDateRange?.start || ""}" max="${isoDateUtc(new Date())}"></label><label>To <input type="date" id="website-date-end" value="${state.customDateRange?.end || ""}" max="${isoDateUtc(new Date())}"></label><button class="website-range-button ${state.range === "custom" ? "active" : ""}" data-website-range="custom" type="button">Apply dates</button></div></div>
+    <div class="minimal-metrics website-metrics website-ga4-metrics"><div><span>Active users</span><strong>${currentTotals ? formatNumber(currentTotals.users) : "—"}</strong><small class="website-change neutral">Google Analytics</small></div><div><span>New users</span><strong>${currentTotals ? formatNumber(currentTotals.newUsers) : "—"}</strong><small class="website-change neutral">Google Analytics</small></div><div><span>Sessions</span><strong>${currentTotals ? formatNumber(currentTotals.sessions) : "—"}</strong><small class="website-change neutral">Google Analytics</small></div><div><span>Page views</span><strong>${currentTotals ? formatNumber(currentTotals.views) : "—"}</strong><small class="website-change neutral">Google Analytics</small></div><div><span>Average engagement</span><strong>${currentTotals ? formatDuration(currentTotals.engagementSeconds / Math.max(1, currentTotals.users)) : "—"}</strong><small class="website-change neutral">Google Analytics</small></div><div><span>Event count</span><strong>${currentTotals ? formatNumber(currentTotals.events) : "—"}</strong><small class="website-change neutral">Google Analytics</small></div></div>
     ${winner ? `<article class="minimal-panel website-winner-panel"><div><p class="eyebrow">Strongest area</p><h3>${shortTitle(winner)}</h3><p>${formatNumber(metricValue(winner, "views"))} page views from ${formatNumber(metricValue(winner, "users"))} users. ${changeForWinner}.</p></div><strong>${formatNumber(metricValue(winner, "views"))}<span>page views</span></strong></article>` : ""}
     <article class="minimal-panel website-panel website-trend-panel"><div class="minimal-panel-head"><h3>Performance over time</h3><span>${daily ? "Daily" : "Weekly"} · page views</span></div>
       ${trend.length ? `<div class="trend-bars website-trend-bars">${trend.map(([label, value]) => `<div title="${label}: ${formatNumber(value.views)} views · ${formatNumber(value.users)} users · ${formatNumber(value.clicks)} clicks"><span style="height:${Math.max(4, Math.round((value.views / maxTrend) * 100))}%"></span><em>${label.slice(5)}</em></div>`).join("")}</div>` : `<p class="minimal-empty">No time series for this period.</p>`}
@@ -754,28 +971,34 @@ function renderMinimalWebsiteReport(items) {
     ${clickWinner ? `<article class="minimal-panel website-panel"><div class="minimal-panel-head"><h3>Where did people click?</h3><span>Pages with tracked click events</span></div><div class="website-bars">${clickSections.filter((item) => metricValue(item, "clicks") > 0).slice(0, 8).map((item) => `<div class="website-row"><div class="website-title"><a href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><small>${formatNumber(metricValue(item, "clicks"))} clicks · ${formatNumber(metricValue(item, "views"))} views</small></div><div class="website-track"><i>${metricBar(metricValue(item, "clicks"), maxClicks, "clicks-fill")}</i></div><strong>${formatNumber(metricValue(item, "clicks"))}</strong></div>`).join("")}</div></article>` : `<article class="minimal-panel website-panel website-missing-page-data"><p class="eyebrow">Clicks</p><strong>No click events were recorded in this period.</strong><span>GA4 must receive the event name <b>click</b> for this comparison to populate.</span></article>`}
     `;
   document.querySelectorAll("[data-website-range]").forEach((button) => button.addEventListener("click", () => {
-    state.range = button.dataset.websiteRange;
-    render();
+    const range = button.dataset.websiteRange;
+    let customDateRange = null;
+    if (range === "custom") {
+      const start = document.querySelector("#website-date-start").value;
+      const end = document.querySelector("#website-date-end").value;
+      if (!start || !end || start > end) return;
+      customDateRange = { start, end };
+    }
+    selectRange(range, customDateRange);
   }));
 }
 
 function renderMinimalReport() {
   if (state.channel === "all") return;
-  let items = selectedItems();
-  if (!items.length && state.channel === "youtube" && realItems().some((item) => item.platform === "youtube")) {
-    state.range = "all";
-    items = selectedItems();
-  }
+  if (state.channel === "website") return renderMinimalWebsiteReport();
+  const items = selectedItems();
   if (!items.length) {
-    const available = realItems().filter((item) => item.platform === state.channel).length;
-    document.querySelector("#brief-shell").innerHTML = `<div class="minimal-empty-state"><p class="eyebrow">${channelNames[state.channel]}</p><h2>No content in this period.</h2><p>${available ? `${available} pieces are available in the full history.` : "No content has been imported for this channel yet."}</p>${available ? '<button class="secondary-button" id="view-all-time" type="button">View all time</button>' : ""}</div>`;
+    const availableItems = realItems().filter((item) => item.platform === state.channel);
+    const available = availableItems.length;
+    const latest = latestItemDate(availableItems);
+    const latestNote = latest ? ` Latest available record: ${formatDate(latest)}.` : "";
+    document.querySelector("#brief-shell").innerHTML = `<div class="minimal-empty-state"><p class="eyebrow">${channelNames[state.channel]}</p><h2>No content in this period.</h2><p>${available ? `${available} pieces are available in the full history.${latestNote}` : "No content has been imported for this channel yet."}</p>${available ? '<button class="secondary-button" id="view-all-time" type="button">View all time</button>' : ""}</div>`;
     document.querySelector("#view-all-time")?.addEventListener("click", () => {
       state.range = "all";
       render();
     });
     return;
   }
-  if (state.channel === "website") return renderMinimalWebsiteReport(items);
   renderMinimalSocialReport(items, state.channel);
 }
 
@@ -1256,11 +1479,12 @@ function renderRegistry() {
 function missingFor(channel) {
   const status = state.data.sourceStatus?.[channel.id];
   if (channel.id === "linkedin") return "CSV active; official API still pending for automatic posts/analytics.";
-  if (channel.id === "instagram") return "CSV active; Meta API still pending for automatic posts/reels.";
+  if (channel.id === "instagram") return "CSV import active; live Meta integration is blocked by restriction.";
   if (channel.id === "youtube") return status?.note || "YouTube connected.";
   if (channel.id === "newsletter") return status?.note || "Beehiiv connected.";
   if (channel.id === "website") return status?.note || "Cloudflare connected.";
-  if (channel.id === "luma") return status?.note || "Luma API pending. Add the calendar API key to sync events.";
+  if (channel.id === "luma") return status?.note || "Luma connected.";
+  if (channel.id === "spotify") return status?.note || "Spotify analytics needs a Spotify for Creators export.";
   return "Source pending.";
 }
 
@@ -1269,7 +1493,7 @@ function renderDataHealth() {
   document.querySelector("#data-health-list").innerHTML = channels
     .map((channel) => {
       const source = state.data.sourceStatus?.[channel.id] || {};
-      const connected = channel.status === "connected";
+      const connected = channel.status === "connected" && source.sync !== "public_catalog";
       const measured = channel.status === "imported";
       return `<article class="queue-row">
         <div>
@@ -1282,10 +1506,7 @@ function renderDataHealth() {
     .join("");
 }
 
-function render() {
-  renderSyncStatus();
-  renderControls();
-  renderMinimalReport();
+function renderHeavySections() {
   renderOverview();
   renderQuickCheck();
   renderTopContent();
@@ -1296,23 +1517,82 @@ function render() {
   renderDataHealth();
 }
 
+function render({ deferHeavy = false } = {}) {
+  renderSyncStatus();
+  renderControls();
+  renderMinimalReport();
+  if (!deferHeavy) {
+    state.renderRequest += 1;
+    return renderHeavySections();
+  }
+  const renderRequest = ++state.renderRequest;
+  const schedule = window.requestIdleCallback || ((callback) => window.setTimeout(callback, 50));
+  schedule(() => {
+    if (renderRequest === state.renderRequest) renderHeavySections();
+  }, { timeout: 800 });
+}
+
 async function loadData() {
   moveTechnicalDetails();
-  const [response, competitorResponse] = await Promise.all([
+  const [response, competitorResponse, liveResponse] = await Promise.all([
     fetch(`/dashboard/social-data.json?ts=${Date.now()}`),
-    fetch(`/dashboard/competitor-data.json?ts=${Date.now()}`)
+    fetch(`/dashboard/competitor-data.json?ts=${Date.now()}`),
+    fetch(`${LIVE_ANALYTICS_ENDPOINT}?ts=${Date.now()}`).catch(() => null)
   ]);
   if (!response.ok) throw new Error("Could not load social-data.json");
   state.data = await response.json();
   state.data.competitors = competitorResponse.ok ? await competitorResponse.json() : null;
+  if (liveResponse?.ok) {
+    const live = await liveResponse.json();
+    const liveChannelItems = (live.content || []).flatMap((item) => {
+      if (item.source === "youtube") return [{ id: item.external_content_id, platform: "youtube", format: "long_form_video", title: item.title, url: item.url, publishedAt: item.published_at, metrics: { views: Number(item.views || 0), likes: Number(item.likes || 0), comments: Number(item.comments || 0), shares: Number(item.shares || 0), engagement: Number(item.engagement || 0) }, signal: "youtube_analytics_api" }];
+      if (item.source === "luma") return [{ id: item.external_content_id, platform: "luma", format: "event", title: item.title, url: item.url, publishedAt: item.published_at, metrics: { registrations: Number(item.views || 0), going: Number(item.clicks || 0), attendees: Number(item.engagement || 0) }, signal: "luma_api" }];
+      return [];
+    });
+    if (liveChannelItems.length) state.data.contentItems = [...(state.data.contentItems || []).filter((item) => !["youtube", "luma"].includes(item.platform)), ...liveChannelItems];
+    state.data.liveAnalytics = live;
+    const daily = new Map();
+    const periodTotals = {};
+    (live.metrics || []).filter((item) => item.source === "google_analytics").forEach((item) => {
+      const date = item.dimensions_json?.date;
+      if (item.dimensions_json?.scope === "period") {
+        if (item.metric_key === "activeUsers") periodTotals.users = Number(item.metric_value || 0);
+        if (item.metric_key === "sessions") periodTotals.sessions = Number(item.metric_value || 0);
+        if (item.metric_key === "screenPageViews") periodTotals.views = Number(item.metric_value || 0);
+        if (item.metric_key === "eventCount") periodTotals.events = Number(item.metric_value || 0);
+        return;
+      }
+      if (!date) return;
+      const isoDate = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
+      const current = daily.get(isoDate) || { users: 0, sessions: 0, views: 0, events: 0 };
+      if (item.metric_key === "activeUsers") current.users = Number(item.metric_value || 0);
+      if (item.metric_key === "sessions") current.sessions = Number(item.metric_value || 0);
+      if (item.metric_key === "screenPageViews") current.views = Number(item.metric_value || 0);
+      if (item.metric_key === "eventCount") current.events = Number(item.metric_value || 0);
+      daily.set(isoDate, current);
+    });
+    const liveWebsiteItems = [...daily.entries()].map(([date, metrics]) => ({
+      id: `website:ga4:${date}`,
+      platform: "website",
+      format: "website_daily",
+      title: `Website · ${date}`,
+      publishedAt: `${date}T12:00:00.000Z`,
+      url: state.data.brand?.website || "https://gildhq.com/",
+      metrics,
+      signal: "api"
+    }));
+    if (liveWebsiteItems.length) {
+      state.data.contentItems = [...(state.data.contentItems || []).filter((item) => item.format !== "website_daily"), ...liveWebsiteItems];
+      state.data.liveWebsiteTotals = periodTotals;
+      state.data.lastSyncAt = live.generatedAt || state.data.lastSyncAt;
+    }
+  }
+  await Promise.all([refreshGoogleAnalytics(), refreshBeehiiv()]);
   render();
 }
 
 document.querySelectorAll("[data-range]").forEach((button) => {
-  button.addEventListener("click", () => {
-    state.range = button.dataset.range;
-    render();
-  });
+  button.addEventListener("click", () => selectRange(button.dataset.range));
 });
 
 document.querySelector("#global-channel-filter").addEventListener("change", (event) => {
@@ -1350,6 +1630,6 @@ document.querySelector("#next-action-cta")?.addEventListener("click", (event) =>
 });
 
 loadData().catch((error) => {
-  document.querySelector("#sync-label").textContent = "Error";
-  document.querySelector("#sync-time").textContent = error.message;
+  document.querySelector("#sidebar-mode")?.replaceChildren("Data error");
+  console.error("Dashboard data could not load", error);
 });
