@@ -84,7 +84,7 @@
       "name": "Luma",
       "metrics": {
         "events": 30,
-        "registrations": 1148,
+        "registrations": 1587,
         "attendees": 468,
         "going": 734,
         "measuredEvents": 30
@@ -439,7 +439,8 @@
     "instagram": {
       "url": "https://www.instagram.com/gild.hq/",
       "sync": "csv_import",
-      "note": "Post and Reel analytics are measured from imported Instagram exports; durable automatic sync requires Meta Graph API access."
+      "importedThrough": "15 Sep 2026",
+      "note": "Imported data — through 15 Sep 2026. This is not a live Meta API reading."
     },
     "youtube": {
       "url": "https://www.youtube.com/@GILDhq",
