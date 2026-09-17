@@ -10,6 +10,13 @@ on:
       - "package.json"
       - "pnpm-lock.yaml"
       - ".github/workflows/deploy-pages.yml"
+  pull_request:
+    paths:
+      - "public/**"
+      - "src/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - ".github/workflows/deploy-pages.yml"
   workflow_dispatch:
 
 permissions:
