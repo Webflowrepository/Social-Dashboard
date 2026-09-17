@@ -17,9 +17,12 @@ interface ScheduledController {
   scheduledTime: number;
 }
 
-// Only sources with official API credentials are included. Imported social
-// exports are intentionally excluded until their owners authorize the APIs.
+// Instagram stays out of the scheduled loop until an approved token is present.
 const sources: AnalyticsSource[] = ["google_analytics", "beehiiv", "youtube", "luma"];
+
+function enabledSources(env: WorkerEnv) {
+  return env.IG_SYNC_ENABLED === "true" ? [...sources, "instagram" as const] : sources;
+}
 
 const dashboardOrigins = new Set([
   "https://social-dashboard-gild.pages.dev",
@@ -97,7 +100,7 @@ function dashboardMetric(metric: NormalizedMetric) {
 
 async function runAll(env: WorkerEnv) {
   const results: Array<{ source: AnalyticsSource; ok: boolean; error?: string }> = [];
-  for (const source of sources) {
+  for (const source of enabledSources(env)) {
     try {
       await syncSource(source, env);
       results.push({ source, ok: true });
