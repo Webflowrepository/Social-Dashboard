@@ -1,5 +1,8 @@
 const CHANNELS = ["instagram", "linkedin", "newsletter", "website", "youtube", "spotify", "luma"];
 const SOCIAL_CHANNELS = ["instagram", "linkedin", "youtube"];
+const LIVE_ANALYTICS_ENDPOINT = "https://social-dashboard-sync.tecla.workers.dev/api/dashboard/overview";
+const LIVE_GA4_ENDPOINT = "https://social-dashboard-sync.tecla.workers.dev/api/dashboard/ga4";
+const LIVE_BEEHIIV_ENDPOINT = "https://social-dashboard-sync.tecla.workers.dev/api/dashboard/beehiiv";
 
 const channelNames = {
   instagram: "Instagram",
