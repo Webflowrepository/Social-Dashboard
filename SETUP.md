@@ -34,24 +34,72 @@ Administration routes require the `x-analytics-admin-secret` header and the
 `ANALYTICS_ADMIN_SECRET` Worker secret. Browser CORS is limited to the Pages
 dashboard and local development origins.
 
-## Instagram: approval checklist before implementation
+## Conectar Instagram
 
-1. Create a Meta app owned by GILD and add the Instagram Graph API product.
-2. Confirm the GILD Instagram account is a Professional account (Business or
-   Creator) linked to the correct Facebook Page.
-3. Add the exact value of `META_REDIRECT_URI` from the environment to Meta's
-   Valid OAuth Redirect URIs. Replace the example host with the real callback
-   service before registration; it must match character-for-character.
-4. Request Advanced Access/App Review for the read-only scopes
-   `instagram_basic`, `instagram_manage_insights`, `pages_show_list`, and
-   `pages_read_engagement`. Submit the screencast and privacy-policy material
-   Meta requests for the production app.
-5. An administrator of the linked Facebook Page completes OAuth. Store only
-   `META_APP_ID`, `META_APP_SECRET`, `META_ACCESS_TOKEN`, and
-   `GILD_INSTAGRAM_BUSINESS_ID` as Worker secrets; exchange/renew the token as
-   Meta requires.
-6. Only after approval, implement the connector and remove the imported-data
-   label after a successful live sync.
+The Worker connector is present but disabled by default with
+`IG_SYNC_ENABLED=false`. It reads account reach, impressions and follower count
+plus the most recent configured media records and their likes, comments and
+saves. It cannot contact Meta until the flag is enabled and the required
+secrets are present.
+
+1. In [Meta for Developers](https://developers.facebook.com/), create an app
+   owned by GILD. Add **Facebook Login for Business** and the **Instagram Graph
+   API** product.
+2. Confirm that `@gild.hq` is a Professional Instagram account (Business or
+   Creator) connected to the intended Facebook Page. A personal account cannot
+   supply these Graph API insights.
+3. In Facebook Login for Business, add the exact `META_REDIRECT_URI` value from
+   `.env` to Valid OAuth Redirect URIs. Replace the example host in
+   `.env.example` with the real HTTPS callback first; the two values must match
+   character-for-character.
+4. In App Review, request Advanced Access for `instagram_basic`,
+   `instagram_manage_insights`, `pages_show_list`, and
+   `pages_read_engagement`. Submit Meta's requested screencast, use-case and
+   privacy-policy information before asking a non-admin to authorize the app.
+5. In Graph API Explorer, choose the GILD app, request the four scopes above,
+   generate a User Access Token as a Facebook Page administrator, and exchange
+   it for a long-lived token:
+
+   ```text
+   GET https://graph.facebook.com/v20.0/oauth/access_token
+       ?grant_type=fb_exchange_token
+       &client_id={META_APP_ID}
+       &client_secret={META_APP_SECRET}
+       &fb_exchange_token={SHORT_LIVED_USER_TOKEN}
+   ```
+
+6. Obtain `INSTAGRAM_IG_USER_ID` from the connected professional account. Do
+   not commit it with the token. Put these values in the local `.env` only for
+   local testing: `INSTAGRAM_IG_USER_ID`, `INSTAGRAM_ACCESS_TOKEN`,
+   `META_APP_ID`, `META_APP_SECRET`, `INSTAGRAM_TOKEN_EXPIRES_AT`, and
+   `IG_SYNC_ENABLED`.
+7. Put the same sensitive values into the Worker one at a time, never in
+   `wrangler.jsonc` or git:
+
+   ```bash
+   npx wrangler secret put INSTAGRAM_ACCESS_TOKEN --config workers/social-dashboard-sync/wrangler.jsonc
+   npx wrangler secret put INSTAGRAM_IG_USER_ID --config workers/social-dashboard-sync/wrangler.jsonc
+   npx wrangler secret put META_APP_ID --config workers/social-dashboard-sync/wrangler.jsonc
+   npx wrangler secret put META_APP_SECRET --config workers/social-dashboard-sync/wrangler.jsonc
+   npx wrangler secret put INSTAGRAM_TOKEN_EXPIRES_AT --config workers/social-dashboard-sync/wrangler.jsonc
+   npx wrangler secret put INSTAGRAM_TOKEN_REFRESH_ENABLED --config workers/social-dashboard-sync/wrangler.jsonc
+   npx wrangler secret put IG_SYNC_ENABLED --config workers/social-dashboard-sync/wrangler.jsonc
+   ```
+
+   Set `IG_SYNC_ENABLED` to the literal value `true` only after all four Meta
+   values have been set and the app review is approved. `INSTAGRAM_SYNC_POST_LIMIT`
+   defaults to 25 and may be supplied as a Worker secret if a different recent
+   media count is needed.
+
+The connector starts a long-lived-token exchange 14 days before the recorded
+expiry and uses that result for the active sync. A Worker cannot replace its own
+Wrangler secret, so the production rotation step will send the refreshed value
+to a dedicated secret-rotation service that updates the Worker secret before
+the 60-day expiry; leave refresh disabled until that service is approved.
+
+If the token is absent, expired or revoked after the flag is enabled, Instagram
+alone is marked `disconnected` in `analytics_sources`; the daily sync continues
+for every other source.
 
 ## LinkedIn: approval checklist before implementation
 
