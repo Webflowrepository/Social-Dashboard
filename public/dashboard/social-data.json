@@ -77,7 +77,7 @@
       "handle": "GILD Podcast",
       "url": "https://creators.spotify.com/pod/show/0TSnQszN4VY8tyOgIYPsQy/episodes",
       "showId": "0TSnQszN4VY8tyOgIYPsQy",
-      "status": "connected"
+      "status": "unavailable"
     },
     {
       "id": "luma",
@@ -453,8 +453,8 @@
     },
     "spotify": {
       "url": "https://creators.spotify.com/pod/show/0TSnQszN4VY8tyOgIYPsQy/episodes",
-      "sync": "public_catalog",
-      "note": "Spotify API unavailable (https://api.spotify.com/v1/shows/0TSnQszN4VY8tyOgIYPsQy?market=US returned 403: Active premium subscription required for the owner of the app. When the subscription status changes, it can take a few hours before requests are allowed again.); showing the public GILD podcast catalog instead."
+      "sync": "unavailable",
+      "note": "No disponible. Spotify does not expose the dashboard metrics needed for this account type; public catalog entries are not analytics."
     },
     "luma": {
       "url": "https://lu.ma/gild",
