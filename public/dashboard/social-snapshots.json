@@ -1,50 +1,5 @@
 [
   {
-    "at": "2026-08-19T00:49:44.973Z",
-    "metrics": {
-      "linkedin": 1010,
-      "instagram": 80,
-      "youtube": 26,
-      "spotify": 0
-    },
-    "content": {
-      "linkedin": 0,
-      "instagram": 50,
-      "youtube": 8,
-      "spotify": 0
-    }
-  },
-  {
-    "at": "2026-08-19T01:49:44.434Z",
-    "metrics": {
-      "linkedin": 1010,
-      "instagram": 80,
-      "youtube": 26,
-      "spotify": 0
-    },
-    "content": {
-      "linkedin": 0,
-      "instagram": 50,
-      "youtube": 8,
-      "spotify": 0
-    }
-  },
-  {
-    "at": "2026-08-19T02:49:43.862Z",
-    "metrics": {
-      "linkedin": 1011,
-      "instagram": 80,
-      "youtube": 26,
-      "spotify": 0
-    },
-    "content": {
-      "linkedin": 0,
-      "instagram": 50,
-      "youtube": 8,
-      "spotify": 0
-    }
-  },
-  {
     "at": "2026-08-19T03:49:43.539Z",
     "metrics": {
       "linkedin": 1011,
@@ -2128,6 +2083,69 @@
       "spotify": 3,
       "luma": 0,
       "newsletter": 71,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-09-15T16:02:17.779Z",
+    "metrics": {
+      "linkedin": 1042,
+      "instagram": 147,
+      "youtube": 29,
+      "spotify": 0,
+      "luma": 0,
+      "newsletter": 17999,
+      "website": 1478
+    },
+    "content": {
+      "linkedin": 117,
+      "instagram": 20,
+      "youtube": 8,
+      "spotify": 3,
+      "luma": 0,
+      "newsletter": 70,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-09-15T17:55:39.257Z",
+    "metrics": {
+      "linkedin": 1043,
+      "instagram": 147,
+      "youtube": 29,
+      "spotify": 0,
+      "luma": 0,
+      "newsletter": 17995,
+      "website": 1487
+    },
+    "content": {
+      "linkedin": 117,
+      "instagram": 20,
+      "youtube": 8,
+      "spotify": 3,
+      "luma": 0,
+      "newsletter": 70,
+      "website": 0
+    }
+  },
+  {
+    "at": "2026-09-15T17:56:29.004Z",
+    "metrics": {
+      "linkedin": 1043,
+      "instagram": 147,
+      "youtube": 29,
+      "spotify": 0,
+      "luma": 0,
+      "newsletter": 17995,
+      "website": 1487
+    },
+    "content": {
+      "linkedin": 117,
+      "instagram": 20,
+      "youtube": 8,
+      "spotify": 3,
+      "luma": 0,
+      "newsletter": 70,
       "website": 0
     }
   }

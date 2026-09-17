@@ -76,6 +76,23 @@ The command reads `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` from a local
 uncommitted `.env` file or the shell. Never put them in the CSV, source code,
 or git.
 
+## Operación mensual
+
+El único paso manual recurrente es Instagram: una vez al mes (o cuando quieras
+ver datos más recientes), abre el panel profesional de Instagram, descarga el
+CSV de publicaciones y guárdalo en tu computadora. Desde la carpeta del
+proyecto ejecuta primero:
+
+```bash
+pnpm import:instagram -- "C:\ruta\a\instagram.csv" --through AAAA-MM-DD --dry-run
+```
+
+Revisa que el resumen diga cuántas filas importará y que las filas ignoradas
+sean esperadas. Luego ejecuta exactamente el mismo comando sin `--dry-run`.
+El dashboard mostrará **Imported — through AAAA-MM-DD** cuando se publique el
+siguiente build de Pages. Los otros cuatro canales se actualizan solos cada
+día a las 08:15 UTC.
+
 ### LinkedIn (about two minutes)
 
 1. Open the GILD LinkedIn Page as an administrator, choose **Analytics**, then

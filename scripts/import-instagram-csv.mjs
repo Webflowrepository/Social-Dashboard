@@ -20,10 +20,12 @@ const idColumns = ["id", "media id", "post id", "permalink", "url"];
 const publishedColumns = ["published at", "published_at", "timestamp", "date", "post date"];
 
 function normalizeHeader(value) {
-  return String(value || "").trim().toLowerCase().replace(/[_-]+/g, " ").replace(/\s+/g, " ");
+  return String(value || "").replace(/^\uFEFF/, "").trim().toLowerCase().replace(/[_-]+/g, " ").replace(/\s+/g, " ");
 }
 
 export function parseCsv(text) {
+  const headerLine = text.split(/\r?\n/, 1)[0] || "";
+  const delimiter = (headerLine.match(/;/g) || []).length > (headerLine.match(/,/g) || []).length ? ";" : ",";
   const rows = [];
   let row = [];
   let value = "";
@@ -35,7 +37,7 @@ export function parseCsv(text) {
       index += 1;
     } else if (character === '"') {
       quoted = !quoted;
-    } else if (!quoted && character === ",") {
+    } else if (!quoted && character === delimiter) {
       row.push(value);
       value = "";
     } else if (!quoted && (character === "\n" || character === "\r")) {
@@ -60,14 +62,32 @@ function firstValue(row, aliases) {
 }
 
 function dateOnly(value) {
-  const match = String(value || "").match(/^\d{4}-\d{2}-\d{2}/);
-  if (!match || Number.isNaN(Date.parse(match[0] + "T00:00:00Z"))) return null;
-  return match[0];
+  const input = String(value || "").trim();
+  const iso = input.match(/^(\d{4})[-/.](\d{2})[-/.](\d{2})/);
+  if (iso) return `${iso[1]}-${iso[2]}-${iso[3]}`;
+  const local = input.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})/);
+  if (!local) return null;
+  const first = Number(local[1]);
+  const second = Number(local[2]);
+  // Exports in this project use ISO dates. For common human exports, prefer
+  // day/month/year (the dashboard's locale) and still recognize unambiguous
+  // month/day/year values such as 09/30/2026.
+  const day = second > 12 ? second : first;
+  const month = second > 12 ? first : second;
+  const normalized = `${local[3]}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+  return Number.isNaN(Date.parse(`${normalized}T00:00:00Z`)) ? null : normalized;
 }
 
 function numberValue(value) {
   if (value === "" || value === undefined) return { value: undefined };
-  const normalized = String(value).replace(/[,\s]/g, "").replace(/%$/, "");
+  const compact = String(value).trim().replace(/[\s\u00A0]/g, "").replace(/%$/, "");
+  const comma = compact.lastIndexOf(",");
+  const dot = compact.lastIndexOf(".");
+  const normalized = comma >= 0 && dot >= 0
+    ? (comma > dot ? compact.replace(/\./g, "").replace(",", ".") : compact.replace(/,/g, ""))
+    : comma >= 0
+      ? (/^\d{1,3}(,\d{3})+$/.test(compact) ? compact.replace(/,/g, "") : compact.replace(",", "."))
+      : (/^\d{1,3}(\.\d{3})+$/.test(compact) ? compact.replace(/\./g, "") : compact);
   const parsed = Number(normalized);
   return Number.isFinite(parsed) && parsed >= 0 ? { value: parsed } : { error: `invalid number “${value}”` };
 }
