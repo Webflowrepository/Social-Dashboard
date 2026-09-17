@@ -1,6 +1,7 @@
 import { analyticsOverview, syncSource } from "../../../src/lib/analytics/service";
 import { syncBeehiiv } from "../../../src/lib/analytics/connectors/beehiiv";
 import { syncGoogleAnalytics } from "../../../src/lib/analytics/connectors/google-analytics";
+import { syncYouTube } from "../../../src/lib/analytics/connectors/youtube";
 import type { AnalyticsSource, ContentPerformance, NormalizedMetric } from "../../../src/lib/analytics/types";
 import type { DateRange } from "../../../src/lib/analytics/date-ranges";
 
@@ -154,6 +155,21 @@ export default {
         });
       } catch {
         return json(request, { error: "Beehiiv data is temporarily unavailable." }, 503);
+      }
+    }
+    if (request.method === "GET" && url.pathname === "/api/dashboard/youtube") {
+      const range = ga4Range(url);
+      if (!range) return json(request, { error: "Provide start and end as ISO dates for a range of up to 366 days." }, 400);
+      try {
+        const result = await syncYouTube(env, range);
+        return json(request, {
+          generatedAt: new Date().toISOString(),
+          range,
+          mode: result.mode,
+          content: result.content.map(({ external_content_id, content_type, title, url, published_at, views, likes, comments, shares, engagement }) => ({ external_content_id, content_type, title, url, published_at, views, likes, comments, shares, engagement }))
+        });
+      } catch {
+        return json(request, { error: "YouTube data is temporarily unavailable." }, 503);
       }
     }
 
