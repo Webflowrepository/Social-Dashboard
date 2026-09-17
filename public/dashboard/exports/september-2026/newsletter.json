@@ -1,21 +1,21 @@
 {
   "channel": "newsletter",
   "period": "2026-09",
-  "generatedAt": "2026-09-16T11:38:04.126Z",
+  "generatedAt": "2026-09-17T11:45:03.560Z",
   "sourceStatus": {
     "url": "https://www.beehiiv.com/",
     "sync": "api",
     "note": "Beehiiv API is active."
   },
   "channelSummary": {
-    "subscribers": 17994,
+    "subscribers": 17991,
     "posts": 5,
-    "openRate": 24.18,
-    "clickRate": 2.31,
+    "openRate": 24.43,
+    "clickRate": 2.35,
     "sent": 478577,
     "measuredIssues": 5,
-    "opens": 10022,
-    "clicks": 232
+    "opens": 10125,
+    "clicks": 238
   },
   "contentItems": [
     {
@@ -72,15 +72,15 @@
       "month": "2026-09",
       "url": "https://gild-austin.beehiiv.com/p/ai-can-scale-output-can-it-scale-understanding",
       "section": null,
-      "metric": "3030 opens",
+      "metric": "3125 opens",
       "metrics": {
-        "opens": 3030,
-        "clicks": 63,
-        "views": 23,
-        "openRate": 22.62,
-        "clickRate": 2.08
+        "opens": 3125,
+        "clicks": 68,
+        "views": 25,
+        "openRate": 23.32,
+        "clickRate": 2.18
       },
-      "score": 3231,
+      "score": 3342,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -94,15 +94,15 @@
       "month": "2026-09",
       "url": "https://gild-austin.beehiiv.com/p/austin-ai-forum-this-thursday-dallas-and-miami-are-next",
       "section": null,
-      "metric": "3184 opens",
+      "metric": "3189 opens",
       "metrics": {
-        "opens": 3184,
-        "clicks": 80,
+        "opens": 3189,
+        "clicks": 81,
         "views": 44,
-        "openRate": 23.67,
-        "clickRate": 2.51
+        "openRate": 23.7,
+        "clickRate": 2.54
       },
-      "score": 3446,
+      "score": 3454,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -116,15 +116,15 @@
       "month": "2026-09",
       "url": "https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations",
       "section": null,
-      "metric": "3808 opens",
+      "metric": "3811 opens",
       "metrics": {
-        "opens": 3808,
+        "opens": 3811,
         "clicks": 89,
         "views": 16,
-        "openRate": 26.25,
+        "openRate": 26.27,
         "clickRate": 2.34
       },
-      "score": 4083,
+      "score": 4086,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     }

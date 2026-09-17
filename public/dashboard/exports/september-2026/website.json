@@ -1,19 +1,19 @@
 {
   "channel": "website",
   "period": "2026-09",
-  "generatedAt": "2026-09-16T11:38:04.126Z",
+  "generatedAt": "2026-09-17T11:45:03.560Z",
   "sourceStatus": {
     "url": "https://gildhq.com/",
     "sync": "ga4_api",
     "note": "Google Analytics page-level data is active."
   },
   "channelSummary": {
-    "users": 24,
-    "sessions": 35,
-    "pageViews": 41,
-    "events": 108,
+    "users": 32,
+    "sessions": 45,
+    "pageViews": 47,
+    "events": 142,
     "errors": 4294,
-    "clicks": 1,
+    "clicks": 5,
     "measuredPages": 2
   },
   "contentItems": [
@@ -23,22 +23,22 @@
       "format": "website_section",
       "title": "Miami GILD AI Forum: AI and Engineering Leaders Dinner - Coral Gables · Luma",
       "imageUrl": "",
-      "publishedAt": "2026-09-09T12:00:00.000Z",
+      "publishedAt": "2026-09-16T12:00:00.000Z",
       "month": "2026-09",
       "url": "https://gildhq.com/GILD29",
       "section": {
         "key": "events",
         "label": "Events"
       },
-      "metric": "19 page views",
+      "metric": "18 page views",
       "metrics": {
         "views": 19,
-        "users": 11,
-        "sessions": 14,
-        "events": 57,
-        "clicks": 0
+        "users": 15,
+        "sessions": 20,
+        "events": 72,
+        "clicks": 2
       },
-      "score": 26.2,
+      "score": 28,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
@@ -48,22 +48,22 @@
       "format": "website_section",
       "title": "Austin GILD AI Forum: AI and Engineering Leaders Dinner · Luma",
       "imageUrl": "",
-      "publishedAt": "2026-09-02T12:00:00.000Z",
+      "publishedAt": "2026-09-15T12:00:00.000Z",
       "month": "2026-09",
       "url": "https://gildhq.com/GILD30",
       "section": {
         "key": "events",
         "label": "Events"
       },
-      "metric": "5 page views",
+      "metric": "6 page views",
       "metrics": {
-        "views": 5,
-        "users": 3,
-        "sessions": 6,
-        "events": 16,
-        "clicks": 0
+        "views": 6,
+        "users": 4,
+        "sessions": 7,
+        "events": 21,
+        "clicks": 1
       },
-      "score": 7.4,
+      "score": 9,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
@@ -114,6 +114,31 @@
         "clicks": 0
       },
       "score": 4.800000000000001,
+      "signal": "ga4_api",
+      "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
+    },
+    {
+      "id": "website:https://gildhq.com/GILD31",
+      "platform": "website",
+      "format": "website_section",
+      "title": "Dallas GILD AI Forum: AI and Engineering Leaders Dinner · Luma",
+      "imageUrl": "",
+      "publishedAt": "2026-09-16T12:00:00.000Z",
+      "month": "2026-09",
+      "url": "https://gildhq.com/GILD31",
+      "section": {
+        "key": "events",
+        "label": "Events"
+      },
+      "metric": "5 page views",
+      "metrics": {
+        "views": 5,
+        "users": 3,
+        "sessions": 3,
+        "events": 14,
+        "clicks": 1
+      },
+      "score": 6.800000000000001,
       "signal": "ga4_api",
       "nextUse": "Compare this section with the previous period and use the strongest topic to guide the next content."
     },
