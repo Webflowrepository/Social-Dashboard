@@ -17,12 +17,9 @@ interface ScheduledController {
   scheduledTime: number;
 }
 
-// Instagram stays out of the scheduled loop until an approved token is present.
+// Instagram is intentionally excluded: Meta Graph access is blocked. The CSV
+// importer is the only supported update path unless that situation changes.
 const sources: AnalyticsSource[] = ["google_analytics", "beehiiv", "youtube", "luma"];
-
-function enabledSources(env: WorkerEnv) {
-  return env.IG_SYNC_ENABLED === "true" ? [...sources, "instagram" as const] : sources;
-}
 
 const dashboardOrigins = new Set([
   "https://social-dashboard-gild.pages.dev",
@@ -100,7 +97,7 @@ function dashboardMetric(metric: NormalizedMetric) {
 
 async function runAll(env: WorkerEnv) {
   const results: Array<{ source: AnalyticsSource; ok: boolean; error?: string }> = [];
-  for (const source of enabledSources(env)) {
+  for (const source of sources) {
     try {
       await syncSource(source, env);
       results.push({ source, ok: true });
