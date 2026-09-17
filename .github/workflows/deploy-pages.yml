@@ -55,4 +55,4 @@ jobs:
 
       - name: Deploy Pages
         shell: bash
-        run: pnpm exec wrangler pages deploy dist --project-name social-dashboard-gild --branch "${GITHUB_REF_NAME//\//-}"
+        run: pnpm dlx wrangler@4.86.0 pages deploy dist --project-name social-dashboard-gild --branch "${GITHUB_REF_NAME//\//-}"
