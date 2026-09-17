@@ -1,7 +1,7 @@
 {
   "channel": "luma",
   "period": "2026-09",
-  "generatedAt": "2026-09-10T11:22:48.058Z",
+  "generatedAt": "2026-09-17T11:45:03.560Z",
   "sourceStatus": {
     "url": "https://lu.ma/gild",
     "sync": "api",
@@ -9,11 +9,11 @@
   },
   "channelSummary": {
     "events": 30,
-    "registrations": 102,
-    "attendees": 0,
-    "going": 57,
+    "registrations": 106,
+    "attendees": 30,
+    "going": 61,
     "measuredEvents": 2,
-    "showRate": 0
+    "showRate": 49.18
   },
   "contentItems": [
     {
@@ -21,7 +21,7 @@
       "platform": "luma",
       "format": "event",
       "title": "Dallas GILD AI Forum: AI and Engineering Leaders Dinner - Grapevine",
-      "imageUrl": "https://images.lumacdn.com/uploads/5e/c92cdef5-7c60-42e1-8e89-05ea0bed5b5c.png",
+      "imageUrl": "https://images.lumacdn.com/uploads/4c/ab22e5ec-4e19-421c-ac73-0a233c7ce852.png",
       "publishedAt": "2026-09-22T23:00:00.000Z",
       "month": "2026-09",
       "url": "https://luma.com/GILD28",
@@ -29,8 +29,8 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 49,
-        "going": 26,
+        "registrations": 54,
+        "going": 30,
         "attendees": 0
       },
       "score": null,
@@ -50,9 +50,9 @@
       "metric": "registrations and attendance",
       "metrics": {
         "events": 1,
-        "registrations": 53,
+        "registrations": 52,
         "going": 31,
-        "attendees": 0
+        "attendees": 30
       },
       "score": null,
       "signal": "luma_api",

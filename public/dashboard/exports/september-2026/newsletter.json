@@ -1,23 +1,45 @@
 {
   "channel": "newsletter",
   "period": "2026-09",
-  "generatedAt": "2026-09-10T11:22:48.058Z",
+  "generatedAt": "2026-09-17T11:45:03.560Z",
   "sourceStatus": {
     "url": "https://www.beehiiv.com/",
     "sync": "api",
     "note": "Beehiiv API is active."
   },
   "channelSummary": {
-    "subscribers": 18023,
-    "posts": 3,
-    "openRate": 24.54,
-    "clickRate": 2.44,
-    "sent": 463327,
-    "measuredIssues": 3,
-    "opens": 6877,
-    "clicks": 167
+    "subscribers": 17991,
+    "posts": 5,
+    "openRate": 24.43,
+    "clickRate": 2.35,
+    "sent": 478577,
+    "measuredIssues": 5,
+    "opens": 10125,
+    "clicks": 238
   },
   "contentItems": [
+    {
+      "id": "newsletter:https://gild-austin.beehiiv.com/p/tech-leaders-connecting-around-what-matters-most-ai-growth-and-execution-e4505cfef53205c9",
+      "platform": "newsletter",
+      "format": "newsletter_post",
+      "title": "Tech leaders connecting around what matters most: AI, growth, and execution.",
+      "imageUrl": "",
+      "publishedAt": "2026-09-11T15:00:04.000Z",
+      "month": "2026-09",
+      "url": "https://gild-austin.beehiiv.com/p/tech-leaders-connecting-around-what-matters-most-ai-growth-and-execution-e4505cfef53205c9",
+      "section": null,
+      "metric": "0 opens",
+      "metrics": {
+        "opens": 0,
+        "clicks": 0,
+        "views": 0,
+        "openRate": 0,
+        "clickRate": 0
+      },
+      "score": 1,
+      "signal": "beehiiv_api",
+      "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
+    },
     {
       "id": "newsletter:https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations-1",
       "platform": "newsletter",
@@ -41,6 +63,28 @@
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
     {
+      "id": "newsletter:https://gild-austin.beehiiv.com/p/ai-can-scale-output-can-it-scale-understanding",
+      "platform": "newsletter",
+      "format": "newsletter_post",
+      "title": "AI Can Scale Output. Can It Scale Understanding?",
+      "imageUrl": "",
+      "publishedAt": "2026-09-15T13:00:00.000Z",
+      "month": "2026-09",
+      "url": "https://gild-austin.beehiiv.com/p/ai-can-scale-output-can-it-scale-understanding",
+      "section": null,
+      "metric": "3125 opens",
+      "metrics": {
+        "opens": 3125,
+        "clicks": 68,
+        "views": 25,
+        "openRate": 23.32,
+        "clickRate": 2.18
+      },
+      "score": 3342,
+      "signal": "beehiiv_api",
+      "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
+    },
+    {
       "id": "newsletter:https://gild-austin.beehiiv.com/p/austin-ai-forum-this-thursday-dallas-and-miami-are-next",
       "platform": "newsletter",
       "format": "newsletter_post",
@@ -50,15 +94,15 @@
       "month": "2026-09",
       "url": "https://gild-austin.beehiiv.com/p/austin-ai-forum-this-thursday-dallas-and-miami-are-next",
       "section": null,
-      "metric": "3094 opens",
+      "metric": "3189 opens",
       "metrics": {
-        "opens": 3094,
-        "clicks": 78,
-        "views": 31,
-        "openRate": 23,
-        "clickRate": 2.52
+        "opens": 3189,
+        "clicks": 81,
+        "views": 44,
+        "openRate": 23.7,
+        "clickRate": 2.54
       },
-      "score": 3344,
+      "score": 3454,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     },
@@ -72,15 +116,15 @@
       "month": "2026-09",
       "url": "https://gild-austin.beehiiv.com/p/what-changed-in-a-year-of-ai-conversations",
       "section": null,
-      "metric": "3783 opens",
+      "metric": "3811 opens",
       "metrics": {
-        "opens": 3783,
+        "opens": 3811,
         "clicks": 89,
-        "views": 8,
-        "openRate": 26.08,
-        "clickRate": 2.35
+        "views": 16,
+        "openRate": 26.27,
+        "clickRate": 2.34
       },
-      "score": 4054,
+      "score": 4086,
       "signal": "beehiiv_api",
       "nextUse": "Use top newsletter topics as LinkedIn POV posts and Instagram carousel/reel scripts."
     }
