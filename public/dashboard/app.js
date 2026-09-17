@@ -117,6 +117,94 @@ function addMonths(date, months) {
   return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + months, date.getUTCDate()));
 }
 
+// "Month" is not a universal reporting period. These definitions deliberately
+// mirror the native reporting surfaces rather than forcing every source into a
+// single UTC calendar calculation:
+// - GA4: calendar month in the property reporting time zone (America/Chicago).
+// - YouTube Studio / Beehiiv: rolling four-week (28-day) default view.
+// - Luma: event records; it has no equivalent account-level monthly aggregate.
+const GA4_PROPERTY_TIME_ZONE = "America/Chicago";
+const YOUTUBE_ANALYTICS_TIME_ZONE = "America/Los_Angeles";
+
+function isoDateInTimeZone(timeZone, date = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).formatToParts(date);
+  const value = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  return `${value.year}-${value.month}-${value.day}`;
+}
+
+function addIsoDays(isoDate, days) {
+  const date = new Date(`${isoDate}T12:00:00.000Z`);
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString().slice(0, 10);
+}
+
+function isoDateToStart(isoDate) {
+  return new Date(`${isoDate}T00:00:00.000Z`);
+}
+
+function isoDateToEnd(isoDate) {
+  return new Date(`${isoDate}T23:59:59.999Z`);
+}
+
+function formatSourceDateRange(startDate, endDate) {
+  const start = new Date(`${startDate}T12:00:00.000Z`);
+  const end = new Date(`${endDate}T12:00:00.000Z`);
+  const formatter = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+  if (startDate === endDate) return formatter.format(start);
+  if (start.getUTCFullYear() === end.getUTCFullYear() && start.getUTCMonth() === end.getUTCMonth()) {
+    return `${new Intl.DateTimeFormat("en-US", { month: "short", timeZone: "UTC" }).format(start)} ${start.getUTCDate()}–${end.getUTCDate()}, ${start.getUTCFullYear()}`;
+  }
+  return `${formatter.format(start)}–${formatter.format(end)}`;
+}
+
+function sourceWindow(startDate, endDate, label, previousStartDate = null, previousEndDate = null) {
+  return {
+    start: isoDateToStart(startDate),
+    end: isoDateToEnd(endDate),
+    previousStart: previousStartDate ? isoDateToStart(previousStartDate) : null,
+    previousEnd: previousEndDate ? isoDateToEnd(previousEndDate) : null,
+    startDate,
+    endDate,
+    label
+  };
+}
+
+function rollingWindow(days, timeZone, label, offsetDays = 0) {
+  const endDate = addIsoDays(isoDateInTimeZone(timeZone), -offsetDays);
+  const startDate = addIsoDays(endDate, -days + 1);
+  const previousEndDate = addIsoDays(startDate, -1);
+  const previousStartDate = addIsoDays(previousEndDate, -days + 1);
+  return sourceWindow(startDate, endDate, `${label} · ${formatSourceDateRange(startDate, endDate)}`, previousStartDate, previousEndDate);
+}
+
+function ga4CalendarMonthWindow(previous = false) {
+  const propertyToday = isoDateInTimeZone(GA4_PROPERTY_TIME_ZONE);
+  const currentStart = `${propertyToday.slice(0, 7)}-01`;
+  const startDate = previous ? `${addIsoDays(currentStart, -1).slice(0, 7)}-01` : currentStart;
+  const endDate = previous ? addIsoDays(currentStart, -1) : propertyToday;
+  const previousEndDate = addIsoDays(startDate, -1);
+  const previousStartDate = `${previousEndDate.slice(0, 7)}-01`;
+  return sourceWindow(
+    startDate,
+    endDate,
+    `Calendar month · ${formatSourceDateRange(startDate, endDate)} · ${GA4_PROPERTY_TIME_ZONE}`,
+    previousStartDate,
+    previousEndDate
+  );
+}
+
+function explicitWindow(window) {
+  if (!window.start || !window.end) return window;
+  const startDate = isoDateUtc(window.start);
+  const endDate = isoDateUtc(window.end);
+  return { ...window, startDate, endDate, label: `${window.label} · ${formatSourceDateRange(startDate, endDate)}` };
+}
+
 function rangeWindow(range) {
   // Every channel uses completed UTC days. This deliberately matches the GA4
   // query below, so changing a period never compares a live partial day in one
@@ -181,22 +269,37 @@ function isoDateUtc(date) {
   return date.toISOString().slice(0, 10);
 }
 
+function nativeWindow(channelId = state.channel, range = state.range) {
+  if (range === "this-month") {
+    if (channelId === "website") return ga4CalendarMonthWindow();
+    if (channelId === "youtube") return rollingWindow(28, YOUTUBE_ANALYTICS_TIME_ZONE, "Last 28 days · Pacific Time");
+    if (channelId === "newsletter") return rollingWindow(28, "UTC", "Last 4 weeks · Beehiiv reporting window");
+    if (channelId === "luma") return { start: null, end: null, previousStart: null, previousEnd: null, label: "All events · Luma event roster" };
+  }
+
+  if (range === "last-month") {
+    if (channelId === "website") return ga4CalendarMonthWindow(true);
+    if (channelId === "youtube") return rollingWindow(28, YOUTUBE_ANALYTICS_TIME_ZONE, "Previous 28 days · Pacific Time", 28);
+    if (channelId === "newsletter") return rollingWindow(28, "UTC", "Previous 4 weeks · Beehiiv reporting window", 28);
+    if (channelId === "luma") return { start: null, end: null, previousStart: null, previousEnd: null, label: "All events · Luma event roster" };
+  }
+
+  return explicitWindow(rangeWindow(range));
+}
+
+function sourceRangeDates(channelId, range = state.range) {
+  const window = nativeWindow(channelId, range);
+  if (window.startDate && window.endDate) return { start: window.startDate, end: window.endDate };
+  // Preserve the existing one-year API cap for the dashboard's "all" control.
+  if (!window.start) {
+    const end = isoDateUtc(window.end);
+    return { start: addIsoDays(end, -365), end };
+  }
+  return { start: isoDateUtc(window.start), end: isoDateUtc(window.end) };
+}
+
 function ga4RangeForDashboard(range = state.range) {
-  if (range === "custom" && state.customDateRange) return state.customDateRange;
-  const now = new Date();
-  const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - 1));
-  const start = new Date(end);
-
-  if (range === "this-week") start.setUTCDate(end.getUTCDate() - 6);
-  else if (range === "this-month") start.setUTCDate(1);
-  else if (range === "last-month") {
-    start.setUTCMonth(start.getUTCMonth() - 1, 1);
-    end.setUTCDate(0);
-  } else if (range === "3m") start.setUTCDate(end.getUTCDate() - 89);
-  else if (range === "all") start.setUTCDate(end.getUTCDate() - 365);
-  else start.setUTCDate(end.getUTCDate() - 29);
-
-  return { start: isoDateUtc(start), end: isoDateUtc(end) };
+  return sourceRangeDates("website", range);
 }
 
 async function refreshGoogleAnalytics(requestId = state.liveRequest) {
@@ -286,7 +389,7 @@ async function refreshGoogleAnalytics(requestId = state.liveRequest) {
 
 async function refreshBeehiiv(requestId = state.liveRequest) {
   if (!state.data) return;
-  const range = ga4RangeForDashboard();
+  const range = sourceRangeDates("newsletter");
   const url = new URL(LIVE_BEEHIIV_ENDPOINT);
   url.searchParams.set("start", range.start);
   url.searchParams.set("end", range.end);
@@ -342,7 +445,7 @@ function inWindow(item, window) {
   return date >= window.start && date <= window.end;
 }
 
-function selectedItems(window = rangeWindow(state.range), { includeChannel = true } = {}) {
+function selectedItems(window = nativeWindow(state.channel), { includeChannel = true } = {}) {
   return realItems()
     .filter((item) => !includeChannel || state.channel === "all" || item.platform === state.channel)
     .filter((item) => inWindow(item, window));
@@ -356,7 +459,7 @@ function latestItemDate(items) {
 }
 
 function previousItems() {
-  const current = rangeWindow(state.range);
+  const current = nativeWindow(state.channel);
   if (!current.previousStart || !current.previousEnd) return [];
   return realItems()
     .filter((item) => state.channel === "all" || item.platform === state.channel)
@@ -579,7 +682,7 @@ function renderWeeklyBrief() {
   const channel = channelNames[state.channel];
   const ranked = rankedByDecision(items, 3);
   const top = ranked[0];
-  const period = rangeWindow(state.range);
+  const period = nativeWindow(state.channel);
   document.querySelector("#brief-period")?.replaceChildren(period.label);
   title.replaceChildren(`${channel} · ${period.label}`);
 
@@ -657,8 +760,9 @@ function renderInstagramReport(items) {
     avgReach: Math.round(entry.reach / entry.posts),
     avgEngagementRate: entry.rates.length ? Number((entry.rates.reduce((sum, value) => sum + value, 0) / entry.rates.length).toFixed(2)) : 0
   })).sort((a, b) => b.avgViews - a.avgViews);
-  const profile = (insight.profile || []).filter((item) => inWindow(item, rangeWindow(state.range)));
-  const linkInBio = (insight.linkInBio || []).filter((item) => inWindow(item, rangeWindow(state.range)));
+  const window = nativeWindow("instagram");
+  const profile = (insight.profile || []).filter((item) => inWindow(item, window));
+  const linkInBio = (insight.linkInBio || []).filter((item) => inWindow(item, window));
   const hashtags = (insight.hashtags || []).slice().sort((a, b) => metricValue(b, "medianViews") - metricValue(a, "medianViews"));
   const totalClicks = linkInBio.reduce((sum, item) => sum + metricValue(item, "clicks"), 0);
   const latestFollowers = profile.at(-1)?.metrics?.followers || 0;
@@ -673,7 +777,7 @@ function renderInstagramReport(items) {
   const mediaRows = formats.map((item) => `<div class="instagram-format-row"><strong>${item.type}</strong><span>${item.posts} posts in period</span><i>${metricBar(item.avgViews, maxFormatViews, "engagement-fill")}</i><b>${formatNumber(item.avgViews)} avg views · ${formatNumber(item.avgReach)} avg reach · ${formatPercent(item.avgEngagementRate)}</b></div>`).join("");
   const reelRows = reels.slice().sort((a, b) => metricValue(b, "skipRate") - metricValue(a, "skipRate")).slice(0, 5).map((item) => `<div class="instagram-format-row"><strong>${shortTitle(item)}</strong><span>${formatNumber(metricValue(item, "views"))} views · ${formatNumber(metricValue(item, "reach"))} reach</span><b>${formatPercent(metricValue(item, "skipRate"))} skip rate${metricValue(item, "skipRate") > 40 ? " · review" : ""}</b></div>`).join("");
   document.querySelector("#brief-shell").innerHTML = `
-    <div class="minimal-head"><div><p class="eyebrow">Instagram · ${rangeWindow(state.range).label}</p><h2>What should we make more of?</h2><p class="website-source-note">${state.data.sourceStatus?.instagram?.sync === "api" ? "Instagram API connected. Posts are ranked by current native metrics." : `Imported data — through ${state.data.sourceStatus?.instagram?.importedThrough || "15 Sep 2026"}. This is not a live Meta API reading.`}</p></div><span class="record-count">${posts.length} measured posts</span></div>
+    <div class="minimal-head"><div><p class="eyebrow">Instagram · ${window.label}</p><h2>What should we make more of?</h2><p class="website-source-note">${state.data.sourceStatus?.instagram?.sync === "api" ? "Instagram API connected. Posts are ranked by current native metrics." : `Imported data — through ${state.data.sourceStatus?.instagram?.importedThrough || "15 Sep 2026"}. This is not a live Meta API reading.`}</p></div><span class="record-count">${posts.length} measured posts</span></div>
     <div class="minimal-metrics instagram-metrics"><div><span>Views</span><strong>${formatNumber(sumMetric(posts, "views"))}</strong></div><div><span>Reach</span><strong>${formatNumber(sumMetric(posts, "reach"))}</strong></div><div><span>Likes + comments</span><strong>${formatNumber(sumMetric(posts, "likes") + sumMetric(posts, "comments"))}</strong></div><div><span>Native engagement rate</span><strong>${formatPercent(averageMetric(posts, "engagementRate"))}</strong></div></div>
     <article class="minimal-panel top-posts-panel"><div class="minimal-panel-head"><h3>Top posts by interaction</h3><span>Likes + comments + shares + saves</span></div>${ranked.slice(0, 3).map((item, index) => `<article class="content-post-card instagram-post-card"><div class="post-card-top"><span class="post-rank">#${index + 1}</span><span>${formatDate(item.publishedAt)}</span></div><a class="post-preview" href="${item.url || "#"}" target="_blank" rel="noreferrer">${postPreview(item)}</a><a class="post-card-title" href="${item.url || "#"}" target="_blank" rel="noreferrer">${shortTitle(item)}</a><div class="post-card-metrics"><span><b>${formatNumber(metricValue(item, "views"))}</b> views</span><span><b>${formatNumber(metricValue(item, "reach"))}</b> reach</span><span><b>${formatNumber(metricValue(item, "likes"))}</b> likes</span><span><b>${formatNumber(metricValue(item, "comments"))}</b> comments</span></div><div class="post-card-score"><span>Interactions</span><strong>${formatNumber(metricValue(item, "engagement"))}</strong><i>${metricBar(metricValue(item, "engagement"), Math.max(1, ...ranked.map((post) => metricValue(post, "engagement"))), "engagement-fill")}</i></div></article>`).join("") || `<p class="minimal-empty">No Instagram posts in this period.</p>`}</article>
     <div class="minimal-visual-grid instagram-insights-grid"><article class="minimal-panel"><div class="minimal-panel-head"><h3>Which format works best?</h3><span>Average performance per post</span></div>${mediaRows || `<p class="minimal-empty">Media type data will appear with the next detailed export.</p>`}<div class="instagram-growth-stat"><strong>${formatPercent(avgSkipRate)}</strong><span>average Reel skip rate${avgSkipRate > 40 ? " · review hooks" : ""}</span></div><div class="instagram-reel-list">${reelRows || `<p class="minimal-empty">No reel detail in this period.</p>`}</div></article><article class="minimal-panel"><div class="minimal-panel-head"><h3>Audience growth</h3><span>Weekly profile export</span></div><div class="instagram-growth-stat"><strong>${formatNumber(netFollowers)}</strong><span>net new followers in this period</span></div><div class="instagram-growth-detail">${formatNumber(profile.reduce((sum, item) => sum + Number(item.metrics?.profileViews || 0), 0))} profile views · ${formatNumber(profile.reduce((sum, item) => sum + Number(item.metrics?.profileReach || 0), 0))} profile reach</div><div class="trend-bars instagram-trend-bars">${profile.slice(-10).map((item) => `<div title="${formatDate(item.publishedAt)}: ${formatNumber(item.metrics?.followers)} followers"><span style="height:${Math.max(5, Math.round((Number(item.metrics?.followers || 0) / Math.max(1, ...profile.map((row) => Number(row.metrics?.followers || 0)))) * 100))}%"></span><em>${formatDate(item.publishedAt).slice(0, 6)}</em></div>`).join("") || `<p class="minimal-empty">No profile growth data yet.</p>`}</div></article></div>
@@ -711,7 +815,10 @@ function renderMinimalSocialReport(items, channelId) {
   const totalEngagement = sumMetric(items, primaryMetric);
   const channelRecord = channelById()[channelId] || {};
   const channelSource = state.data.sourceStatus?.[channelId] || {};
-  const sourceNote = channelSource.sync === "api"
+  const window = nativeWindow(channelId);
+  const sourceNote = channelId === "youtube" && state.range !== "all"
+    ? `YouTube Studio compares the ${window.label.toLowerCase()} period. Period-performance data is unavailable until the YouTube Analytics API is enabled; lifetime video counters are not used as period totals.`
+    : channelSource.sync === "api"
     ? `${channelNames[channelId]} API connected · values were fetched from the source.`
     : channelSource.sync === "csv_import"
       ? `Imported data — through ${channelSource.importedThrough || "15 Sep 2026"}. This is not a live ${channelNames[channelId]} API reading.`
@@ -723,7 +830,7 @@ function renderMinimalSocialReport(items, channelId) {
 
   document.querySelector("#brief-shell").innerHTML = `
     <div class="minimal-head">
-      <div><p class="eyebrow">${channelNames[channelId]} · ${rangeWindow(state.range).label}</p><h2>${channelId === "youtube" ? "Videos ranked by performance" : "Posts and engagement"}</h2><p class="website-source-note">${sourceNote}</p>${coverageNote}</div>
+      <div><p class="eyebrow">${channelNames[channelId]} · ${window.label}</p><h2>${channelId === "youtube" ? "Videos ranked by performance" : "Posts and engagement"}</h2><p class="website-source-note">${sourceNote}</p>${coverageNote}</div>
       <span class="record-count">${profilePostCount > items.length ? `${formatNumber(profilePostCount)} published · ${formatNumber(items.length)} measured` : `${items.length} posts`}</span>
     </div>
     ${channelId === "youtube" ? `<div class="youtube-sort-controls" role="group" aria-label="Sort YouTube videos"><span>Rank by:</span>${Object.entries(youtubeSortLabels).map(([metric, label]) => `<button class="youtube-sort-button ${state.youtubeSort === metric ? "active" : ""}" data-youtube-sort="${metric}" type="button">${label}</button>`).join("")}</div>` : ""}
@@ -780,7 +887,7 @@ function renderMinimalLumaReport(items) {
 
   document.querySelector("#brief-shell").innerHTML = `
     <div class="minimal-head">
-      <div><p class="eyebrow">Luma · ${rangeWindow(state.range).label}</p><h2>Which events brought people together?</h2><p class="website-source-note">${state.data.sourceStatus?.luma?.sync === "api" ? "Luma API connected · registrations and check-ins are source data." : "Current Luma API data is unavailable; no estimates are shown."}</p></div>
+      <div><p class="eyebrow">Luma · ${nativeWindow("luma").label}</p><h2>Which events brought people together?</h2><p class="website-source-note">${state.data.sourceStatus?.luma?.sync === "api" ? "Luma API connected · registrations and check-ins are source data. Luma has no account-level monthly aggregate, so this view remains event-level." : "Current Luma API data is unavailable; no estimates are shown."}</p></div>
       <span class="record-count">${items.length} events</span>
     </div>
     <div class="minimal-metrics">
@@ -826,11 +933,11 @@ function renderMinimalNewsletterReport(items) {
   const averageClickRate = averageMetric(items, "clickRate");
   const liveBeehiivSubscribers = live?.subscribers ?? (state.data.liveAnalytics?.metrics || [])
     .find((item) => item.source === "beehiiv" && item.metric_key === "beehiiv_subscribers");
-  const liveBeehiivSync = state.data.liveAnalytics?.sources?.find((item) => item.source === "beehiiv")?.last_successful_sync;
+  const newsletterWindow = nativeWindow("newsletter");
 
   document.querySelector("#brief-shell").innerHTML = `
     <div class="minimal-head newsletter-report-head">
-      <div><p class="eyebrow">Newsletter · ${live?.range ? `${live.range.start} to ${live.range.end} · Beehiiv` : rangeWindow(state.range).label}</p><h2>Which issues got opened and clicked</h2><p class="website-source-note">${live ? "Beehiiv API connected · opens and clicks match Beehiiv's selected period. Issues use Beehiiv's live campaign statistics." : "Current Beehiiv metrics are temporarily unavailable; imported values are not presented as live."}</p></div>
+      <div><p class="eyebrow">Newsletter · ${newsletterWindow.label}</p><h2>Which issues got opened and clicked</h2><p class="website-source-note">${live ? "Beehiiv API connected · opens and clicks match Beehiiv's selected period. Beehiiv does not expose an account timezone, so the explicit API dates above are the comparison boundary." : "Current Beehiiv metrics are temporarily unavailable; imported values are not presented as live."}</p></div>
       <span class="record-count">${items.length} issues</span>
     </div>
     <div class="minimal-metrics newsletter-metrics">
@@ -877,7 +984,8 @@ function renderMinimalWebsiteReport(items) {
   const previous = previousItems().filter((item) => item.format === "website_daily");
   const currentItems = liveItems.length ? reportItems : items;
   const daily = ["this-week", "this-month", "last-month"].includes(state.range);
-  const websiteRangeLabel = state.data.liveWebsiteRange ? `${state.data.liveWebsiteRange.start} to ${state.data.liveWebsiteRange.end} · Google Analytics` : "Google Analytics";
+  const websiteWindow = nativeWindow("website");
+  const websiteRangeLabel = state.data.liveWebsiteRange ? `${websiteWindow.label} · Google Analytics` : `Google Analytics · ${websiteWindow.label}`;
   const metricNames = ["users", "sessions", "views", "events", "clicks"];
   const totals = (records) => Object.fromEntries(metricNames.map((metric) => [metric, sumMetric(records, metric)]));
   const livePeriodTotals = state.data.liveWebsiteTotals;
@@ -992,7 +1100,9 @@ function renderMinimalReport() {
     const available = availableItems.length;
     const latest = latestItemDate(availableItems);
     const latestNote = latest ? ` Latest available record: ${formatDate(latest)}.` : "";
-    document.querySelector("#brief-shell").innerHTML = `<div class="minimal-empty-state"><p class="eyebrow">${channelNames[state.channel]}</p><h2>No content in this period.</h2><p>${available ? `${available} pieces are available in the full history.${latestNote}` : "No content has been imported for this channel yet."}</p>${available ? '<button class="secondary-button" id="view-all-time" type="button">View all time</button>' : ""}</div>`;
+    const window = nativeWindow(state.channel);
+    const youtubePeriodUnavailable = state.channel === "youtube" && state.range !== "all";
+    document.querySelector("#brief-shell").innerHTML = `<div class="minimal-empty-state"><p class="eyebrow">${channelNames[state.channel]} · ${window.label}</p><h2>${youtubePeriodUnavailable ? "Period performance is unavailable" : "No content in this period."}</h2><p>${youtubePeriodUnavailable ? `YouTube Studio uses ${window.label}. The dashboard will not substitute lifetime video totals for this period. Enable the YouTube Analytics API to compare this range directly.` : available ? `${available} pieces are available in the full history.${latestNote}` : "No content has been imported for this channel yet."}</p>${available && !youtubePeriodUnavailable ? '<button class="secondary-button" id="view-all-time" type="button">View all time</button>' : ""}</div>`;
     document.querySelector("#view-all-time")?.addEventListener("click", () => {
       state.range = "all";
       render();
