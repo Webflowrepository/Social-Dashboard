@@ -53,7 +53,12 @@ export async function syncBeehiiv(env: Env, range: DateRange): Promise<{ metrics
     allPosts(publicationId, key),
     Promise.all(chunks(range).map(({ start, days }) => request(`https://api.beehiiv.com/v2/publications/${publicationId}/engagements?${new URLSearchParams({ start_date: start, number_of_days: String(days), granularity: "day", email_type: "post", direction: "asc" })}`, key)))
   ]);
-  const daily = responses.flatMap((response) => (response.data || []) as BeehiivEngagement[]);
+  // Beehiiv's `number_of_days` response can include the following calendar
+  // day. Keep the requested range closed so newsletter totals match the
+  // dashboard's other completed-day sources exactly.
+  const daily = responses
+    .flatMap((response) => (response.data || []) as BeehiivEngagement[])
+    .filter((row) => row.date >= range.start && row.date <= range.end);
   const engagement = { opens: daily.reduce((total, row) => total + number(row.total_opens), 0), uniqueOpens: daily.reduce((total, row) => total + number(row.unique_opens), 0), clicks: daily.reduce((total, row) => total + number(row.total_clicks), 0), uniqueClicks: daily.reduce((total, row) => total + number(row.unique_clicks), 0), daily };
   const inRange = (timestamp?: number) => { if (!timestamp) return false; const date = new Date(timestamp * 1000).toISOString().slice(0, 10); return date >= range.start && date <= range.end; };
   const reportPosts = posts.filter((post) => inRange(post.publish_date) && ["email", "both"].includes(post.platform || "")).map((post) => {

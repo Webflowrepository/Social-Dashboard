@@ -35,6 +35,16 @@ dashboard and local development origins.
 | LinkedIn | CSV import | Whenever a new export is available | Replace its CSV in `data/imports/` and run `pnpm sync:social`. |
 | Spotify | Not available | Never | No supported metric export exists for this account type. |
 
+## Fidelidad y hora de referencia
+
+El cron guarda la instantánea diaria de las fuentes conectadas a las 08:15 UTC.
+YouTube, Beehiiv y los contadores de Luma pueden cambiar después de esa hora:
+una diferencia observada más tarde el mismo día no es una corrección manual ni
+un cálculo del dashboard, sino una actualización nativa ocurrida después de la
+última instantánea. Google Analytics y Beehiiv se consultan de nuevo para el
+rango visible cuando el dashboard los muestra; los demás datos muestran la hora
+de la última sincronización hasta el cron siguiente.
+
 ## Instagram and LinkedIn: CSV import
 
 Instagram is deliberately **not** connected to Meta. The retained
