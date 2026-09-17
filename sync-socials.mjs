@@ -156,6 +156,7 @@ function importedRowToItem(row, fallbackPlatform = "", sourceFile = "") {
   const isHashtag = platform === "instagram" && /hashtag/.test(sourceName);
   const isLinkInBio = platform === "instagram" && /(linkinbio|link.?in.?bio)/.test(sourceName);
   const mediaType = importedMetric(row, ["mediatypeimagevideocarousel", "mediatype", "producttype"]);
+  const rawEngagementRate = numberFrom(importedMetric(row, ["engagementrate"]));
   const metrics = {
     views: numberFrom(importedMetric(row, ["views", "plays", "videoviews"])),
     reach: numberFrom(importedMetric(row, ["reach"])),
@@ -165,7 +166,12 @@ function importedRowToItem(row, fallbackPlatform = "", sourceFile = "") {
     shares: numberFrom(importedMetric(row, ["shares", "reposts"])),
     saves: numberFrom(importedMetric(row, ["saves"])),
     clicks: numberFrom(importedMetric(row, ["clicks", "linkclicks", "linkinbio"])),
-    engagementRate: numberFrom(importedMetric(row, ["engagementrate"])),
+    // LinkedIn's XLS export expresses engagement rates as fractions (for
+    // example, 0.34 means 34%). The dashboard stores displayed rates as
+    // percentages, matching the other imported social metrics.
+    engagementRate: platform === "linkedin" && rawEngagementRate > 0 && rawEngagementRate <= 1
+      ? rawEngagementRate * 100
+      : rawEngagementRate,
     skipRate: numberFrom(importedMetric(row, ["skiprate"]))
   };
   if (isProfile) {
