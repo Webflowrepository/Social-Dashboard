@@ -45,6 +45,28 @@ un cálculo del dashboard, sino una actualización nativa ocurrida después de l
 rango visible cuando el dashboard los muestra; los demás datos muestran la hora
 de la última sincronización hasta el cron siguiente.
 
+## Native “month” ranges
+
+The dashboard does not force a single definition of **month** onto every
+provider. Each channel states its source-native range directly beneath the
+title, including the exact start and end dates, so it can be compared beside
+the provider UI without doing date arithmetic.
+
+| Source | Dashboard “This month” definition | Time zone / boundary | What to compare in the source UI |
+| --- | --- | --- | --- |
+| Google Analytics (GA4) | Calendar month: the first day of the current month through today in the property reporting zone. | `America/Chicago` (the GILD - Website GA4 property reporting time zone). | GA4 Reports with the same calendar-month dates selected. |
+| YouTube | The YouTube Studio default: last 28 days, including the current Pacific date. | Pacific Time (`America/Los_Angeles`); the YouTube Analytics API reports dates in Pacific Time. | YouTube Studio → Analytics, whose overview defaults to Last 28 days. Exact period totals remain unavailable until the YouTube Analytics API is enabled; the dashboard never substitutes lifetime counters for them. |
+| Beehiiv | The Beehiiv account-dashboard default: last 4 weeks (28 days), including today. | Beehiiv does not expose an account reporting timezone through its API. The dashboard displays the exact requested API dates as the comparison boundary. | Beehiiv dashboard stats with **Last 4 weeks** selected, or the same explicit dates. |
+| Luma | No synthetic monthly aggregate. | Event-level records; no account-wide monthly reporting equivalent is used here. | Luma’s individual event registration/check-in totals. The dashboard labels this view **All events · Luma event roster**. |
+
+For **Last month**, GA4 uses the preceding calendar month; YouTube and Beehiiv
+use the preceding complete 28-day window; and Luma remains event-level. The
+7-day and 30-day ranges retain their existing audited calculations.
+
+References: [YouTube Studio dashboard](https://support.google.com/youtube/answer/2673341),
+[YouTube Analytics API date dimensions](https://developers.google.com/youtube/analytics/dimensions),
+and [Beehiiv account dashboard](https://www.beehiiv.com/support/article/18794008882839-Getting-used-to-the-beehiiv-dashboard?via=akouh).
+
 ## Instagram and LinkedIn: CSV import
 
 Instagram is deliberately **not** connected to Meta. The retained
